@@ -1,736 +1,479 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHOP ALL FREE FIRE - TRUNGSANG X CHEAT</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>SHOP ALL FREE FIRE TRUNGSANG X CHEAT</title>
+  <!-- Font Awesome icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a, #1a1a2e, #16213e);
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+    body {
+      font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+      background: #0a1120;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-        /* Hiệu ứng hạt tuyết */
-        .snowflakes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-        }
+    /* Nền sóng biển nhẹ + hiệu ứng lướt sóng */
+    .ocean-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 40%, #0b2b4a, #021023);
+      z-index: 0;
+    }
 
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            color: #fff;
-            font-size: 1em;
-            animation: fall linear infinite;
-            opacity: 0.8;
-        }
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 100px;
+      background: repeating-linear-gradient(transparent 0px, rgba(50, 180, 255, 0.08) 4px, transparent 8px);
+      animation: drift 12s linear infinite;
+      opacity: 0.7;
+    }
 
-        @keyframes fall {
-            to {
-                transform: translateY(100vh);
-            }
-        }
+    .wave:nth-child(2) {
+      bottom: 10px;
+      animation-duration: 18s;
+      opacity: 0.5;
+      background: repeating-linear-gradient(transparent 0px, rgba(0, 200, 250, 0.1) 3px, transparent 6px);
+    }
 
-        /* Màn hình chào mừng */
-        .welcome-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-            transition: opacity 0.5s;
-        }
+    @keyframes drift {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
 
-        .welcome-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+    /* Hiệu ứng hạt tuyết nhẹ (tết rơi) */
+    .snow-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
 
-        .welcome-text {
-            font-size: 3rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: glow 2s ease-in-out infinite alternate;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-        }
+    .snowflake {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(100, 200, 255, 0.9);
+      animation: fall linear infinite;
+      bottom: 100%;
+    }
 
-        @keyframes glow {
-            from {
-                filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
-            }
-            to {
-                filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
-            }
-        }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0.2; }
+    }
 
-        /* Thanh loading */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-        }
+    /* Màn hình chào mừng */
+    #welcome-screen {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 8, 20, 0.95);
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      transition: opacity 0.8s ease;
+    }
 
-        .loading-screen.active {
-            display: flex;
-        }
+    .welcome-text {
+      font-size: clamp(2rem, 8vw, 4rem);
+      font-weight: 800;
+      color: #b3f0ff;
+      text-shadow: 0 0 25px #00a6ff, 0 0 45px #0077ff;
+      letter-spacing: 2px;
+      animation: fadePulse 1.2s ease-out;
+      text-align: center;
+      padding: 0 20px;
+    }
 
-        .loading-bar {
-            width: 300px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px 0;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
+    @keyframes fadePulse {
+      0% { opacity: 0; transform: scale(0.9); text-shadow: 0 0 5px cyan; }
+      100% { opacity: 1; transform: scale(1); text-shadow: 0 0 30px #00ccff; }
+    }
 
-        .loading-progress {
-            height: 100%;
-            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcf7f);
-            border-radius: 10px;
-            transition: width 0.1s;
-            width: 0%;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-        }
+    .progress-container {
+      margin-top: 40px;
+      width: 280px;
+      max-width: 70vw;
+      height: 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 20px #0088ff80;
+    }
 
-        .loading-text {
-            font-size: 1.5rem;
-            margin-top: 20px;
-            color: #ffd93d;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #7df9ff, #1e90ff, #00bfff);
+      border-radius: 20px;
+      box-shadow: 0 0 25px #00e0ff;
+      transition: width 0.1s linear;
+    }
 
-        /* Main content */
-        .main-content {
-            display: none;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
+    .status-text {
+      color: #a0e9ff;
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: 500;
+      text-shadow: 0 0 10px #0099ff;
+    }
 
-        .main-content.active {
-            display: block;
-        }
+    /* Trang chính shop */
+    .main-shop {
+      position: relative;
+      z-index: 20;
+      width: 95%;
+      max-width: 1300px;
+      background: rgba(8, 26, 45, 0.5);
+      backdrop-filter: blur(20px);
+      border-radius: 50px;
+      padding: 25px 25px 20px;
+      box-shadow: 0 30px 60px rgba(0, 160, 255, 0.25), 0 0 0 2px rgba(0, 180, 255, 0.4);
+      margin: 30px 0;
+      border: 1px solid rgba(0, 200, 255, 0.3);
+      animation: shopGlow 4s infinite alternate;
+    }
 
-        .header {
-            text-align: center;
-            padding: 40px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: slideDown 0.5s ease-out;
-        }
+    @keyframes shopGlow {
+      0% { box-shadow: 0 0 20px #0077ff66, 0 0 0 2px #00a6ff80; }
+      100% { box-shadow: 0 0 45px #00b7ffaa, 0 0 0 3px #3ecfff; }
+    }
 
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+    .shop-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-align: center;
+      background: linear-gradient(180deg, #e0f0ff, #7cc8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 15px #0099ff;
+      margin-bottom: 25px;
+    }
 
-        .header h1 {
-            font-size: 3rem;
-            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
-        }
+    .nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 25px 0 20px;
+    }
 
-        /* Navigation tabs */
-        .nav-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
+    .tab-btn {
+      background: rgba(0, 30, 60, 0.7);
+      backdrop-filter: blur(15px);
+      border: 2px solid #00a6ff;
+      color: #cceeff;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 12px #0066cc;
+      text-transform: uppercase;
+      background: linear-gradient(145deg, #001e3c, #00284d);
+    }
 
-        .nav-tab {
-            padding: 15px 30px;
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 215, 61, 0.2));
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            color: #fff;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
+    .tab-btn i {
+      margin-right: 8px;
+    }
 
-        .nav-tab:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
-            border-color: #ff6b6b;
-        }
+    .tab-btn:hover {
+      border-color: #3ecfff;
+      box-shadow: 0 0 30px #00ccff;
+      color: white;
+      transform: translateY(-2px);
+    }
 
-        .nav-tab.active {
-            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
-            border-color: #ffd93d;
-            box-shadow: 0 0 30px rgba(255, 215, 61, 0.5);
-        }
+    .tab-btn.active {
+      background: #00a6ff20;
+      border-color: #ffffff;
+      box-shadow: 0 0 35px #00ffff;
+      color: #ffffff;
+    }
 
-        /* Content area */
-        .content-area {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            min-height: 400px;
-            animation: fadeIn 0.5s ease-out;
-        }
+    .tab-content {
+      background: rgba(0, 15, 35, 0.55);
+      backdrop-filter: blur(25px);
+      border-radius: 40px;
+      padding: 25px;
+      border: 1px solid #00b7ff;
+      min-height: 320px;
+      transition: 0.4s;
+    }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 10px;
+    }
 
-        /* Product cards */
-        .product-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
+    .card {
+      background: rgba(0, 20, 45, 0.7);
+      backdrop-filter: blur(15px);
+      border-radius: 28px;
+      padding: 20px;
+      border: 1px solid #2aa9ff;
+      box-shadow: 0 0 18px #0055aa;
+      transition: 0.3s;
+    }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.3);
-            border-color: rgba(255, 107, 107, 0.5);
-        }
+    .card:hover {
+      box-shadow: 0 0 35px #00b7ff;
+      border-color: #7fd6ff;
+    }
 
-        .product-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: #ffd93d;
-            text-shadow: 0 0 15px rgba(255, 215, 61, 0.5);
-        }
+    .product-title {
+      font-size: 1.5rem;
+      color: #b7f0ff;
+      text-shadow: 0 0 12px #0088ff;
+    }
 
-        .product-card .price-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin: 8px 0;
-            border-left: 3px solid #ff6b6b;
-            transition: all 0.3s ease;
-        }
+    .price-list {
+      margin: 15px 0;
+      color: #d4f0ff;
+    }
 
-        .product-card .price-item:hover {
-            background: rgba(255, 107, 107, 0.2);
-            transform: translateX(10px);
-        }
+    .admin-info {
+      color: #c0eaff;
+      background: #001b33;
+      border-radius: 24px;
+      padding: 20px;
+    }
 
-        .badge {
-            display: inline-block;
-            padding: 5px 15px;
-            background: linear-gradient(45deg, #ff6b6b, #ff4757);
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin: 5px;
-        }
+    .hidden {
+      display: none;
+    }
 
-        /* QR Code */
-        .qr-section {
-            text-align: center;
-            padding: 20px;
-        }
+    .footer-note {
+      margin-top: 30px;
+      text-align: center;
+      color: #8ecaff;
+    }
 
-        .bank-info {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            border: 2px dashed rgba(255, 255, 255, 0.3);
-        }
-
-        .contact-links {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        .contact-btn {
-            padding: 15px 30px;
-            background: linear-gradient(45deg, #0084ff, #0066cc);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .contact-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 132, 255, 0.5);
-        }
-
-        .contact-btn.zalo {
-            background: linear-gradient(45deg, #0068ff, #004bb5);
-        }
-
-        .contact-btn.box {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-        }
-
-        /* Loading animation for content */
-        .loading-content {
-            text-align: center;
-            padding: 50px;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-top: 5px solid #ffd93d;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .feature-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .feature-list li {
-            padding: 10px;
-            margin: 5px 0;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border-left: 3px solid #6bcf7f;
-        }
-
-        /* Waves effect */
-        .waves {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            z-index: -1;
-            opacity: 0.3;
-        }
-
-        @media (max-width: 768px) {
-            .welcome-text {
-                font-size: 2rem;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .nav-tab {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+    button, .zalo-link {
+      background: #0066cc30;
+      border: 1px solid #2ad4ff;
+      padding: 8px 18px;
+      border-radius: 30px;
+      color: white;
+      display: inline-block;
+      margin: 5px;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-    <!-- Snowflakes -->
-    <div class="snowflakes" id="snowflakes"></div>
+<div class="ocean-bg">
+  <div class="wave"></div>
+  <div class="wave"></div>
+</div>
+<div class="snow-container" id="snowContainer"></div>
 
-    <!-- Welcome Screen -->
-    <div class="welcome-screen" id="welcomeScreen">
-        <div class="welcome-text">CHÀO MỪNG ĐẾN VỚI SHOP ALL FREE FIRE</div>
-        <div class="welcome-text" style="font-size: 2rem; margin-top: 20px;">TRUNGSANG X CHEAT 🚀</div>
-    </div>
+<!-- MÀN HÌNH CHÀO MỪNG + TIẾN TRÌNH -->
+<div id="welcome-screen">
+  <div class="welcome-text" id="welcomeMsg">CHÀO MỪNG ĐẾN VỚI SHOP ALL FREE FIRE TRUNGSANG X CHEAT🚀💹</div>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressFill"></div>
+  </div>
+  <div class="status-text" id="statusMessage">0% đang phát triển...</div>
+</div>
 
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-bar">
-            <div class="loading-progress" id="loadingProgress"></div>
-        </div>
-        <div class="loading-text" id="loadingText">Đang tải... 0%</div>
-    </div>
+<!-- SHOP CHÍNH (ban đầu ẩn) -->
+<div id="shopContainer" class="main-shop hidden">
+  <div class="shop-title">⚡ SHOP ALL FREE FIRE ⚡</div>
 
-    <!-- Main Content -->
-    <div class="main-content" id="mainContent">
-        <div class="header">
-            <h1>🚀 SHOP ALL FREE FIRE - TRUNGSANG X CHEAT 🚀</h1>
-            <p style="margin-top: 10px; color: #ffd93d;">Chất lượng tạo nên thương hiệu</p>
-        </div>
+  <!-- Các tab điều hướng -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" data-tab="shop-all"><i class="fas fa-store"></i> SHOP ALL</button>
+    <button class="tab-btn" data-tab="pricing"><i class="fas fa-tags"></i> GIÁ/ALL SP</button>
+    <button class="tab-btn" data-tab="functions"><i class="fas fa-cogs"></i> CHỨC NĂNG</button>
+    <button class="tab-btn" data-tab="admin"><i class="fas fa-user-shield"></i> THÔNG TIN ADMIN</button>
+  </div>
 
-        <!-- Navigation -->
-        <div class="nav-tabs" id="navTabs">
-            <div class="nav-tab active" onclick="showContent('shop-all', this)">SHOP ALL</div>
-            <div class="nav-tab" onclick="showContent('prices', this)">GIÁ/ALL SP</div>
-            <div class="nav-tab" onclick="showContent('features', this)">⚙️CHỨC NĂNG CHI TIẾT</div>
-            <div class="nav-tab" onclick="showContent('certificates', this)">CHỨNG CHỈ 👑ESGIN💎</div>
-            <div class="nav-tab" onclick="showContent('admin', this)">👑THÔNG TIN ADMIN👾</div>
-        </div>
+  <!-- Nội dung tab -->
+  <div class="tab-content" id="tabContent">
+    <!-- Mặc định shop all -->
+  </div>
+  <div class="footer-note">🚀 TRUNGSANG X CHEAT • Uy tín - Chất lượng</div>
+</div>
 
-        <!-- Content Area -->
-        <div class="content-area" id="contentArea">
-            <!-- Default content will be loaded here -->
-        </div>
-    </div>
+<script>
+  (function() {
+    // ------ HIỆU ỨNG TUYẾT RƠI ------
+    function createSnow() {
+      const container = document.getElementById('snowContainer');
+      for (let i = 0; i < 60; i++) {
+        let flake = document.createElement('div');
+        flake.classList.add('snowflake');
+        let size = Math.random() * 6 + 2;
+        flake.style.width = size + 'px';
+        flake.style.height = size + 'px';
+        flake.style.left = Math.random() * 100 + '%';
+        flake.style.animationDuration = Math.random() * 7 + 5 + 's';
+        flake.style.animationDelay = Math.random() * 8 + 's';
+        container.appendChild(flake);
+      }
+    }
+    createSnow();
 
-    <!-- Waves -->
-    <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-        <path fill="rgba(255,107,107,0.2)" fill-opacity="1" d="M0,160L48,176C96,192,192,224,288,229.3C384,235,480,213,576,186.7C672,160,768,128,864,133.3C960,139,1056,181,1152,197.3C1248,213,1344,203,1392,197.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-    </svg>
+    // ------ CHÀO MỪNG & TIẾN TRÌNH ------
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const progressFill = document.getElementById('progressFill');
+    const statusMsg = document.getElementById('statusMessage');
+    const shopContainer = document.getElementById('shopContainer');
+    const welcomeText = document.getElementById('welcomeMsg');
 
-    <script>
-        // Snowflakes creation
-        function createSnowflakes() {
-            const container = document.getElementById('snowflakes');
-            const flakes = ['❄', '❅', '❆', '✦', '✧', '⋆'];
-            
-            for (let i = 0; i < 50; i++) {
-                const flake = document.createElement('div');
-                flake.className = 'snowflake';
-                flake.innerHTML = flakes[Math.floor(Math.random() * flakes.length)];
-                flake.style.left = Math.random() * 100 + '%';
-                flake.style.animationDuration = Math.random() * 3 + 2 + 's';
-                flake.style.animationDelay = Math.random() * 5 + 's';
-                flake.style.fontSize = Math.random() * 20 + 10 + 'px';
-                flake.style.opacity = Math.random() * 0.8 + 0.2;
-                container.appendChild(flake);
-            }
-        }
+    // Hiệu ứng chữ dần xuất hiện (đã có sẵn css), sau 3 giây ẩn chữ chào? Yêu cầu: "sau 3 giây sẽ hết" -> biến mất dòng chào, nhưng vẫn giữ thanh tiến trình.
+    setTimeout(() => {
+      welcomeText.style.opacity = '0';
+      welcomeText.style.transition = 'opacity 0.8s';
+      setTimeout(() => { welcomeText.innerText = ''; }, 800);
+    }, 3000);
 
-        // Welcome screen
+    // Bắt đầu tiến trình 0% -> 100%
+    let percent = 0;
+    const messages = [
+      "0% đang phát triển...",
+      "Đang vô wed để vào shop...",
+      "Đang chuẩn bị shop...",
+      "Sắp hoàn thành...",
+      "Hoàn thành công!"
+    ];
+
+    const interval = setInterval(() => {
+      percent += Math.floor(Math.random() * 4) + 2;
+      if (percent >= 100) {
+        percent = 100;
+        progressFill.style.width = '100%';
+        statusMsg.innerText = "Hoàn thành công. ✅";
+        clearInterval(interval);
+        // Sau khi đạt 100%, hiện shop sau 0.5s
         setTimeout(() => {
-            document.getElementById('welcomeScreen').classList.add('hidden');
-            document.getElementById('loadingScreen').classList.add('active');
-            startLoading();
-        }, 3000);
+          welcomeScreen.style.opacity = '0';
+          setTimeout(() => {
+            welcomeScreen.style.display = 'none';
+            shopContainer.classList.remove('hidden');
+          }, 600);
+        }, 500);
+      } else {
+        progressFill.style.width = percent + '%';
+        if (percent < 30) statusMsg.innerText = messages[0];
+        else if (percent < 55) statusMsg.innerText = messages[1];
+        else if (percent < 75) statusMsg.innerText = messages[2];
+        else if (percent < 95) statusMsg.innerText = messages[3];
+        else statusMsg.innerText = messages[4];
+      }
+    }, 180);
 
-        // Loading animation
-        function startLoading() {
-            let progress = 0;
-            const progressBar = document.getElementById('loadingProgress');
-            const loadingText = document.getElementById('loadingText');
-            
-            const interval = setInterval(() => {
-                progress += Math.random() * 5;
-                if (progress > 100) progress = 100;
-                
-                progressBar.style.width = progress + '%';
-                loadingText.textContent = getLoadingText(progress) + ' ' + Math.floor(progress) + '%';
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        document.getElementById('loadingScreen').classList.remove('active');
-                        document.getElementById('mainContent').classList.add('active');
-                        showContent('shop-all', document.querySelector('.nav-tab'));
-                    }, 500);
-                }
-            }, 100);
-        }
+    // ------ NỘI DUNG CÁC TAB ------
+    function renderTab(tabId) {
+      const content = document.getElementById('tabContent');
+      switch(tabId) {
+        case 'shop-all':
+          content.innerHTML = `
+            <div style="color:#b3f0ff; font-size:1.8rem; margin-bottom:20px;">✨ DANH MỤC SẢN PHẨM</div>
+            <div class="product-grid">
+              <div class="card"><i class="fas fa-rocket"></i> <strong>SX2 PROXY ADR🚀💠</strong></div>
+              <div class="card"><i class="fas fa-bolt"></i> <strong>MIGUL BASIC VN🚀💠</strong></div>
+              <div class="card"><i class="fas fa-crown"></i> <strong>MIGUL PRO VN🚀💠</strong></div>
+              <div class="card"><i class="fas fa-shield-alt"></i> <strong>PROXY VIP V2 🚀💠(All IOS)</strong></div>
+              <div class="card"><i class="fas fa-certificate"></i> <strong>CHỨNG CHỈ 👑ESGIN💎</strong></div>
+            </div>
+          `;
+          break;
+        case 'pricing':
+          content.innerHTML = `
+            <div style="color:#b3f0ff; font-size:1.8rem;">💰 BẢNG GIÁ CHI TIẾT</div>
+            <div class="product-grid">
+              <div class="card"><strong>SX2 PROXY ADR💠</strong><br>33.000 VNĐ 1 DAY⚜️<br>66.000 VNĐ 7 DAY⚜️<br>125.000 VNĐ 14 DAY⚜️<br>220.000 VNĐ 30 DAY⚜️</div>
+              <div class="card"><strong>MIGUL BASIC VN💠</strong><br>65.000 VNĐ 1 DAY🛍️<br>145.000 VNĐ 7 DAY🛍️<br>300.000 VNĐ 30 DAY🛍️</div>
+              <div class="card"><strong>MIGUL PRO VN💠</strong><br>20.000 VNĐ 1 GIỜ🛍️<br>130.000 VNĐ 1 DAY🛍️<br>250.000 VNĐ 7 DAY🛍️<br>536.000 VNĐ 30 DAY🛍️<br>ANTIBAN✅ ALL IOS✅</div>
+              <div class="card"><strong>PROXY VIP V2💠 (ALL AIM)</strong><br>20.000 VNĐ 1 DAY 🛍️<br>70.000 VNĐ 7 DAY🛍️<br>140.000 VNĐ 30 DAY🛍️<br>290.000 VNĐ 1 OB 🛍️<br>610.000 VNĐ VĨNH VIỄN 🛍️</div>
+              <div class="card"><strong>💹ESGIN 💎</strong><br>• 140.000 VND🛍️ (Gói iPhone/iPad lấy ngay, không BH)<br>• 300.000 VND🛍️ (BH 40 ngày)<br>• 610.000 VND🛍️ (BH 300 ngày)<br>Toàn bộ chứng chỉ 1 năm</div>
+            </div>
+          `;
+          break;
+        case 'functions':
+          content.innerHTML = `
+            <div style="color:#b3f0ff; font-size:1.8rem;">⚙️ CHỨC NĂNG CHI TIẾT</div>
+            <div class="product-grid">
+              <div class="card"><strong>1 SX2 PROXY ADR🚀</strong><br>Toàn diện ADR nâng cấp siêu vip⚜️💹</div>
+              <div class="card"><strong>2 MIGUL BASIC VN🚀</strong><br>Menu bật tắt, viền tâm, bắn đỏ+vàng, định vị, leo rank... nâng cấp xịn⚜️</div>
+              <div class="card"><strong>3 MIGUL PRO VN 🚀</strong><br>Chỉnh vòng, Antiban tuyệt đối, bắn đỏ+vàng, định vị...⚜️</div>
+              <div class="card"><strong>4 PROXY VIP V2 (All AIM) 🚀</strong><br>AIM DRAG/BODY/NECK/MAGIC, xuyên giáp, MOD... Tải ipa cho iPhone📱</div>
+            </div>
+          `;
+          break;
+        case 'admin':
+          content.innerHTML = `
+            <div class="admin-info">
+              <h2 style="color:#9cddff;">👑 THÔNG TIN ADMIN 👾</h2>
+              <p><i class="fas fa-phone"></i> ZALO ADMIN: <strong>0372822927</strong></p>
+              <p><i class="fas fa-users"></i> BOX: <a href="https://zalo.me/g/myvfgfidweld9ovmd7t4" target="_blank" class="zalo-link">Nhấp vào Box Zalo</a></p>
+              <p>Vui lòng liên hệ ADMIN để mua 🛍️</p>
+              <p>Chuyển khoản:<br><strong>STK: 0372822927</strong><br>TRAN TRUNG SANG<br>Nội dung: Aim + số tiền</p>
+            </div>
+          `;
+          break;
+        default: break;
+      }
+    }
 
-        function getLoadingText(progress) {
-            if (progress < 25) return 'Đang tải...';
-            if (progress < 50) return 'Chuẩn bị...';
-            if (progress < 75) return 'Sắp hoàn thành...';
-            if (progress < 95) return 'Hoàn thành...';
-            return 'Hoàn thành!';
-        }
+    // Mặc định hiển thị shop-all
+    renderTab('shop-all');
 
-        // Content display with loading effect
-        function showContent(type, tabElement) {
-            // Update active tab
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            if (tabElement) tabElement.classList.add('active');
-            
-            // Show loading
-            const contentArea = document.getElementById('contentArea');
-            contentArea.innerHTML = `
-                <div class="loading-content">
-                    <div class="spinner"></div>
-                    <p>Đang tải nội dung...</p>
-                </div>
-            `;
-            
-            // Load content after delay
-            setTimeout(() => {
-                contentArea.innerHTML = getContent(type);
-            }, 1500);
-        }
-
-        function getContent(type) {
-            switch(type) {
-                case 'shop-all':
-                    return `
-                        <div class="product-card">
-                            <h3>DRIP MENU, PROXY ADR 🚀</h3>
-                            <p style="color: #ffd93d;">Menu hack chất lượng cao với nhiều tính năng vượt trội</p>
-                        </div>
-                        <div class="product-card">
-                            <h3>FLUORITE 🚀</h3>
-                            <p style="color: #ffd93d;">Giải pháp hack toàn diện cho iOS</p>
-                        </div>
-                        <div class="product-card">
-                            <h3>MIGUL LITE 🚀</h3>
-                            <p style="color: #ffd93d;">Phiên bản nhẹ, hiệu quả cao</p>
-                        </div>
-                        <div class="product-card">
-                            <h3>MIGUL PRO 🚀</h3>
-                            <p style="color: #ffd93d;">Phiên bản chuyên nghiệp với đầy đủ tính năng</p>
-                        </div>
-                        <div class="product-card">
-                            <h3>PROXY VIP V2 🚀 (All AIM)</h3>
-                            <p style="color: #ffd93d;">Hệ thống AIM toàn diện nhất</p>
-                        </div>
-                    `;
-                
-                case 'prices':
-                    return `
-                        <div class="product-card">
-                            <h3>Sản phẩm 1 - DRIP MENU ADR 🚀</h3>
-                            <div class="price-item">150.000 VNĐ 7 DAY 🛍️</div>
-                            <div class="price-item">300.000 VNĐ 30 DAY 🛍️</div>
-                            <h4 style="color: #ffd93d; margin-top: 20px;">PROXY ADR 🚀</h4>
-                            <div class="price-item">75.000 VNĐ 1 DAY 🛍️</div>
-                            <div class="price-item">150.000 VNĐ 7 DAY 🛍️</div>
-                            <div class="price-item">300.000 VNĐ 30 DAY 🛍️</div>
-                            <div style="margin-top: 15px;">
-                                <span class="badge">ANTIBAN ✅</span>
-                                <span class="badge">ALL ADR ✅</span>
-                            </div>
-                        </div>
-                        
-                        <div class="product-card">
-                            <h3>Sản phẩm 2 - FLUORITE 🚀</h3>
-                            <div class="price-item">140.000 VNĐ 1 DAY 🛍️</div>
-                            <div class="price-item">300.000 VNĐ 7 DAY 🛍️</div>
-                            <div class="price-item">550.000 VNĐ 30 DAY 🛍️</div>
-                            <div style="margin-top: 15px;">
-                                <span class="badge">ANTIBAN ✅</span>
-                                <span class="badge">TIPA ALL IOS ✅</span>
-                            </div>
-                        </div>
-                        
-                        <div class="product-card">
-                            <h3>Sản phẩm 3 - MIGUL LITE 🚀</h3>
-                            <div class="price-item">65.000 VNĐ 1 DAY 🛍️</div>
-                            <div class="price-item">145.000 VNĐ 7 DAY 🛍️</div>
-                            <div class="price-item">300.000 VNĐ 30 DAY 🛍️</div>
-                            <h4 style="color: #ffd93d; margin-top: 20px;">MIGUL PRO 🚀</h4>
-                            <div class="price-item">20.000 VNĐ 1 GIỜ 🛍️</div>
-                            <div class="price-item">75.000 VNĐ 1 DAY 🛍️</div>
-                            <div class="price-item">180.000 VNĐ 7 DAY 🛍️</div>
-                            <div class="price-item">500.000 VNĐ 30 DAY 🛍️</div>
-                            <div style="margin-top: 15px;">
-                                <span class="badge">ANTIBAN ✅</span>
-                                <span class="badge">ALL IOS ✅</span>
-                            </div>
-                        </div>
-                        
-                        <div class="product-card">
-                            <h3>Sản phẩm 4 - PROXY VIP V2 🚀 (ALL AIM)</h3>
-                            <div class="price-item">16.000 VNĐ 1 DAY 🛍️</div>
-                            <div class="price-item">65.000 VNĐ 7 DAY 🛍️</div>
-                            <div class="price-item">136.000 VNĐ 30 DAY 🛍️</div>
-                            <div class="price-item">280.000 VNĐ 1 OB 🛍️</div>
-                            <div class="price-item">600.360 VNĐ VĨNH VIỄN 🛍️</div>
-                        </div>
-                    `;
-                
-                case 'features':
-                    return `
-                        <div class="product-card">
-                            <h3>1. DRIP ADR 🚀</h3>
-                            <ul class="feature-list">
-                                <li>🏃 Chạy nhanh</li>
-                                <li>📍 Định vị địch</li>
-                                <li>🔴 Bắn đỏ</li>
-                            </ul>
-                        </div>
-                        <div class="product-card">
-                            <h3>2. PROXY ADR 🚀</h3>
-                            <ul class="feature-list">
-                                <li>🎯 Neck</li>
-                                <li>🎯 Body</li>
-                                <li>📍 Định vị địch</li>
-                                <li>✨ Và nhiều loại khác rất nhiều</li>
-                            </ul>
-                        </div>
-                        <div class="product-card">
-                            <h3>3. FLUORITE 🚀</h3>
-                            <ul class="feature-list">
-                                <li>📱 Menu bật tắt liên tục</li>
-                                <li>⭕ Có viền quanh tâm bắn</li>
-                                <li>🔴🟡 Bắn là đỏ + vàng</li>
-                                <li>📍 Định vị địch</li>
-                                <li>✨ Và nhiều chức năng khác</li>
-                            </ul>
-                        </div>
-                        <div class="product-card">
-                            <h3>4. MIGUL LITE 🚀</h3>
-                            <ul class="feature-list">
-                                <li>📱 Menu bật tắt liên tục</li>
-                                <li>⭕ Có viền quanh tâm bắn</li>
-                                <li>🔴🟡 Bắn là đỏ + vàng</li>
-                                <li>📍 Định vị địch</li>
-                                <li>🏆 Leo rank các thứ tất cả đều được</li>
-                            </ul>
-                        </div>
-                        <div class="product-card">
-                            <h3>5. MIGUL PRO 🚀</h3>
-                            <ul class="feature-list">
-                                <li>📱 Menu bật tắt liên tục chỉnh vòng liên tục</li>
-                                <li>⭕ Có viền quanh tâm bắn</li>
-                                <li>🔴🟡 Bắn là đỏ + vàng</li>
-                                <li>📍 Định vị địch</li>
-                                <li>🏆 Leo rank các thứ tất cả đều được</li>
-                                <li>🛡️ Antiban tuyệt đối</li>
-                            </ul>
-                        </div>
-                        <div class="product-card">
-                            <h3>6. PROXY VIP V2 (All AIM) 🚀</h3>
-                            <ul class="feature-list">
-                                <li>🎯 AIM DRAG</li>
-                                <li>🎯 AIM BODY</li>
-                                <li>🎯 AIM NECK</li>
-                                <li>🎯 AIM DRAG V2</li>
-                                <li>🎯 AIM MAGIC</li>
-                                <li>🎯 AIM NECK + MOD</li>
-                                <li>🎯 AIM BODY + MOD</li>
-                                <li>💥 XUYÊN GIÁP</li>
-                                <li>🎯 AIM BODY + ANTENA</li>
-                                <li>🎯 AIM NECK + ANTENA</li>
-                                <li>⚡ MOD + ƯỚC ĐƯỢC BAN</li>
-                            </ul>
-                        </div>
-                    `;
-                
-                case 'certificates':
-                    return `
-                        <div class="product-card">
-                            <h3>👑 ESGIN 💎 - Tải IPA cho iPhone 📱</h3>
-                            <div class="price-item">
-                                <strong>• 140.000 VND 🛍️</strong><br>
-                                Gói iPhone/iPad Lấy Ngay<br>
-                                <small>Gói này bạn có thể dùng cho các thiết bị iPhone, iPad, có thể sử dụng ngay lập tức. Không bảo hành.</small>
-                            </div>
-                            <div class="price-item" style="margin-top: 15px;">
-                                <strong>• 300.000 VND 🛍️</strong><br>
-                                Gói iPhone/iPad lấy ngay<br>
-                                <small>Gói này bạn có thể dùng cho các thiết bị iPhone, iPad, có thể sử dụng ngay lập tức. Bảo hành 40 ngày</small>
-                            </div>
-                            <div class="price-item" style="margin-top: 15px;">
-                                <strong>• 610.000 VND 🛍️</strong><br>
-                                Gói iPhone/iPad lấy ngay<br>
-                                <small>Gói này bạn có thể dùng cho các thiết bị iPhone, iPad, có thể sử dụng ngay lập tức. Bảo hành 300 ngày</small>
-                            </div>
-                            <p style="margin-top: 20px; color: #ffd93d;">📌 Toàn bộ đều chứng chỉ 1 năm</p>
-                        </div>
-                    `;
-                
-                case 'admin':
-                    return `
-                        <div class="product-card">
-                            <h3>👑 THÔNG TIN ADMIN 👾</h3>
-                            <p style="font-size: 1.2rem; margin-bottom: 20px;">Vui lòng liên hệ ADMIN để mua những gì bạn thích 🛍️</p>
-                            
-                            <div class="contact-links">
-                                <a href="https://zalo.me/0372822927" target="_blank" class="contact-btn zalo">
-                                    📱 ZALO ADMIN: 0372822927
-                                </a>
-                                <a href="https://zalo.me/g/myvfgfidweld9ovmd7t4" target="_blank" class="contact-btn box">
-                                    💬 BOX ZALO
-                                </a>
-                            </div>
-                            
-                            <div class="bank-info">
-                                <h4 style="color: #ffd93d; margin-bottom: 15px;">💳 THÔNG TIN CHUYỂN KHOẢN</h4>
-                                <p><strong>STK:</strong> 0372822927</p>
-                                <p><strong>Chủ tài khoản:</strong> TRAN TRUNG SANG</p>
-                                <p><strong>Nội dung:</strong> Aim và số tiền mua</p>
-                                <p style="color: #ff6b6b; margin-top: 15px;">⚠️ Chuyển khoản xong liên hệ Admin</p>
-                            </div>
-                            
-                            <div class="qr-section">
-                                <h4 style="color: #ffd93d;">📱 MÃ QR ADMIN</h4>
-                                <div style="background: white; padding: 20px; display: inline-block; border-radius: 15px; margin: 20px 0;">
-                                    <div style="width: 200px; height: 200px; background: #000; display: flex; align-items: center; justify-content: center; color: #fff;">
-                                        [QR Code]
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                
-                default:
-                    return '<p>Đang cập nhật...</p>';
-            }
-        }
-
-        // Initialize
-        createSnowflakes();
+    // Xử lý click tab (có delay 1-3 giây như yêu cầu)
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const tabId = this.getAttribute('data-tab');
+        // Active style
+        tabButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
         
-        // Show default content
+        // Hiệu ứng loading nhẹ trước khi load (1-3 giây random)
+        const contentDiv = document.getElementById('tabContent');
+        contentDiv.style.opacity = '0.4';
+        const delay = Math.floor(Math.random() * 2000) + 1000; // 1000-3000ms
         setTimeout(() => {
-            if (document.getElementById('mainContent').classList.contains('active')) {
-                showContent('shop-all', document.querySelector('.nav-tab'));
-            }
-        }, 100);
-    </script>
+          renderTab(tabId);
+          contentDiv.style.opacity = '1';
+        }, delay);
+      });
+    });
+
+    // Thêm link Zalo trực tiếp (số)
+    window.openZalo = function() {
+      window.open('https://zalo.me/0372822927', '_blank');
+    }
+  })();
+</script>
 </body>
 </html>
