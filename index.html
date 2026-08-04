@@ -1,743 +1,454 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHOP ALL FREE FIRE - TRUNGSANG X CHEAT</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>SHOP ALL FREE FIRE | TRUNGSANG X CHEAT</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background: linear-gradient(135deg, #0a1929 0%, #0d2137 30%, #0a1628 60%, #0c1f33 100%);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow-x: hidden;
-            position: relative;
-            color: #7ec8e3;
-        }
+    body {
+      background: #0a1128;
+      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      color: #b3e5ff;
+    }
 
-        /* Hiệu ứng sóng nền */
-        .wave-bg {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.1;
-            pointer-events: none;
-        }
+    /* Viền ngoài phát sáng xanh nhạt */
+    .glow-border {
+      width: 100%;
+      max-width: 700px;
+      background: #0b1a2f;
+      border-radius: 2.5rem;
+      padding: 3px;
+      box-shadow: 0 0 35px rgba(100, 200, 255, 0.5), 0 0 80px rgba(70, 180, 255, 0.3);
+      background: linear-gradient(145deg, rgba(0, 180, 255, 0.6), rgba(0, 80, 160, 0.7), rgba(0, 200, 255, 0.5));
+      animation: borderGlowPulse 3s infinite alternate ease-in-out;
+    }
 
-        .wave {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%;
-            height: 100px;
-            background: linear-gradient(90deg, transparent, #4fc3f7, transparent);
-            animation: wave 8s linear infinite;
-            opacity: 0.3;
-        }
+    @keyframes borderGlowPulse {
+      0% {
+        box-shadow: 0 0 25px rgba(80, 200, 255, 0.5), 0 0 60px rgba(50, 150, 255, 0.4);
+        filter: brightness(1);
+      }
+      100% {
+        box-shadow: 0 0 50px rgba(120, 220, 255, 0.8), 0 0 100px rgba(70, 180, 255, 0.7);
+        filter: brightness(1.1);
+      }
+    }
 
-        .wave:nth-child(2) {
-            animation-delay: -2s;
-            animation-duration: 10s;
-            opacity: 0.2;
-        }
+    .main-container {
+      background: #071126;
+      border-radius: 2.4rem;
+      padding: 20px 18px 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 0 40px rgba(0, 160, 255, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      border: 1px solid rgba(0, 210, 255, 0.25);
+    }
 
-        .wave:nth-child(3) {
-            animation-delay: -4s;
-            animation-duration: 12s;
-            opacity: 0.15;
-        }
+    /* Loading screen */
+    #loadingScreen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px 10px;
+      transition: all 0.4s ease;
+    }
 
-        @keyframes wave {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+    .shop-title-glow {
+      font-size: clamp(2rem, 10vw, 3.2rem);
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.2;
+      color: #9ce6ff;
+      text-shadow: 0 0 20px #00b4ff, 0 0 50px #0077ff, 0 0 10px #7fd6ff;
+      letter-spacing: 2px;
+      animation: textGlowSoft 2s infinite alternate;
+    }
 
-        /* Hiệu ứng tuyết rơi */
-        .snowflakes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
+    @keyframes textGlowSoft {
+      0% {
+        text-shadow: 0 0 15px #7fd6ff, 0 0 40px #0099ff, 0 0 60px #0055cc;
+      }
+      100% {
+        text-shadow: 0 0 30px #b3f0ff, 0 0 65px #3399ff, 0 0 85px #0066ff;
+      }
+    }
 
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            animation: snowfall linear infinite;
-            color: #7ec8e3;
-            opacity: 0.6;
-            font-size: 14px;
-        }
+    .progress-container {
+      width: 100%;
+      background: #0a1630;
+      height: 20px;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 0 20px #0088ff;
+      border: 1px solid #25aaff;
+      margin: 10px 0 5px;
+    }
 
-        @keyframes snowfall {
-            0% { transform: translateY(-10px) rotate(0deg); opacity: 0.6; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #9be0ff, #3aa5ff, #00c8ff);
+      box-shadow: 0 0 25px #00a6ff, 0 0 10px #c2edff;
+      border-radius: 40px;
+      transition: width 0.05s linear;
+    }
 
-        /* Màn hình chào mừng */
-        .welcome-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0a1929, #0d2137);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
-        }
+    #loadingText {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #b6eeff;
+      text-shadow: 0 0 12px #0099ff;
+      min-height: 32px;
+      text-align: center;
+    }
 
-        .welcome-text {
-            font-size: clamp(2rem, 5vw, 4rem);
-            color: #4fc3f7;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.8), 0 0 40px rgba(79, 195, 247, 0.5);
-            animation: fadeInOut 3s ease forwards, glowPulse 2s ease-in-out infinite;
-            text-align: center;
-            font-weight: bold;
-        }
+    #percentDisplay {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #ccf0ff;
+      margin-left: 6px;
+    }
 
-        @keyframes fadeInOut {
-            0% { opacity: 0; transform: scale(0.5); }
-            20% { opacity: 1; transform: scale(1); }
-            80% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(1.1); }
-        }
+    /* Nội dung chính sau load */
+    #mainShopContent {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-        @keyframes glowPulse {
-            0%, 100% { text-shadow: 0 0 20px rgba(79, 195, 247, 0.8), 0 0 40px rgba(79, 195, 247, 0.5); }
-            50% { text-shadow: 0 0 30px rgba(79, 195, 247, 1), 0 0 60px rgba(79, 195, 247, 0.8); }
-        }
+    .shop-header {
+      text-align: center;
+      color: #c6eeff;
+      text-shadow: 0 0 18px #0088ff;
+      font-weight: 700;
+      font-size: 2rem;
+      border-bottom: 2px dashed #3ea6ff;
+      padding-bottom: 10px;
+    }
 
-        /* Màn hình loading */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0a1929, #0d2137);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 999;
-        }
+    .dynamic-panel {
+      background: rgba(8, 24, 50, 0.75);
+      border-radius: 2rem;
+      padding: 18px 12px;
+      backdrop-filter: blur(16px);
+      border: 1px solid #2f8fff;
+      box-shadow: 0 0 25px rgba(0, 180, 255, 0.5);
+      min-height: 220px;
+      transition: 0.25s;
+      color: #ddf0ff;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
 
-        .loading-container {
-            text-align: center;
-        }
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
 
-        .loading-text {
-            font-size: 1.5rem;
-            color: #4fc3f7;
-            margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(79, 195, 247, 0.6);
-        }
+    .tab-btn {
+      background: #0b1e3c;
+      border: 1px solid #2f80ed;
+      color: #b3e2ff;
+      padding: 12px 18px;
+      border-radius: 3rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 0 12px rgba(0, 160, 255, 0.4);
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
 
-        .loading-bar {
-            width: 300px;
-            height: 8px;
-            background: rgba(79, 195, 247, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(79, 195, 247, 0.3);
-        }
+    .tab-btn:hover {
+      background: #1a3f6e;
+      box-shadow: 0 0 25px #0099ff;
+      border-color: #7fc9ff;
+      color: white;
+      transform: scale(1.02);
+    }
 
-        .loading-progress {
-            height: 100%;
-            background: linear-gradient(90deg, #4fc3f7, #7ec8e3);
-            border-radius: 10px;
-            transition: width 0.1s ease;
-            box-shadow: 0 0 15px rgba(79, 195, 247, 0.8);
-        }
+    .tab-btn.active {
+      background: #0055aa;
+      border-color: #b3e5ff;
+      box-shadow: 0 0 35px #3aa5ff;
+      color: white;
+      font-weight: 700;
+    }
 
-        .loading-percentage {
-            font-size: 3rem;
-            color: #4fc3f7;
-            margin-top: 20px;
-            font-weight: bold;
-            text-shadow: 0 0 20px rgba(79, 195, 247, 0.8);
-        }
+    .price-highlight {
+      color: #ffd966;
+      font-weight: 700;
+      text-shadow: 0 0 8px #ffb700;
+    }
 
-        /* Nội dung chính */
-        .main-content {
-            display: none;
-            position: relative;
-            z-index: 1;
-            padding: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
+    a {
+      color: #8dcaff;
+      text-decoration: none;
+      border-bottom: 1px dashed #4dabff;
+    }
 
-        .shop-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: #4fc3f7;
-            margin-bottom: 30px;
-            text-shadow: 0 0 25px rgba(79, 195, 247, 0.7);
-            animation: titleGlow 2s ease-in-out infinite;
-        }
-
-        @keyframes titleGlow {
-            0%, 100% { text-shadow: 0 0 25px rgba(79, 195, 247, 0.7); }
-            50% { text-shadow: 0 0 40px rgba(79, 195, 247, 1); }
-        }
-
-        /* Các tab điều hướng */
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-            position: sticky;
-            top: 20px;
-            z-index: 10;
-            background: rgba(10, 25, 41, 0.9);
-            padding: 15px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-tab {
-            padding: 12px 25px;
-            background: linear-gradient(135deg, rgba(79, 195, 247, 0.1), rgba(126, 200, 227, 0.05));
-            border: 2px solid rgba(79, 195, 247, 0.3);
-            color: #7ec8e3;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(79, 195, 247, 0.1);
-        }
-
-        .nav-tab:hover {
-            background: rgba(79, 195, 247, 0.2);
-            border-color: #4fc3f7;
-            box-shadow: 0 0 20px rgba(79, 195, 247, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .nav-tab.active {
-            background: rgba(79, 195, 247, 0.3);
-            border-color: #4fc3f7;
-            box-shadow: 0 0 25px rgba(79, 195, 247, 0.6);
-        }
-
-        /* Nội dung các tab */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Card sản phẩm */
-        .product-card {
-            background: linear-gradient(135deg, rgba(79, 195, 247, 0.05), rgba(126, 200, 227, 0.02));
-            border: 2px solid rgba(79, 195, 247, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(79, 195, 247, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-card:hover {
-            border-color: #4fc3f7;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(79, 195, 247, 0.3);
-            transform: translateY(-5px);
-        }
-
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(79, 195, 247, 0.05), transparent);
-            transform: rotate(45deg);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .product-name {
-            font-size: 1.5rem;
-            color: #4fc3f7;
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
-            position: relative;
-        }
-
-        .price-list {
-            list-style: none;
-            position: relative;
-        }
-
-        .price-item {
-            padding: 10px 15px;
-            margin: 8px 0;
-            background: rgba(79, 195, 247, 0.05);
-            border-radius: 8px;
-            border-left: 3px solid #4fc3f7;
-            transition: all 0.3s ease;
-            color: #b8dff0;
-        }
-
-        .price-item:hover {
-            background: rgba(79, 195, 247, 0.15);
-            transform: translateX(10px);
-            border-left-width: 5px;
-        }
-
-        .admin-info {
-            text-align: center;
-            padding: 20px;
-            background: rgba(79, 195, 247, 0.05);
-            border-radius: 15px;
-            border: 2px solid rgba(79, 195, 247, 0.2);
-        }
-
-        .admin-link {
-            display: inline-block;
-            margin: 10px;
-            padding: 12px 25px;
-            background: linear-gradient(135deg, rgba(79, 195, 247, 0.2), rgba(126, 200, 227, 0.1));
-            color: #4fc3f7;
-            text-decoration: none;
-            border-radius: 10px;
-            border: 2px solid rgba(79, 195, 247, 0.3);
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-
-        .admin-link:hover {
-            background: rgba(79, 195, 247, 0.3);
-            border-color: #4fc3f7;
-            box-shadow: 0 0 20px rgba(79, 195, 247, 0.5);
-        }
-
-        .function-detail {
-            padding: 15px;
-            background: rgba(79, 195, 247, 0.03);
-            border-radius: 10px;
-            margin: 10px 0;
-            border-left: 4px solid #4fc3f7;
-        }
-
-        .function-title {
-            color: #4fc3f7;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-
-        .snowflake-particle {
-            position: fixed;
-            pointer-events: none;
-            animation: fall linear infinite;
-            color: #7ec8e3;
-            opacity: 0.6;
-            z-index: 0;
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(-10vh) rotate(0deg);
-            }
-            100% {
-                transform: translateY(110vh) rotate(360deg);
-            }
-        }
-
-        .glow-border {
-            animation: borderGlow 2s ease-in-out infinite;
-        }
-
-        @keyframes borderGlow {
-            0%, 100% { border-color: rgba(79, 195, 247, 0.3); }
-            50% { border-color: rgba(79, 195, 247, 0.6); }
-        }
-
-        .admin-bank-info {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 1px solid rgba(79, 195, 247, 0.2);
-        }
-
-        .warning-text {
-            color: #ffa726;
-            text-align: center;
-            margin-top: 20px;
-            font-style: italic;
-        }
-
-        .ios-badge {
-            display: inline-block;
-            padding: 5px 12px;
-            background: rgba(79, 195, 247, 0.2);
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #4fc3f7;
-            margin: 5px 0;
-        }
-    </style>
+    hr {
+      border: 0.5px solid #1e4b7a;
+      margin: 10px 0;
+    }
+  </style>
 </head>
 <body>
-    <!-- Hiệu ứng sóng -->
-    <div class="wave-bg">
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
+<div class="glow-border">
+  <div class="main-container">
+    <!-- Màn hình loading 0-100% -->
+    <div id="loadingScreen">
+      <div class="shop-title-glow">
+        SHOP ALL FREE FIRE<br>TRUNGSANG X CHEAT🚀💹
+      </div>
+      <div class="progress-container">
+        <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+      </div>
+      <div id="loadingText">
+        Đang chuẩn bị shop <span id="percentDisplay">0%</span>
+      </div>
     </div>
 
-    <!-- Hiệu ứng tuyết rơi -->
-    <div class="snowflakes" id="snowflakes"></div>
+    <!-- Nội dung chính (ẩn cho đến khi load xong) -->
+    <div id="mainShopContent">
+      <div class="shop-header">✨ SHOP ALL FREE FIRE ✨</div>
+      <div id="dynamicContent" class="dynamic-panel">
+        👋 Chọn mục bên dưới để xem chi tiết.
+      </div>
 
-    <!-- Màn hình chào mừng -->
-    <div class="welcome-screen" id="welcomeScreen">
-        <div class="welcome-text">CHÀO MỪNG ĐẾN VỚI SHOP ALL FREE FIRE<br>TRUNGSANG X CHEAT🚀💹</div>
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="shopall">🛒 SHOP ALL</button>
+        <button class="tab-btn" data-tab="price">💰 GIÁ/ALL SP</button>
+        <button class="tab-btn" data-tab="details">⚙️ CHỨC NĂNG CHI TIẾT</button>
+        <button class="tab-btn" data-tab="admin">👑 THÔNG TIN ADMIN👾</button>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- Màn hình loading -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-container">
-            <div class="loading-text" id="loadingStatus">Đang phát triển...</div>
-            <div class="loading-bar">
-                <div class="loading-progress" id="loadingProgress" style="width: 0%"></div>
-            </div>
-            <div class="loading-percentage" id="loadingPercentage">0%</div>
-        </div>
-    </div>
+<script>
+  (function() {
+    // LOADING TIẾN TRÌNH
+    const loadingScreen = document.getElementById('loadingScreen');
+    const mainContent = document.getElementById('mainShopContent');
+    const progressFill = document.getElementById('progressFill');
+    const percentDisplay = document.getElementById('percentDisplay');
+    const loadingText = document.getElementById('loadingText');
 
-    <!-- Nội dung chính -->
-    <div class="main-content" id="mainContent">
-        <h1 class="shop-title">🚀 SHOP ALL FREE FIRE - TRUNGSANG X CHEAT 💹</h1>
+    let percent = 0;
+    const duration = 3500; // tổng thời gian load khoảng 3.5s
+    const intervalTime = 35;
+    const increment = 100 / (duration / intervalTime);
 
-        <!-- Navigation Tabs -->
-        <div class="nav-tabs glow-border">
-            <div class="nav-tab active" onclick="switchTab('shop')">SHOP ALL</div>
-            <div class="nav-tab" onclick="switchTab('price')">GIÁ/ALL SP</div>
-            <div class="nav-tab" onclick="switchTab('functions')">⚙️CHỨC NĂNG CHI TIẾT</div>
-            <div class="nav-tab" onclick="switchTab('admin')">👑THÔNG TIN ADMIN👾</div>
-        </div>
+    function updateLoadingText(percentVal) {
+      const p = Math.floor(percentVal);
+      if (p < 45) {
+        loadingText.innerHTML = `Đang chuẩn bị shop <span id="percentDisplay">${p}%</span>`;
+      } else if (p < 85) {
+        loadingText.innerHTML = `Sắp hoàn thành <span id="percentDisplay">${p}%</span>`;
+      } else if (p < 100) {
+        loadingText.innerHTML = `Hoàn thành <span id="percentDisplay">${p}%</span>`;
+      } else {
+        loadingText.innerHTML = `✅ Hoàn Thành Công <span id="percentDisplay">100%</span>`;
+      }
+    }
 
-        <!-- Tab SHOP ALL -->
-        <div class="tab-content active" id="shop">
-            <div class="product-card">
-                <div class="product-name">SX2 PROXY ADR🚀💠</div>
-            </div>
-            <div class="product-card">
-                <div class="product-name">MIGUL BASIC VN🚀💠</div>
-            </div>
-            <div class="product-card">
-                <div class="product-name">MIGUL PRO VN🚀💠</div>
-            </div>
-            <div class="product-card">
-                <div class="product-name">PROXY VIP V2 🚀💠 (All IOS)</div>
-            </div>
-            <div class="product-card">
-                <div class="product-name">CHỨNG CHỈ 👑ESGIN💎</div>
-            </div>
-        </div>
-
-        <!-- Tab GIÁ/ALL SP -->
-        <div class="tab-content" id="price">
-            <div class="product-card">
-                <div class="product-name">Sản phẩm 1</div>
-                <h3 style="color: #4fc3f7; margin: 15px 0;">SX2 PROXY ADR💠</h3>
-                <ul class="price-list">
-                    <li class="price-item">33.000 VNĐ 1 DAY⚜️</li>
-                    <li class="price-item">66.000 VNĐ 7 DAY⚜️</li>
-                    <li class="price-item">125.000 VNĐ 14 DAY⚜️</li>
-                    <li class="price-item">220.000 VNĐ 30 DAY⚜️</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <div class="product-name">Sản phẩm 2</div>
-                <h3 style="color: #4fc3f7; margin: 15px 0;">MIGUL BASIC VN💠</h3>
-                <ul class="price-list">
-                    <li class="price-item">65.000 VNĐ 1 DAY🛍️</li>
-                    <li class="price-item">145.000 VNĐ 7 DAY🛍️</li>
-                    <li class="price-item">300.000 VNĐ 30 DAY🛍️</li>
-                </ul>
-                <h3 style="color: #4fc3f7; margin: 15px 0;">MIGUL PRO VN💠</h3>
-                <ul class="price-list">
-                    <li class="price-item">20.000 VNĐ 1 GIỜ🛍️</li>
-                    <li class="price-item">130.000 VNĐ 1 DAY🛍️</li>
-                    <li class="price-item">250.000 VNĐ 7 DAY🛍️</li>
-                    <li class="price-item">536.000 VNĐ 30 DAY🛍️</li>
-                </ul>
-                <div class="ios-badge">ANTIBAN✅</div>
-                <div class="ios-badge">ALL IOS✅</div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-name">Sản phẩm 3</div>
-                <h3 style="color: #4fc3f7; margin: 15px 0;">PROXY VIP V2💠 (ALL AIM)</h3>
-                <ul class="price-list">
-                    <li class="price-item">20.000 VNĐ 1 DAY 🛍️</li>
-                    <li class="price-item">70.000 VNĐ 7 DAY🛍️</li>
-                    <li class="price-item">140.000 VNĐ 30 DAY🛍️</li>
-                    <li class="price-item">290.000 VNĐ 1 OB 🛍️</li>
-                    <li class="price-item">610.000 VNĐ VĨNH VIỄN 🛍️</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <div class="product-name">Sản phẩm 4</div>
-                <h3 style="color: #4fc3f7; margin: 15px 0;">💹ESGIN 💎</h3>
-                <ul class="price-list">
-                    <li class="price-item">
-                        <strong>• 140.000 VND🛍️</strong><br>
-                        Gói iPhone/iPad Lấy Ngay<br>
-                        Gói này bạn có thể dùng cho các thiết bị iPhone, iPad, có thể sử dụng ngay lập tức. Không bảo hành.
-                    </li>
-                    <li class="price-item">
-                        <strong>• 300.000 VND🛍️</strong><br>
-                        Gói iPhone/iPad lấy ngay<br>
-                        Gói này bạn có thể dùng cho các thiết bị iPhone, iPad, có thể sử dụng ngay lập tức. Bảo hành 40 ngày
-                    </li>
-                    <li class="price-item">
-                        <strong>• 610.000 VND🛍️</strong><br>
-                        Gói iPhone/iPad lấy ngay<br>
-                        Gói này bạn có thể dùng cho các thiết bị iPhone, iPad, có thể sử dụng ngay lập tức. Bảo hành 300 ngày
-                    </li>
-                </ul>
-                <p style="color: #4fc3f7; margin-top: 10px;">Toàn bộ đều chứng chỉ 1 năm</p>
-            </div>
-        </div>
-
-        <!-- Tab CHỨC NĂNG CHI TIẾT -->
-        <div class="tab-content" id="functions">
-            <div class="product-card">
-                <div class="function-detail">
-                    <div class="function-title">1. SX2 PROXY ADR🚀</div>
-                    <p style="color: #b8dff0;">Toàn diện ADR Đã nâng cấp siêu vip không như bản cũ⚜️💹</p>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="function-detail">
-                    <div class="function-title">2. MIGUL BASIC VN🚀</div>
-                    <p style="color: #b8dff0;">
-                        Menu bật tắt liên tục<br>
-                        Có viền quanh tâm bắn<br>
-                        Bắn là đỏ + vàng<br>
-                        Định vị địch<br>
-                        Leo rank các thứ tất cả đều được<br>
-                        Đã nâng cấp lên một phiên bản cực kỳ xịn sò hơn phiên bản cũ nhiều⚜️
-                    </p>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="function-detail">
-                    <div class="function-title">3. MIGUL PRO VN 🚀</div>
-                    <p style="color: #b8dff0;">
-                        Menu bật tắt liên tục chỉnh vòng liên tục<br>
-                        Có viền quanh tâm bắn<br>
-                        Bắn là đỏ + vàng<br>
-                        Định vị địch<br>
-                        Leo rank các thứ tất cả đều được<br>
-                        Antiban tuyệt đối<br>
-                        Đã nâng cấp lên một phiên bản cực kỳ xịn sò hơn phiên bản cũ nhiều⚜️
-                    </p>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="function-detail">
-                    <div class="function-title">4. PROXY VIP V2 (All AIM) 🚀</div>
-                    <p style="color: #b8dff0;">
-                        AIM DRAG<br>
-                        AIM BODY<br>
-                        AIM NECK<br>
-                        AIM DRAG V2<br>
-                        AIM MAGIC<br>
-                        AIM NECK + MOD<br>
-                        AIM BODY + MOD<br>
-                        XUYÊN GIÁP<br>
-                        AIM BODY + ANTENA<br>
-                        AIM NECK + ANTENA<br>
-                        MOD + ƯỚC ĐƯỢC BAN<br>
-                        <span class="ios-badge">Tải ipa cho iphone 📱</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab THÔNG TIN ADMIN -->
-        <div class="tab-content" id="admin">
-            <div class="admin-info">
-                <h2 style="color: #4fc3f7; margin-bottom: 20px;">👑THÔNG TIN ADMIN👾</h2>
-                
-                <a href="https://zalo.me/0372822927" target="_blank" class="admin-link">
-                    📱 ZALO ADMIN: 0372822927
-                </a>
-                <br>
-                <a href="https://zalo.me/g/myvfgfidweld9ovmd7t4" target="_blank" class="admin-link">
-                    📦 BOX ZALO
-                </a>
-
-                <div class="admin-bank-info">
-                    <h3 style="color: #4fc3f7; margin-bottom: 15px;">💳 THÔNG TIN CHUYỂN KHOẢN</h3>
-                    <p style="color: #b8dff0; margin: 10px 0;">
-                        <strong>STK:</strong> 0372822927<br>
-                        <strong>Chủ TK:</strong> TRAN TRUNG SANG<br>
-                        <strong>Nội dung:</strong> Aim và số tiền mua
-                    </p>
-                </div>
-
-                <p class="warning-text">
-                    ⚠️ Vui lòng liên hệ ADMIN để mua những gì bạn thích 🛍️<br>
-                    Chuyển khoản song liên hệ Admin
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Tạo hiệu ứng tuyết rơi
-        function createSnowflakes() {
-            const container = document.getElementById('snowflakes');
-            const snowflakeSymbols = ['❄', '❅', '❆', '✦', '✧', '♦', '•', '·'];
-            
-            for (let i = 0; i < 50; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.className = 'snowflake';
-                snowflake.textContent = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
-                snowflake.style.left = Math.random() * 100 + '%';
-                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                snowflake.style.animationDelay = Math.random() * 5 + 's';
-                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
-                snowflake.style.opacity = Math.random() * 0.5 + 0.3;
-                container.appendChild(snowflake);
-            }
-        }
-
-        createSnowflakes();
-
-        // Xử lý màn hình chào mừng
+    const loadingInterval = setInterval(() => {
+      percent += increment;
+      if (percent >= 100) {
+        percent = 100;
+        progressFill.style.width = '100%';
+        updateLoadingText(100);
+        clearInterval(loadingInterval);
+        // Hiệu ứng chữ biến mất dần rồi hiện nội dung
         setTimeout(() => {
-            const welcomeScreen = document.getElementById('welcomeScreen');
-            welcomeScreen.style.opacity = '0';
-            
-            setTimeout(() => {
-                welcomeScreen.style.display = 'none';
-                startLoading();
-            }, 500);
-        }, 3000);
+          loadingScreen.style.opacity = '0';
+          loadingScreen.style.transition = 'opacity 0.5s';
+          setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            mainContent.style.display = 'flex';
+          }, 400);
+        }, 700);
+      } else {
+        progressFill.style.width = percent + '%';
+        updateLoadingText(percent);
+      }
+    }, intervalTime);
 
-        // Xử lý màn hình loading
-        function startLoading() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            const loadingProgress = document.getElementById('loadingProgress');
-            const loadingPercentage = document.getElementById('loadingPercentage');
-            const loadingStatus = document.getElementById('loadingStatus');
-            
-            loadingScreen.style.display = 'flex';
-            
-            let progress = 0;
-            const statusMessages = [
-                'Đang phát triển...',
-                'Đang vào web...',
-                'Đang chuẩn bị shop...',
-                'Sắp hoàn thành...',
-                'Hoàn thành!'
-            ];
-            
-            const interval = setInterval(() => {
-                progress += Math.random() * 3 + 1;
-                
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    loadingStatus.textContent = 'Hoàn thành! ✅';
-                    
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        document.getElementById('mainContent').style.display = 'block';
-                    }, 500);
-                }
-                
-                loadingProgress.style.width = progress + '%';
-                loadingPercentage.textContent = Math.floor(progress) + '%';
-                
-                // Cập nhật trạng thái
-                if (progress < 20) {
-                    loadingStatus.textContent = statusMessages[0];
-                } else if (progress < 50) {
-                    loadingStatus.textContent = statusMessages[1];
-                } else if (progress < 75) {
-                    loadingStatus.textContent = statusMessages[2];
-                } else if (progress < 95) {
-                    loadingStatus.textContent = statusMessages[3];
-                } else {
-                    loadingStatus.textContent = statusMessages[4];
-                }
-            }, 100);
-        }
+    // NỘI DUNG CÁC TAB
+    const contentData = {
+      shopall: `
+🚀 SX2 PROXY ADR🚀💠
+🚀 MIGUL BASIC VN🚀💠
+🚀 MIGUL PRO VN🚀💠
+🚀 PROXY VIP V2 🚀💠(All IOS)
+👑 CHỨNG CHỈ 👑ESGIN💎 
+👤 1 ACC👤
+👤 ACC RANK KC TC👤
+📲 Fix lag ios📲
+      `,
+      price: `
+<span class="price-highlight">Sản phẩm 1</span>
+> SX2 PROXY ADR💠
+- 20.000 VNĐ 1 DAY⚜️
+- 50.000 VNĐ 7 DAY⚜️
+- 100.000 VNĐ 14 DAY⚜️
+- 180.000 VNĐ 30 DAY⚜️
 
-        // Chuyển tab
-        function switchTab(tabName) {
-            // Cập nhật tab buttons
-            const tabs = document.querySelectorAll('.nav-tab');
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Thêm class active cho tab được click
-            event.target.classList.add('active');
-            
-            // Ẩn tất cả nội dung
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Hiển thị nội dung tương ứng với delay
-            setTimeout(() => {
-                const targetContent = document.getElementById(tabName);
-                if (targetContent) {
-                    targetContent.classList.add('active');
-                }
-            }, 200 + Math.random() * 800); // Delay 0.2-1 giây
+> MIGUL BASIC VN💠
+- 65.000 VNĐ 1 DAY🛍️
+- 145.000 VNĐ 7 DAY🛍️
+- 300.00 VNĐ 30 DAY🛍️
+
+<span class="price-highlight">Sản phẩm 2</span>
+> MIGUL PRO VN💠
+- 20.000 VNĐ 1 GIỜ🛍️
+- 130.000 VNĐ 1 DAY🛍️
+- 250.000 VNĐ 7 DAY🛍️
+- 536.000 VNĐ 30 DAY🛍️
+= ANTIBAN✅
+= ALL IOS✅
+
+<span class="price-highlight">Sản phẩm 3</span>
+> PROXY VIP V2💠 (ALL AIM)
+- 24.000 VNĐ 1 DAY 🛍️
+- 54.000 VNĐ 7 DAY🛍️
+- 115.000 VNĐ 30 DAY🛍️
+- 255.000 VNĐ VĨNH VIỄN 🛍️
+
+<span class="price-highlight">Sản phẩm 4</span>
+> Fix lag ios📲
+- 90.000 Vĩnh viễn 🛍️
+
+<span class="price-highlight">Sản phẩm 5</span>
+> Acc FF 🔱
+- 1 ACC
+- 13.000 VND🛍️
+ACC RANK KC TC
+- 80.000 VND🛍️
+
+<span class="price-highlight">Sản phẩm 6</span>
+> ESGIN 💎
+• 140.000 VND🛍️
+Gói iPhone/iPad Lấy Ngay (không bảo hành)
+• 300.000 VND🛍️
+Gói iPhone/iPad lấy ngay – Bảo hành 40 ngày
+• 600.000 VND🛍️
+Gói iPhone/iPad lấy ngay – Bảo hành 300 ngày
+= Toàn bộ đều chứng chỉ 1 năm
+      `,
+      details: `
+⚙️ 1 SX2 PROXY ADR🚀
+- Chạy nhanh 
+- Bắn định phun đỏ
+- Nhiều chức năng khác
+- Toàn diện ADR Đã nâng cấp siêu vip ⚜️💹
+
+⚙️ 2 MIGUL BASIC VN🚀
+- Menu bật tắt liên tục
+- Có viền quanh tâm bắn 
+- Bắn là đỏ + vàng
+- Định vị địch 
+- Leo rank các thứ 
+- Đã nâng cấp phiên bản xịn sò ⚜️
+
+⚙️ 3 MIGUL PRO VN 🚀
+- Menu bật tắt chỉnh vòng liên tục
+- Viền tâm bắn, bắn đỏ+vàng
+- Định vị địch, leo rank
+= Antiban tuyệt đối✅
+- Nâng cấp cực xịn ⚜️
+
+⚙️ 4 PROXY VIP V2 (All AIM) 🚀
+- AIM DRAG, AIM BODY, AIM NECK
+- AIM DRAG V2, AIM MAGIC
+- AIM NECK + MOD, AIM BODY + MOD
+- XUYÊN GIÁP, AIM BODY + ANTENA 
+- AIM NECK + ANTENA, MOD + ƯỚC ĐƯỢC BAN
+
+⚙️ 5 Fix lag IOS📲
+- Fix lag tạm thời 1-3 giây, bắn định thoải mái
+= ANTIBAN✅ 100%🚀
+
+⚙️ 6 ACC FF🔱
+- 1 ACC: Acc clone LV thấp–trung bình (LV5–10)👤
+- ACC RANK KC TC: LV trên trung bình – cao (LV20–40)👤
+      `,
+      admin: `
+👑 THÔNG TIN ADMIN 👾
+📞 ZALO ADMIN: <a href="https://zalo.me/0372822927" target="_blank">0372822927</a>
+📦 BOX: <a href="https://zalo.me/g/myvfgfidweld9ovmd7t4" target="_blank">Nhấn vào đây để vào Box</a>
+
+Vui lòng liên hệ ADMIN để mua những gì bạn thích🛍️ 
+Chuyển khoản tới tài khoản:
+<span style="color:#FFD966;">STK: 0372822927</span>
+TRAN TRUNG SANG
+Nội dung: Aim và số tiền mua 
+Chuyển khoản xong liên hệ Admin.
+      `
+    };
+
+    const dynamicDiv = document.getElementById('dynamicContent');
+    const tabButtons = document.querySelectorAll('.tab-btn');
+
+    function switchTab(tabKey, button) {
+      // Thêm hiệu ứng trễ nhẹ 1-3 giây (mô phỏng load nhẹ)
+      dynamicDiv.style.opacity = '0.5';
+      dynamicDiv.style.transition = 'opacity 0.2s';
+      setTimeout(() => {
+        dynamicDiv.innerHTML = contentData[tabKey] || 'Đang cập nhật...';
+        dynamicDiv.style.opacity = '1';
+      }, 900); // khoảng 0.9s, gần 1-3s cảm giác mượt
+
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    }
+
+    // Mặc định hiển thị tab SHOP ALL
+    if (dynamicDiv) {
+      dynamicDiv.innerHTML = contentData.shopall;
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const tab = this.dataset.tab;
+        if (tab) {
+          switchTab(tab, this);
         }
-    </script>
+      });
+    });
+
+    // Đảm bảo trạng thái active ban đầu
+    const activeTab = document.querySelector('.tab-btn.active');
+    if (activeTab && dynamicDiv) {
+      const defaultTab = activeTab.dataset.tab || 'shopall';
+      dynamicDiv.innerHTML = contentData[defaultTab] || contentData.shopall;
+    }
+  })();
+</script>
 </body>
 </html>
