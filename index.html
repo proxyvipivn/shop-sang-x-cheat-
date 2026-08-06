@@ -2,8 +2,8 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>SHOP ALL FREE FIRE • TRUNGSANG X CHEAT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=1.5">
+  <title>SHOP ALL FREE FIRE | TRUNGSANG X CHEAT 🚀💹</title>
   <style>
     * {
       margin: 0;
@@ -12,504 +12,735 @@
     }
 
     body {
-      background: #0a0309;
-      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+      font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+      background: #0a0f14;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
       overflow-x: hidden;
+    }
+
+    /* ===== TRANG 1: LOADING + SHOP CHÍNH ===== */
+    #page1 {
+      display: block;
+      width: 100%;
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 30%, #0b1a2f, #020810);
       position: relative;
     }
 
-    /* Nền đỏ nhẹ & hiệu ứng lấp lánh */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at 30% 40%, rgba(220, 20, 60, 0.25) 0%, transparent 50%),
-                  radial-gradient(circle at 70% 70%, rgba(255, 80, 80, 0.2) 0%, transparent 55%),
-                  #13000c;
-      z-index: -2;
-    }
-
-    /* Canvas tuyết rơi */
-    #snowCanvas {
+    .loading-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    /* Khung chính */
-    .main-container {
-      width: 100%;
-      max-width: 700px;
-      margin: 20px auto;
-      padding: 20px 18px;
-      position: relative;
-      z-index: 5;
+      height: 100vh;
+      background: #030711;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
     }
 
-    /* Loading screen (màn hình chờ 0-100%) */
-    .loader-screen {
-      background: rgba(10, 0, 8, 0.92);
-      backdrop-filter: blur(12px);
-      border: 2px solid #ff4d6d;
-      border-radius: 40px;
-      padding: 30px 25px;
-      text-align: center;
-      width: 100%;
-      box-shadow: 0 0 35px #ff1e4d, 0 15px 35px rgba(0,0,0,0.7);
-      transition: opacity 0.6s ease;
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
 
-    .shop-title {
-      font-size: clamp(2.2rem, 10vw, 3.6rem);
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #fff5f0;
-      text-shadow: 0 0 15px #ff9f9f, 0 0 40px #ff3366, 0 0 80px #c0003c;
-      margin-bottom: 15px;
-      line-height: 1.2;
-      animation: softGlowPulse 2.2s infinite alternate;
-    }
-
-    .brand-sub {
-      font-size: 1.8rem;
+    .glow-text {
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
       font-weight: 800;
-      background: linear-gradient(135deg, #ffe6f0, #ffb3c6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 20px #ff4770;
-      margin: 10px 0 20px;
+      letter-spacing: 2px;
+      color: #b3f0ff;
+      text-shadow: 0 0 15px #5ec8f2, 0 0 40px #2aa9c9;
+      text-align: center;
+      animation: gentlePulse 2s infinite;
+      margin-bottom: 30px;
+    }
+
+    @keyframes gentlePulse {
+      0% {
+        text-shadow: 0 0 10px #5ec8f2, 0 0 30px #2aa9c9;
+      }
+      50% {
+        text-shadow: 0 0 25px #8ef0ff, 0 0 55px #3cc6e0;
+      }
+      100% {
+        text-shadow: 0 0 10px #5ec8f2, 0 0 30px #2aa9c9;
+      }
     }
 
     .progress-wrapper {
-      background: rgba(0, 0, 0, 0.55);
-      border-radius: 50px;
-      height: 30px;
-      width: 90%;
-      margin: 18px auto;
-      border: 2px solid #ff6b81;
-      box-shadow: 0 0 25px #ff2e4c;
+      width: 280px;
+      max-width: 70vw;
+      height: 20px;
+      background: #1e2a3a;
+      border-radius: 30px;
       overflow: hidden;
+      box-shadow: 0 0 25px #2aa9c9;
+      margin: 20px 0;
     }
 
     .progress-fill {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, #ff9a9e, #ff1e4d, #ff5e7a);
-      box-shadow: 0 0 30px #ff1e4d;
-      border-radius: 50px;
-      transition: width 0.1s linear;
+      background: linear-gradient(90deg, #7fd6f5, #3aa8c9);
+      box-shadow: 0 0 20px #6cd0f0;
+      border-radius: 30px;
+      transition: width 0.1s ease;
     }
 
-    .progress-text {
+    .percent-text {
+      color: #c2f0ff;
       font-weight: bold;
-      font-size: 1.3rem;
-      color: #ffdae1;
-      text-shadow: 0 0 15px #ff3b5c;
-      margin-top: 8px;
+      font-size: 1.8rem;
+      text-shadow: 0 0 15px #3aa8c9;
+      margin-top: 10px;
     }
 
     .status-message {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #b4f0ff;
-      text-shadow: 0 0 18px #00c8ff, 0 0 35px #0099cc;
-      margin: 15px 0 5px;
-      letter-spacing: 1px;
+      color: #a0d9ff;
+      margin-top: 8px;
+      font-style: italic;
+      font-weight: 500;
     }
 
-    /* Shop chính (ẩn cho đến khi load xong) */
-    .shop-interface {
+    #main-shop {
+      display: none;
+      flex-direction: column;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    #main-shop.active {
+      display: flex;
+    }
+
+    .shop-header {
+      padding: 25px 15px 10px;
+      text-align: center;
+      color: #b3f0ff;
+      text-shadow: 0 0 18px #2aa9c9;
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      border-bottom: 2px solid rgba(90, 200, 240, 0.3);
+    }
+
+    .tab-content-area {
+      flex: 1;
+      padding: 20px 18px;
+      color: #d4f0ff;
+      background: rgba(8, 20, 30, 0.8);
+      backdrop-filter: blur(10px);
+      margin: 15px;
+      border-radius: 28px;
+      border: 1px solid rgba(80, 200, 250, 0.35);
+      box-shadow: 0 0 35px rgba(0, 180, 230, 0.25);
+      transition: 0.3s;
+      white-space: pre-wrap;
+      line-height: 1.7;
+    }
+
+    .footer-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #0a1722;
+      display: flex;
+      overflow-x: auto;
+      border-top: 2px solid #2aa9c9;
+      box-shadow: 0 -5px 25px rgba(0, 170, 220, 0.5);
+      z-index: 100;
+    }
+
+    .footer-nav button {
+      flex: 1 0 auto;
+      background: transparent;
+      border: none;
+      color: #b3eaff;
+      font-weight: bold;
+      padding: 16px 12px;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.2s;
+      text-shadow: 0 0 10px #2aa9c9;
+      border-right: 1px solid #2a4955;
+    }
+
+    .footer-nav button:hover,
+    .footer-nav button.active-tab {
+      background: #102b3a;
+      color: #ffffff;
+      text-shadow: 0 0 20px #7de0ff;
+      box-shadow: inset 0 -4px 0 #5ec8f2;
+    }
+
+    /* ===== TRANG 2: NHẬN ALL HACH ===== */
+    #page2 {
       display: none;
       width: 100%;
-      flex-direction: column;
-      align-items: center;
+      min-height: 100vh;
+      background: #1a0f1f;
+      position: relative;
     }
 
-    /* Viền ngoài phát sáng xanh nhạt cho toàn shop */
-    .shop-card {
-      background: rgba(18, 2, 12, 0.8);
-      backdrop-filter: blur(18px);
-      border: 2px solid #70e0ff;
-      border-radius: 50px;
-      padding: 25px 20px;
+    #page2.active {
+      display: block;
+    }
+
+    .page2-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      box-shadow: 0 0 35px #6bd4ff, 0 10px 40px rgba(0,160,220,0.5);
-      margin-bottom: 25px;
-      color: #f0fcff;
+      height: 100vh;
+      background: #140c1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9998;
+      transition: opacity 0.5s;
     }
 
-    .glow-text {
-      color: #c5f0ff;
-      text-shadow: 0 0 18px #3eb5ff, 0 0 30px #1e90ff;
+    .page2-loading.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
 
-    h2, h3 {
-      color: #fff0f5;
-      text-shadow: 0 0 18px #ff99aa, 0 0 30px #ff3366;
+    .blink-dot {
+      width: 22px;
+      height: 22px;
+      background: #d9b3ff;
+      border-radius: 50%;
+      margin: 0 10px;
+      display: inline-block;
+      box-shadow: 0 0 30px #c084fc;
+      animation: blinkAnim 0.5s infinite alternate;
     }
 
-    /* Nút bottom nav */
-    .bottom-nav {
+    @keyframes blinkAnim {
+      from {
+        opacity: 0.2;
+        transform: scale(0.7);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1.4);
+        box-shadow: 0 0 50px #d59cff;
+      }
+    }
+
+    .page2-main {
+      display: none;
+      flex-direction: column;
+      min-height: 100vh;
+      background: radial-gradient(circle at 10% 30%, #301c3a, #12061a);
+      color: #eeddff;
+      padding-bottom: 30px;
+    }
+
+    .page2-main.active {
+      display: flex;
+    }
+
+    .exit-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #3d1e4a;
+      border: none;
+      color: #f5e5ff;
+      font-size: 1.4rem;
+      width: 45px;
+      height: 45px;
+      border-radius: 30px;
+      box-shadow: 0 0 18px #bc7af5;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .vip-header {
+      text-align: center;
+      padding: 30px 15px 10px;
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-shadow: 0 0 25px #c58aff;
+    }
+
+    .vip-tabs {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 12px;
-      margin-top: 10px;
-      width: 100%;
+      gap: 10px;
+      margin: 20px;
     }
 
-    .tag-btn {
-      background: rgba(20, 5, 15, 0.8);
-      backdrop-filter: blur(16px);
-      border: 2px solid #70e0ff;
-      color: #d4f4ff;
-      padding: 14px 18px;
-      border-radius: 50px;
+    .vip-tab-btn {
+      background: #261831;
+      border: 1px solid #b77af0;
+      color: #ecd9ff;
+      padding: 12px 18px;
+      border-radius: 40px;
       font-weight: bold;
-      font-size: 1rem;
-      letter-spacing: 1px;
       cursor: pointer;
-      transition: all 0.25s;
-      box-shadow: 0 0 18px #4dc3ff;
-      text-shadow: 0 0 8px #a0e0ff;
-      flex: 1 1 auto;
-      min-width: 90px;
+      transition: 0.2s;
+      box-shadow: 0 0 12px #aa6fdd;
     }
 
-    .tag-btn:hover {
-      background: #ff2e55;
-      border-color: #ffb3c6;
-      box-shadow: 0 0 35px #ff3366;
+    .vip-tab-btn.active {
+      background: #7734b0;
       color: white;
-      transform: translateY(-2px);
     }
 
-    /* Khu vực nội dung hiển thị khi click */
-    .content-area {
-      margin-top: 25px;
-      background: rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(20px);
-      border-radius: 35px;
+    .voucher-input-area {
+      margin: 25px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .voucher-input-area input {
+      padding: 14px;
+      border-radius: 30px;
+      border: none;
+      background: #2c1d38;
+      color: #f0e2ff;
+      font-weight: bold;
+      box-shadow: 0 0 15px #aa6fdd;
+    }
+
+    .voucher-input-area button {
+      background: #b162e6;
+      border: none;
+      padding: 14px;
+      border-radius: 30px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 0 25px #c175ff;
+    }
+
+    .info-box {
+      background: #241831;
+      margin: 20px;
       padding: 20px;
-      border: 1px solid #7ad0ff;
-      box-shadow: 0 0 35px #2499ff;
-      width: 100%;
-      min-height: 200px;
-      color: #f0f9ff;
-      transition: 0.25s;
-      font-size: 1rem;
-      line-height: 1.7;
-      white-space: pre-line;
-    }
-
-    .product-item {
-      margin: 18px 0;
-      border-bottom: 1px dashed #5ec5ff;
-      padding-bottom: 12px;
-    }
-
-    .product-name {
-      font-weight: 800;
-      font-size: 1.3rem;
-      color: #ffdae9;
-      text-shadow: 0 0 18px #ff2e63;
-    }
-
-    .price {
-      color: #b5f0ff;
-      font-weight: bold;
-    }
-
-    a {
-      color: #7bd5ff;
-      text-decoration: none;
-      font-weight: bold;
-      border-bottom: 1px dotted #6ec8ff;
-    }
-
-    @keyframes softGlowPulse {
-      0% { text-shadow: 0 0 15px #ff9f9f, 0 0 40px #ff3366; }
-      100% { text-shadow: 0 0 30px #ffb3b3, 0 0 75px #ff0048; }
-    }
-
-    @media (max-width: 500px) {
-      .tag-btn {
-        padding: 10px 12px;
-        font-size: 0.8rem;
-      }
+      border-radius: 24px;
+      border: 1px solid #bc7af5;
     }
   </style>
 </head>
 <body>
-  <canvas id="snowCanvas"></canvas>
-
-  <div class="main-container" id="mainContainer">
-    <!-- Màn hình loading -->
-    <div class="loader-screen" id="loaderScreen">
-      <div class="shop-title">SHOP ALL FREE FIRE</div>
-      <div class="brand-sub">TRUNGSANG X CHEAT🚀💹</div>
+  <!-- ================= TRANG 1 ================= -->
+  <div id="page1">
+    <div class="loading-screen" id="loadingScreen">
+      <div class="glow-text">SHOP ALL FREE FIRE<br>TRUNGSANG X CHEAT🚀💹</div>
       <div class="progress-wrapper">
         <div class="progress-fill" id="progressFill"></div>
       </div>
-      <div class="progress-text" id="progressPercent">0%</div>
-      <div class="status-message" id="statusMsg">Đang chuẩn bị shop...</div>
+      <div class="percent-text" id="percentDisplay">0%</div>
+      <div class="status-message" id="statusMessage">Đang chuẩn bị shop...</div>
     </div>
 
-    <!-- Giao diện chính shop (ban đầu ẩn) -->
-    <div class="shop-interface" id="shopInterface">
-      <div class="shop-card">
-        <h2 style="font-size:2.2rem; text-align:center;">✨ SHOP ALL FREE FIRE ✨</h2>
-        <p style="text-align:center; font-weight:bold; color:#b3edff;">TRUNGSANG X CHEAT🚀💹</p>
+    <div id="main-shop">
+      <div class="shop-header">✨ SHOP ALL FREE FIRE ✨</div>
+      <div class="tab-content-area" id="tabContent">
+        Chọn một mục bên dưới để xem chi tiết.
       </div>
+    </div>
 
-      <!-- Thanh điều hướng dưới -->
-      <div class="bottom-nav">
-        <button class="tag-btn" data-tag="shopall">🏪 SHOP ALL</button>
-        <button class="tag-btn" data-tag="price">💰 GIÁ/ALL SP</button>
-        <button class="tag-btn" data-tag="details">⚙️ CHỨC NĂNG CHI TIẾT</button>
-        <button class="tag-btn" data-tag="admin">👑 THÔNG TIN ADMIN</button>
+    <div class="footer-nav" id="footerNav" style="display: none;">
+      <button data-tab="shopall">🏪 SHOP ALL</button>
+      <button data-tab="price">💰 GIÁ/ALL SP</button>
+      <button data-tab="features">⚙️ CHỨC NĂNG</button>
+      <button data-tab="admin">👑 ADMIN</button>
+    </div>
+  </div>
+
+  <!-- ================= TRANG 2 ================= -->
+  <div id="page2">
+    <div class="page2-loading" id="page2Loading">
+      <div>
+        <span class="blink-dot"></span>
+        <span class="blink-dot"></span>
+        <span class="blink-dot"></span>
       </div>
+      <div style="color:#d9b3ff; margin-top:20px; font-weight:bold;">Đang kết nối HACH FF SHOP...</div>
+    </div>
 
-      <!-- Nội dung hiển thị động -->
-      <div class="content-area" id="dynamicContent">
-        <p style="color:#b0e5ff; text-align:center;">✨ Chọn một mục bên dưới để xem chi tiết ✨</p>
+    <div class="page2-main" id="page2Main">
+      <button class="exit-button" id="exitPage2">✕</button>
+      <div class="vip-header">👑 NHẬN ALL HACH FF SHOP VÀ VIP 👑</div>
+      <div style="text-align:center; color:#cda5f0;">Nick của bạn: <span id="userNickDisplay">---</span></div>
+      <div class="vip-tabs">
+        <button class="vip-tab-btn active" data-vtab="napvip">💳 NẠP VIP</button>
+        <button class="vip-tab-btn" data-vtab="muavoucher">🛍️ MUA VOUCHER</button>
+        <button class="vip-tab-btn" data-vtab="nhapvoucher">🎫 NHẬP VOUCHER</button>
+      </div>
+      <div id="vipTabContent" class="info-box">
+        Chọn tab để xem.
       </div>
     </div>
   </div>
 
   <script>
     (function() {
-      // ---------- HIỆU ỨNG TUYẾT RƠI ----------
-      const canvas = document.getElementById('snowCanvas');
-      const ctx = canvas.getContext('2d');
-      let width, height;
-      let snowflakes = [];
+      // ============ DỮ LIỆU SẢN PHẨM ============
+      const products = [
+        { id: 1, name: 'SX2 PROXY ADR🚀💠', prices: [{ label: '1 DAY', value: 20000 }, { label: '7 DAY', value: 50000 }, { label: '14 DAY', value: 100000 }, { label: '30 DAY', value: 180000 }] },
+        { id: 2, name: 'MIGUL BASIC VN🚀💠', prices: [{ label: '1 DAY', value: 65000 }, { label: '7 DAY', value: 145000 }, { label: '30 DAY', value: 300000 }] },
+        { id: 3, name: 'MIGUL PRO VN🚀💠', prices: [{ label: '1 GIỜ', value: 20000 }, { label: '1 DAY', value: 130000 }, { label: '7 DAY', value: 250000 }, { label: '30 DAY', value: 536000 }] },
+        { id: 4, name: 'PROXY VIP V2💠 (ALL AIM)', prices: [{ label: '1 DAY', value: 24000 }, { label: '7 DAY', value: 54000 }, { label: '30 DAY', value: 115000 }, { label: 'VĨNH VIỄN', value: 300000 }] },
+        { id: 5, name: 'Fix lag ios📲', prices: [{ label: 'Vĩnh viễn', value: 90000 }] },
+        { id: 6, name: 'Acc FF 🔱', prices: [{ label: '1 ACC', value: 13000 }, { label: 'ACC RANK KC TC', value: 80000 }] },
+        { id: 7, name: 'ESGIN 💎', prices: [{ label: 'Gói iPhone/iPad (không BH)', value: 140000 }, { label: 'Gói BH 40 ngày', value: 300000 }, { label: 'Gói BH 300 ngày', value: 600000 }] }
+      ];
 
-      function resizeCanvas() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
+      // voucher codes (sinh sẵn 50 mỗi gói, không trùng)
+      function generateVoucherSet(prefix, count = 50) {
+        const set = new Set();
+        while (set.size < count) {
+          const rand = Math.random().toString(36).substring(2, 8).toUpperCase();
+          set.add(`${prefix}-${rand}`);
+        }
+        return Array.from(set);
       }
-      window.addEventListener('resize', resizeCanvas);
-      resizeCanvas();
+      const voucherPool = {
+        'G1': generateVoucherSet('G1', 50),
+        'G2': generateVoucherSet('G2', 50),
+        'G3': generateVoucherSet('G3', 50),
+        'G4': generateVoucherSet('G4', 50)
+      };
+      // In voucher ra console để bạn xem
+      console.log('===== DANH SÁCH VOUCHER (50 mã/gói) =====');
+      console.log('GÓI 1:', voucherPool['G1']);
+      console.log('GÓI 2:', voucherPool['G2']);
+      console.log('GÓI 3:', voucherPool['G3']);
+      console.log('GÓI 4:', voucherPool['G4']);
 
-      class Snowflake {
-        constructor() {
-          this.reset();
-        }
-        reset() {
-          this.x = Math.random() * width;
-          this.y = Math.random() * -height;
-          this.radius = Math.random() * 3.5 + 1.2;
-          this.speed = Math.random() * 1.8 + 0.6;
-          this.wind = Math.random() * 0.5 - 0.25;
-          this.opacity = Math.random() * 0.7 + 0.3;
-        }
-        update() {
-          this.y += this.speed;
-          this.x += this.wind;
-          if (this.y > height + 10 || this.x > width + 20 || this.x < -20) {
-            this.reset();
-            this.y = -10;
-          }
-        }
-        draw(ctx) {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 250, 250, ${this.opacity})`;
-          ctx.shadowColor = '#b3e5ff';
-          ctx.shadowBlur = 10;
-          ctx.fill();
-          ctx.shadowBlur = 0;
-          ctx.shadowColor = 'transparent';
-        }
-      }
-
-      function initSnow(flakeCount = 130) {
-        snowflakes = [];
-        for (let i = 0; i < flakeCount; i++) {
-          snowflakes.push(new Snowflake());
-        }
-      }
-      initSnow(120);
-
-      function animateSnow() {
-        ctx.clearRect(0, 0, width, height);
-        for (let flake of snowflakes) {
-          flake.update();
-          flake.draw(ctx);
-        }
-        requestAnimationFrame(animateSnow);
-      }
-      animateSnow();
-
-      // ---------- LOADING 0% -> 100% ----------
-      const loaderScreen = document.getElementById('loaderScreen');
-      const shopInterface = document.getElementById('shopInterface');
-      const progressFill = document.getElementById('progressFill');
-      const progressPercent = document.getElementById('progressPercent');
-      const statusMsg = document.getElementById('statusMsg');
-
-      let percent = 0;
-      const loadingInterval = setInterval(() => {
-        percent += Math.floor(Math.random() * 5) + 2;
-        if (percent > 100) percent = 100;
-
-        progressFill.style.width = percent + '%';
-        progressPercent.textContent = percent + '%';
-
-        if (percent < 45) {
-          statusMsg.textContent = 'Đang chuẩn bị shop...';
-        } else if (percent < 85) {
-          statusMsg.textContent = 'Sắp hoàn thành...';
-        } else if (percent < 100) {
-          statusMsg.textContent = 'Thành công.';
-        }
-
-        if (percent === 100) {
-          clearInterval(loadingInterval);
-          statusMsg.textContent = '✅ Thành công! Chào mừng bạn.';
-          // Sau khi đạt 100%, ẩn loader, hiện shop sau 0.4s
-          setTimeout(() => {
-            loaderScreen.style.display = 'none';
-            shopInterface.style.display = 'flex';
-          }, 400);
-        }
-      }, 70);
-
-      // ---------- NỘI DUNG CÁC TAG ----------
-      const contentArea = document.getElementById('dynamicContent');
-
-      // Dữ liệu cho từng tag
-      const dataMap = {
-        shopall: `
-          <div class="product-item"><span class="product-name">🚀 SX2 PROXY ADR🚀💠</span></div>
-          <div class="product-item"><span class="product-name">🚀 MIGUL BASIC VN🚀💠</span></div>
-          <div class="product-item"><span class="product-name">🚀 MIGUL PRO VN🚀💠</span></div>
-          <div class="product-item"><span class="product-name">🚀 PROXY VIP V2 🚀💠 (All IOS)</span></div>
-          <div class="product-item"><span class="product-name">👑 CHỨNG CHỈ 👑ESGIN💎</span></div>
-          <div class="product-item"><span class="product-name">👤 1 ACC👤</span></div>
-          <div class="product-item"><span class="product-name">👤 ACC RANK KC TC👤</span></div>
-          <div class="product-item"><span class="product-name">📲 Fix lag ios📲</span></div>
-        `,
-        price: `
-          <div class="product-item"><span class="product-name">💠 SX2 PROXY ADR</span><br>
-            <span class="price">20.000 VNĐ 1 DAY⚜️</span><br>
-            <span class="price">50.000 VNĐ 7 DAY⚜️</span><br>
-            <span class="price">100.000 VNĐ 14 DAY⚜️</span><br>
-            <span class="price">180.000 VNĐ 30 DAY⚜️</span>
-          </div>
-          <div class="product-item"><span class="product-name">💠 MIGUL BASIC VN</span><br>
-            <span class="price">65.000 VNĐ 1 DAY🛍️</span><br>
-            <span class="price">145.000 VNĐ 7 DAY🛍️</span><br>
-            <span class="price">300.000 VNĐ 30 DAY🛍️</span>
-          </div>
-          <div class="product-item"><span class="product-name">💠 MIGUL PRO VN</span><br>
-            <span class="price">20.000 VNĐ 1 GIỜ🛍️</span><br>
-            <span class="price">130.000 VNĐ 1 DAY🛍️</span><br>
-            <span class="price">250.000 VNĐ 7 DAY🛍️</span><br>
-            <span class="price">536.000 VNĐ 30 DAY🛍️</span><br>
-            = ANTIBAN✅ = ALL IOS✅
-          </div>
-          <div class="product-item"><span class="product-name">💠 PROXY VIP V2 (ALL AIM)</span><br>
-            <span class="price">24.000 VNĐ 1 DAY 🛍️</span><br>
-            <span class="price">54.000 VNĐ 7 DAY🛍️</span><br>
-            <span class="price">115.000 VNĐ 30 DAY🛍️</span><br>
-            <span class="price">300.000 VNĐ VĨNH VIỄN 🛍️</span>
-          </div>
-          <div class="product-item"><span class="product-name">📲 Fix lag ios</span><br>
-            <span class="price">90.000 Vĩnh viễn 🛍️</span>
-          </div>
-          <div class="product-item"><span class="product-name">🔱 Acc FF</span><br>
-            1 ACC: <span class="price">13.000 VND🛍️</span><br>
-            ACC RANK KC TC: <span class="price">80.000 VND🛍️</span>
-          </div>
-          <div class="product-item"><span class="product-name">💎 ESGIN</span><br>
-            • 140.000 VND🛍️ (Gói iPhone/iPad lấy ngay, không bảo hành)<br>
-            • 300.000 VND🛍️ (Gói iPhone/iPad lấy ngay, bảo hành 40 ngày)<br>
-            • 600.000 VND🛍️ (Gói iPhone/iPad lấy ngay, bảo hành 300 ngày)<br>
-            = Toàn bộ đều chứng chỉ 1 năm
-          </div>
-        `,
-        details: `
-          <div class="product-item"><span class="product-name">1️⃣ SX2 PROXY ADR🚀</span><br>
-            - Chạy nhanh - Bắn định phun đỏ - Nhiều chức năng khác<br>
-            - Toàn diện ADR Đã nâng cấp siêu vip không như bản cũ⚜️💹
-          </div>
-          <div class="product-item"><span class="product-name">2️⃣ MIGUL BASIC VN🚀</span><br>
-            - Menu bật tắt liên tục, viền quanh tâm bắn, bắn đỏ+vàng<br>
-            - Định vị địch, leo rank. Đã nâng cấp xịn sò⚜️
-          </div>
-          <div class="product-item"><span class="product-name">3️⃣ MIGUL PRO VN 🚀</span><br>
-            - Menu chỉnh vòng, viền tâm, bắn đỏ+vàng, định vị địch.<br>
-            = Antiban tuyệt đối✅ Nâng cấp vượt trội⚜️
-          </div>
-          <div class="product-item"><span class="product-name">4️⃣ PROXY VIP V2 (All AIM) 🚀</span><br>
-            AIM DRAG, AIM BODY, AIM NECK, AIM DRAG V2, AIM MAGIC, AIM NECK+MOD, AIM BODY+MOD, XUYÊN GIÁP, AIM BODY+ANTENA, AIM NECK+ANTENA, MOD+ƯỚC ĐƯỢC BAN
-          </div>
-          <div class="product-item"><span class="product-name">5️⃣ Fix lag IOS📲</span><br>
-            - Fix lag tạm thời 1-3 giây, bắn định thoải mái. ANTIBAN✅ 100%
-          </div>
-          <div class="product-item"><span class="product-name">6️⃣ ACC FF🔱</span><br>
-            1 ACC (LV 5-8), ACC RANK KC TC (LV 8-11), leo rank tử chiến, no ban ib
-          </div>
-        `,
-        admin: `
-          <div style="font-size:1.2rem; font-weight:bold;">👑 THÔNG TIN ADMIN 👾</div>
-          <p>📞 ZALO ADMIN: <strong>0372822927</strong></p>
-          <p>📦 BOX: <a href="https://zalo.me/g/myvfgfidweld9ovmd7t4" target="_blank">https://zalo.me/g/myvfgfidweld9ovmd7t4</a></p>
-          <p style="margin-top:12px;">🛍️ Vui lòng liên hệ ADMIN để mua những gì bạn thích.</p>
-          <p>💯 Chuyển khoản nhanh</p>
-          <p>🏦 NGÂN HÀNG: <strong>MB BANK</strong><br>
-          SỐ TÀI KHOẢN: <strong>0372822927</strong><br>
-          TÊN: <strong>TRAN TRUNG SANG</strong></p>
-          <p>Nội dung: AIM GÌ VÀ MUA BẢNG AIM ĐÓ</p>
-          <p>📸 Chuyển khoản xong nhớ chụp ảnh gửi Zalo admin.</p>
-        `
+      // ============ QUẢN LÝ TRẠNG THÁI ============
+      const STORAGE_KEY = 'ff_shop_userdata';
+      let appState = {
+        userNick: null,
+        activeVoucher: null, // { code, package, discountPercent, activatedAt, expiresAt (timestamp ms) }
+        usedVouchers: [] // lưu code đã từng dùng (hết hạn hoặc đã dùng)
       };
 
-      // Xử lý click nút tag với delay 1-3 giây load nội dung
-      const tagButtons = document.querySelectorAll('.tag-btn');
-      tagButtons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          const tag = this.dataset.tag;
-          if (!tag) return;
-          // Hiển thị trạng thái đang tải
-          contentArea.innerHTML = '<p style="color:#a5e9ff; text-align:center;">⏳ Đang tải nội dung...</p>';
-
-          // Delay ngẫu nhiên 1-3 giây
-          const delay = Math.floor(Math.random() * 2000) + 1000; // 1000-3000ms
-          setTimeout(() => {
-            if (dataMap[tag]) {
-              contentArea.innerHTML = dataMap[tag];
-            } else {
-              contentArea.innerHTML = '<p>Không tìm thấy dữ liệu.</p>';
+      function loadState() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          try {
+            const parsed = JSON.parse(saved);
+            appState = { ...appState, ...parsed };
+            if (appState.activeVoucher && Date.now() > appState.activeVoucher.expiresAt) {
+              appState.activeVoucher = null; // hết hạn
             }
-            // Thêm hiệu ứng nhẹ
-            contentArea.style.transition = '0.2s';
-            contentArea.style.boxShadow = '0 0 45px #40b0ff';
-            setTimeout(() => { contentArea.style.boxShadow = '0 0 35px #2499ff'; }, 300);
-          }, delay);
+          } catch (e) {}
+        }
+        if (!appState.userNick) {
+          appState.userNick = 'User_' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+        saveState();
+        document.getElementById('userNickDisplay').textContent = appState.userNick;
+      }
+      function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      }
+
+      // ============ HIỂN THỊ GIÁ (có giảm giá nếu voucher active) ============
+      function getDiscountedPrice(originalPrice, productId) {
+        if (!appState.activeVoucher) return originalPrice;
+        const v = appState.activeVoucher;
+        if (Date.now() > v.expiresAt) {
+          appState.activeVoucher = null;
+          saveState();
+          return originalPrice;
+        }
+        // sản phẩm 5,6,7 không giảm
+        if ([5,6,7].includes(productId)) return originalPrice;
+        const discount = v.discountPercent / 100;
+        return Math.floor(originalPrice * (1 - discount));
+      }
+
+      function formatCurrency(num) {
+        return num.toLocaleString('vi-VN') + ' VNĐ';
+      }
+
+      // ============ TRANG 1 LOADING ============
+      const loadingScreen = document.getElementById('loadingScreen');
+      const progressFill = document.getElementById('progressFill');
+      const percentDisplay = document.getElementById('percentDisplay');
+      const statusMsg = document.getElementById('statusMessage');
+      const mainShop = document.getElementById('main-shop');
+      const footerNav = document.getElementById('footerNav');
+      const tabContent = document.getElementById('tabContent');
+
+      let loadPercent = 0;
+      const statuses = ['Đang chuẩn bị shop...', 'Sắp hoàn thành...', 'Thành công!'];
+      function updateLoading() {
+        if (loadPercent < 100) {
+          loadPercent += Math.floor(Math.random() * 4) + 1;
+          if (loadPercent > 100) loadPercent = 100;
+          progressFill.style.width = loadPercent + '%';
+          percentDisplay.textContent = loadPercent + '%';
+          if (loadPercent < 40) statusMsg.textContent = statuses[0];
+          else if (loadPercent < 85) statusMsg.textContent = statuses[1];
+          else statusMsg.textContent = statuses[2];
+          if (loadPercent < 100) {
+            setTimeout(updateLoading, 40 + Math.random() * 60);
+          } else {
+            setTimeout(() => {
+              loadingScreen.classList.add('hidden');
+              mainShop.classList.add('active');
+              footerNav.style.display = 'flex';
+              document.getElementById('tabContent').innerHTML = '✅ Shop đã sẵn sàng! Chọn mục bên dưới.';
+            }, 400);
+          }
+        }
+      }
+      window.addEventListener('load', () => {
+        loadState();
+        updateLoading();
+      });
+
+      // ============ TAB FOOTER TRANG 1 ============
+      const tabButtons = document.querySelectorAll('#footerNav button');
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          tabButtons.forEach(b => b.classList.remove('active-tab'));
+          this.classList.add('active-tab');
+          const tab = this.dataset.tab;
+          loadTabContent(tab);
         });
       });
 
-      // Phòng trường hợp load lại trang
+      function loadTabContent(tab) {
+        tabContent.innerHTML = '⏳ Đang tải...';
+        tabContent.style.opacity = '0.6';
+        setTimeout(() => {
+          tabContent.style.opacity = '1';
+          switch (tab) {
+            case 'shopall':
+              tabContent.innerHTML = `
+                <div style="font-size:1.3rem; margin-bottom:12px;">🚀 SHOP ALL</div>
+                <div>• SX2 PROXY ADR🚀💠</div>
+                <div>• MIGUL BASIC VN🚀💠</div>
+                <div>• MIGUL PRO VN🚀💠</div>
+                <div>• PROXY VIP V2 🚀💠(All IOS)</div>
+                <div>• CHỨNG CHỈ 👑ESGIN💎</div>
+                <div>• 1 ACC👤</div>
+                <div>• ACC RANK KC TC👤</div>
+                <div>• Fix lag ios📲</div>
+              `;
+              break;
+            case 'price':
+              let priceHtml = '<div style="font-size:1.3rem;">💰 BẢNG GIÁ</div>';
+              products.forEach(p => {
+                priceHtml += `<div style="margin-top:16px; font-weight:bold; color:#a0f0ff;">${p.name}</div>`;
+                p.prices.forEach(pr => {
+                  const discounted = getDiscountedPrice(pr.value, p.id);
+                  const showOriginal = discounted !== pr.value;
+                  priceHtml += `<div>• ${pr.label}: ${formatCurrency(discounted)} ${showOriginal ? '<span style="text-decoration:line-through;color:#7a8a9a;">('+formatCurrency(pr.value)+')</span>' : ''} 🛍️</div>`;
+                });
+                if (p.id === 3) priceHtml += '<div>= ANTIBAN✅ = ALL IOS✅</div>';
+                if (p.id === 7) priceHtml += '<div>= Toàn bộ đều chứng chỉ 1 năm</div>';
+              });
+              tabContent.innerHTML = priceHtml;
+              break;
+            case 'features':
+              tabContent.innerHTML = `
+                <div style="font-weight:bold;color:#b3f0ff;">⚙️ CHI TIẾT CHỨC NĂNG</div>
+                <div>1️⃣ SX2 PROXY ADR: Chạy nhanh, bắn định phun đỏ, nâng cấp siêu vip⚜️</div>
+                <div>2️⃣ MIGUL BASIC VN: Menu bật tắt, viền tâm, bắn đỏ+vàng, định vị, leo rank⚜️</div>
+                <div>3️⃣ MIGUL PRO VN: Như Basic + Antiban tuyệt đối, chỉnh vòng⚜️</div>
+                <div>4️⃣ PROXY VIP V2: AIM DRAG/BODY/NECK/MAGIC, xuyên giáp, mod ước ban🚀</div>
+                <div>5️⃣ Fix lag IOS: fix lag tạm thời, antiban 100%📲</div>
+                <div>6️⃣ ACC FF: clone lv5-8, rank KC TC lv8-11👤</div>
+              `;
+              break;
+            case 'admin':
+              tabContent.innerHTML = `
+                <div>👑 THÔNG TIN ADMIN</div>
+                <div>ZALO: <b>0372822927</b></div>
+                <div>BOX: <a href="https://zalo.me/g/myvfgfidweld9ovmd7t4" target="_blank" style="color:#7de0ff;">https://zalo.me/g/myvfgfidweld9ovmd7t4</a></div>
+                <div>NGÂN HÀNG: MB BANK</div>
+                <div>STK: 0372822927 - TRAN TRUNG SANG</div>
+                <div>Nội dung CK: AIM GÌ VÀ MUA BẢNG AIM ĐÓ</div>
+                <div>Gửi ảnh CK qua Zalo admin.</div>
+              `;
+              break;
+          }
+        }, 1000 + Math.random() * 1500);
+      }
+
+      // ============ TRANG 2 ============
+      const page1 = document.getElementById('page1');
+      const page2 = document.getElementById('page2');
+      const page2Loading = document.getElementById('page2Loading');
+      const page2Main = document.getElementById('page2Main');
+      const exitPage2Btn = document.getElementById('exitPage2');
+
+      function showPage2() {
+        page1.style.display = 'none';
+        page2.classList.add('active');
+        page2Loading.classList.remove('hidden');
+        page2Main.classList.remove('active');
+        let blinks = 0;
+        const maxBlinks = 5 + Math.floor(Math.random() * 6);
+        const blinkInterval = setInterval(() => {
+          blinks++;
+          if (blinks >= maxBlinks) {
+            clearInterval(blinkInterval);
+            page2Loading.classList.add('hidden');
+            page2Main.classList.add('active');
+            document.getElementById('userNickDisplay').textContent = appState.userNick;
+            loadVipTab('napvip');
+          }
+        }, 600);
+      }
+
+      exitPage2Btn.addEventListener('click', () => {
+        page2.classList.remove('active');
+        page2Main.classList.remove('active');
+        page1.style.display = 'block';
+        mainShop.classList.add('active');
+        footerNav.style.display = 'flex';
+      });
+
+      // Nút mở trang 2: tạo nút ở đâu đó? Yêu cầu: "Tạo thêm một trang riêng tên là Nhận All HACH FF SHOP VÀ VIP👑 Khi nhấp vô sẽ hiện..." 
+      // Tôi sẽ thêm một nút nổi ở trang 1 sau khi load xong.
+      const floatBtn = document.createElement('button');
+      floatBtn.textContent = '🎁 NHẬN HACH VIP';
+      floatBtn.style.position = 'fixed';
+      floatBtn.style.bottom = '100px';
+      floatBtn.style.right = '20px';
+      floatBtn.style.zIndex = '200';
+      floatBtn.style.background = '#c084fc';
+      floatBtn.style.border = 'none';
+      floatBtn.style.padding = '14px 20px';
+      floatBtn.style.borderRadius = '40px';
+      floatBtn.style.fontWeight = 'bold';
+      floatBtn.style.color = 'white';
+      floatBtn.style.boxShadow = '0 0 30px #bc7af5';
+      floatBtn.style.cursor = 'pointer';
+      floatBtn.addEventListener('click', showPage2);
+      document.body.appendChild(floatBtn);
+
+      // ============ TAB TRONG TRANG 2 ============
+      const vipTabBtns = document.querySelectorAll('.vip-tab-btn');
+      const vipTabContent = document.getElementById('vipTabContent');
+      vipTabBtns.forEach(b => {
+        b.addEventListener('click', function() {
+          vipTabBtns.forEach(x => x.classList.remove('active'));
+          this.classList.add('active');
+          loadVipTab(this.dataset.vtab);
+        });
+      });
+
+      function loadVipTab(tab) {
+        switch (tab) {
+          case 'napvip':
+            vipTabContent.innerHTML = `
+              <div>👑 NẠP VIP</div>
+              <div>Gói 1 (40k / 3 ngày) - giảm 9%</div>
+              <div>Gói 2 (90k / 8 ngày) - giảm 18%</div>
+              <div>Gói 3 (150k / 14 ngày) - giảm 25%</div>
+              <div>Gói 4 (250k / 23 ngày) - giảm 36%</div>
+              <div>Gói 5 SIÊU VIP+ (800k / Vĩnh viễn) - giảm 50%</div>
+              <div style="margin-top:15px;">Liên hệ ZALO: 0372822927 để mua.</div>
+            `;
+            break;
+          case 'muavoucher':
+            vipTabContent.innerHTML = `
+              <div>🛍️ MUA VOUCHER GIẢM GIÁ</div>
+              <div>Chuyển khoản MB BANK: 0372822927 - TRAN TRUNG SANG</div>
+              <div>Nội dung: Gói vip + tên người mua</div>
+              <div>Sau đó liên hệ ZALO admin để nhận voucher.</div>
+            `;
+            break;
+          case 'nhapvoucher':
+            vipTabContent.innerHTML = `
+              <div>🎫 NHẬP VOUCHER</div>
+              <div class="voucher-input-area">
+                <input type="text" id="voucherCodeInput" placeholder="Nhập mã voucher...">
+                <button id="applyVoucherBtn">ÁP DỤNG</button>
+              </div>
+              <div id="voucherMessage" style="margin-top:15px;"></div>
+            `;
+            document.getElementById('applyVoucherBtn').addEventListener('click', applyVoucher);
+            break;
+        }
+      }
+
+      function applyVoucher() {
+        const code = document.getElementById('voucherCodeInput')?.value.trim().toUpperCase();
+        const msgDiv = document.getElementById('voucherMessage');
+        if (!code) {
+          msgDiv.innerHTML = '❌ Vui lòng nhập mã.';
+          return;
+        }
+        // kiểm tra đã dùng chưa
+        if (appState.usedVouchers.includes(code)) {
+          msgDiv.innerHTML = '⚠️ Voucher này đã được sử dụng.';
+          return;
+        }
+        // tìm gói
+        let foundPackage = null;
+        let discountPercent = 0;
+        for (let [pkg, codes] of Object.entries(voucherPool)) {
+          if (codes.includes(code)) {
+            foundPackage = pkg;
+            if (pkg === 'G1') discountPercent = 9;
+            else if (pkg === 'G2') discountPercent = 18;
+            else if (pkg === 'G3') discountPercent = 25;
+            else if (pkg === 'G4') discountPercent = 36;
+            break;
+          }
+        }
+        if (!foundPackage) {
+          msgDiv.innerHTML = '❌ Mã voucher không tồn tại.';
+          return;
+        }
+        // tính thời hạn
+        let days = 0;
+        if (foundPackage === 'G1') days = 3;
+        else if (foundPackage === 'G2') days = 8;
+        else if (foundPackage === 'G3') days = 14;
+        else if (foundPackage === 'G4') days = 23;
+        const now = Date.now();
+        const expiresAt = now + days * 24 * 60 * 60 * 1000;
+        appState.activeVoucher = {
+          code,
+          package: foundPackage,
+          discountPercent,
+          activatedAt: now,
+          expiresAt
+        };
+        appState.usedVouchers.push(code);
+        saveState();
+        msgDiv.innerHTML = `✅ Voucher ${code} áp dụng thành công! Giảm ${discountPercent}% đến ${new Date(expiresAt).toLocaleDateString('vi-VN')}.`;
+        // cập nhật giá nếu đang ở tab giá
+        if (document.querySelector('#footerNav button.active-tab')?.dataset.tab === 'price') {
+          loadTabContent('price');
+        }
+      }
+
+      // kiểm tra hết hạn voucher mỗi khi hiển thị giá
+      setInterval(() => {
+        if (appState.activeVoucher && Date.now() > appState.activeVoucher.expiresAt) {
+          appState.activeVoucher = null;
+          saveState();
+        }
+      }, 60000);
+
+      // Xử lý click tab mặc định
+      document.querySelector('#footerNav button[data-tab="shopall"]')?.click();
+
     })();
   </script>
 </body>
