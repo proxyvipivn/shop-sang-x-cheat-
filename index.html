@@ -284,6 +284,45 @@
       border-radius: 24px;
       border: 1px solid #bc7af5;
     }
+    .admin-float-btn {
+      position: fixed;
+      bottom: 100px;
+      left: 20px;
+      z-index: 200;
+      background: #0a74da;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 15px;
+      font-weight: bold;
+      color: white;
+      box-shadow: 0 0 25px #3b82f6;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .admin-float-btn:hover {
+      background: #1e40af;
+    }
+    .hach-float-btn {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      z-index: 200;
+      background: #c084fc;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 15px;
+      font-weight: bold;
+      color: white;
+      box-shadow: 0 0 30px #bc7af5;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
   </style>
 </head>
 <body>
@@ -328,6 +367,7 @@
 
   <script>
     (function() {
+      // ========== SẢN PHẨM ==========
       const products = [
         { id: 1, name: 'SX2 PROXY ADR🚀💠', prices: [{ label: '1 DAY', value: 20000 }, { label: '7 DAY', value: 50000 }, { label: '14 DAY', value: 100000 }, { label: '30 DAY', value: 180000 }] },
         { id: 2, name: 'MIGUL BASIC VN🚀💠', prices: [{ label: '1 DAY', value: 65000 }, { label: '7 DAY', value: 145000 }, { label: '30 DAY', value: 300000 }] },
@@ -338,30 +378,79 @@
         { id: 7, name: 'ESGIN 💎', prices: [{ label: 'Gói iPhone/iPad (không BH)', value: 140000 }, { label: 'Gói BH 40 ngày', value: 300000 }, { label: 'Gói BH 300 ngày', value: 600000 }] }
       ];
 
-      function generateVoucherSet(prefix, count = 50) {
-        const set = new Set();
-        while (set.size < count) {
-          const rand = Math.random().toString(36).substring(2, 8).toUpperCase();
-          set.add(`${prefix}-${rand}`);
-        }
-        return Array.from(set);
-      }
-
+      // ========== DANH SÁCH VOUCHER CỐ ĐỊNH (50 mã/gói) ==========
       const voucherPool = {
-        'G1': generateVoucherSet('G1', 50),
-        'G2': generateVoucherSet('G2', 50),
-        'G3': generateVoucherSet('G3', 50),
-        'G4': generateVoucherSet('G4', 50),
-        'G5': generateVoucherSet('G5', 50)
+        'G1': [
+          'G1-A1B2C3','G1-D4E5F6','G1-G7H8I9','G1-J1K2L3','G1-M4N5O6',
+          'G1-P7Q8R9','G1-S1T2U3','G1-V4W5X6','G1-Y7Z8A9','G1-B1C2D3',
+          'G1-E4F5G6','G1-H7I8J9','G1-K1L2M3','G1-N4O5P6','G1-Q7R8S9',
+          'G1-T1U2V3','G1-W4X5Y6','G1-Z7A8B9','G1-C1D2E3','G1-F4G5H6',
+          'G1-I7J8K9','G1-L1M2N3','G1-O4P5Q6','G1-R7S8T9','G1-U1V2W3',
+          'G1-X4Y5Z6','G1-A7B8C9','G1-D1E2F3','G1-G4H5I6','G1-J7K8L9',
+          'G1-M1N2O3','G1-P4Q5R6','G1-S7T8U9','G1-V1W2X3','G1-Y4Z5A6',
+          'G1-B7C8D9','G1-E1F2G3','G1-H4I5J6','G1-K7L8M9','G1-N1O2P3',
+          'G1-Q4R5S6','G1-T7U8V9','G1-W1X2Y3','G1-Z4A5B6','G1-C7D8E9',
+          'G1-F1G2H3','G1-I4J5K6','G1-L7M8N9','G1-O1P2Q3','G1-R4S5T6'
+        ],
+        'G2': [
+          'G2-U7V8W9','G2-X1Y2Z3','G2-A4B5C6','G2-D7E8F9','G2-G1H2I3',
+          'G2-J4K5L6','G2-M7N8O9','G2-P1Q2R3','G2-S4T5U6','G2-V7W8X9',
+          'G2-Y1Z2A3','G2-B4C5D6','G2-E7F8G9','G2-H1I2J3','G2-K4L5M6',
+          'G2-N7O8P9','G2-Q1R2S3','G2-T4U5V6','G2-W7X8Y9','G2-Z1A2B3',
+          'G2-C4D5E6','G2-F7G8H9','G2-I1J2K3','G2-L4M5N6','G2-O7P8Q9',
+          'G2-R1S2T3','G2-U4V5W6','G2-X7Y8Z9','G2-A1B2C3','G2-D4E5F6',
+          'G2-G7H8I9','G2-J1K2L3','G2-M4N5O6','G2-P7Q8R9','G2-S1T2U3',
+          'G2-V4W5X6','G2-Y7Z8A9','G2-B1C2D3','G2-E4F5G6','G2-H7I8J9',
+          'G2-K1L2M3','G2-N4O5P6','G2-Q7R8S9','G2-T1U2V3','G2-W4X5Y6',
+          'G2-Z7A8B9','G2-C1D2E3','G2-F4G5H6','G2-I7J8K9','G2-L1M2N3'
+        ],
+        'G3': [
+          'G3-O4P5Q6','G3-R7S8T9','G3-U1V2W3','G3-X4Y5Z6','G3-A7B8C9',
+          'G3-D1E2F3','G3-G4H5I6','G3-J7K8L9','G3-M1N2O3','G3-P4Q5R6',
+          'G3-S7T8U9','G3-V1W2X3','G3-Y4Z5A6','G3-B7C8D9','G3-E1F2G3',
+          'G3-H4I5J6','G3-K7L8M9','G3-N1O2P3','G3-Q4R5S6','G3-T7U8V9',
+          'G3-W1X2Y3','G3-Z4A5B6','G3-C7D8E9','G3-F1G2H3','G3-I4J5K6',
+          'G3-L7M8N9','G3-O1P2Q3','G3-R4S5T6','G3-U7V8W9','G3-X1Y2Z3',
+          'G3-A4B5C6','G3-D7E8F9','G3-G1H2I3','G3-J4K5L6','G3-M7N8O9',
+          'G3-P1Q2R3','G3-S4T5U6','G3-V7W8X9','G3-Y1Z2A3','G3-B4C5D6',
+          'G3-E7F8G9','G3-H1I2J3','G3-K4L5M6','G3-N7O8P9','G3-Q1R2S3',
+          'G3-T4U5V6','G3-W7X8Y9','G3-Z1A2B3','G3-C4D5E6','G3-F7G8H9'
+        ],
+        'G4': [
+          'G4-I1J2K3','G4-L4M5N6','G4-O7P8Q9','G4-R1S2T3','G4-U4V5W6',
+          'G4-X7Y8Z9','G4-A1B2C3','G4-D4E5F6','G4-G7H8I9','G4-J1K2L3',
+          'G4-M4N5O6','G4-P7Q8R9','G4-S1T2U3','G4-V4W5X6','G4-Y7Z8A9',
+          'G4-B1C2D3','G4-E4F5G6','G4-H7I8J9','G4-K1L2M3','G4-N4O5P6',
+          'G4-Q7R8S9','G4-T1U2V3','G4-W4X5Y6','G4-Z7A8B9','G4-C1D2E3',
+          'G4-F4G5H6','G4-I7J8K9','G4-L1M2N3','G4-O4P5Q6','G4-R7S8T9',
+          'G4-U1V2W3','G4-X4Y5Z6','G4-A7B8C9','G4-D1E2F3','G4-G4H5I6',
+          'G4-J7K8L9','G4-M1N2O3','G4-P4Q5R6','G4-S7T8U9','G4-V1W2X3',
+          'G4-Y4Z5A6','G4-B7C8D9','G4-E1F2G3','G4-H4I5J6','G4-K7L8M9',
+          'G4-N1O2P3','G4-Q4R5S6','G4-T7U8V9','G4-W1X2Y3','G4-Z4A5B6'
+        ],
+        'G5': [
+          'G5-C7D8E9','G5-F1G2H3','G5-I4J5K6','G5-L7M8N9','G5-O1P2Q3',
+          'G5-R4S5T6','G5-U7V8W9','G5-X1Y2Z3','G5-A4B5C6','G5-D7E8F9',
+          'G5-G1H2I3','G5-J4K5L6','G5-M7N8O9','G5-P1Q2R3','G5-S4T5U6',
+          'G5-V7W8X9','G5-Y1Z2A3','G5-B4C5D6','G5-E7F8G9','G5-H1I2J3',
+          'G5-K4L5M6','G5-N7O8P9','G5-Q1R2S3','G5-T4U5V6','G5-W7X8Y9',
+          'G5-Z1A2B3','G5-C4D5E6','G5-F7G8H9','G5-I1J2K3','G5-L4M5N6',
+          'G5-O7P8Q9','G5-R1S2T3','G5-U4V5W6','G5-X7Y8Z9','G5-A1B2C3',
+          'G5-D4E5F6','G5-G7H8I9','G5-J1K2L3','G5-M4N5O6','G5-P7Q8R9',
+          'G5-S1T2U3','G5-V4W5X6','G5-Y7Z8A9','G5-B1C2D3','G5-E4F5G6',
+          'G5-H7I8J9','G5-K1L2M3','G5-N4O5P6','G5-Q7R8S9','G5-T1U2V3'
+        ]
       };
 
-      console.log('===== DANH SÁCH VOUCHER =====');
+      // In ra console để bạn sao chép
+      console.log('===== DANH SÁCH VOUCHER CỐ ĐỊNH (DÙNG ĐƯỢC NGAY) =====');
       console.log('GÓI 1 (9% - 3 ngày):', voucherPool['G1']);
       console.log('GÓI 2 (18% - 8 ngày):', voucherPool['G2']);
       console.log('GÓI 3 (25% - 14 ngày):', voucherPool['G3']);
       console.log('GÓI 4 (36% - 23 ngày):', voucherPool['G4']);
       console.log('GÓI 5 (50% - VĨNH VIỄN):', voucherPool['G5']);
 
+      // ========== QUẢN LÝ TRẠNG THÁI ==========
       const STORAGE_KEY = 'ff_shop_userdata';
       let appState = {
         userNick: null,
@@ -384,7 +473,8 @@
           appState.userNick = 'User_' + Math.random().toString(36).substring(2, 8).toUpperCase();
         }
         saveState();
-        document.getElementById('userNickDisplay').textContent = appState.userNick;
+        const nickDisplay = document.getElementById('userNickDisplay');
+        if (nickDisplay) nickDisplay.textContent = appState.userNick;
       }
 
       function saveState() {
@@ -407,6 +497,7 @@
         return num.toLocaleString('vi-VN') + ' VNĐ';
       }
 
+      // ========== TRANG 1 LOADING ==========
       const loadingScreen = document.getElementById('loadingScreen');
       const progressFill = document.getElementById('progressFill');
       const percentDisplay = document.getElementById('percentDisplay');
@@ -444,6 +535,7 @@
         updateLoading();
       });
 
+      // ========== TAB FOOTER TRANG 1 ==========
       const tabButtons = document.querySelectorAll('#footerNav button');
       tabButtons.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -460,10 +552,11 @@
           tabContent.style.opacity = '1';
           switch (tab) {
             case 'shopall':
-              tabContent.innerHTML = `<div style="font-size:1.3rem;">🚀 SHOP ALL</div>
+              tabContent.innerHTML = `<div style="font-size:1.3rem; margin-bottom:12px;">🚀 SHOP ALL</div>
                 <div>• SX2 PROXY ADR🚀💠</div><div>• MIGUL BASIC VN🚀💠</div>
                 <div>• MIGUL PRO VN🚀💠</div><div>• PROXY VIP V2 🚀💠(All IOS)</div>
-                <div>• CHỨNG CHỈ 👑ESGIN💎</div><div>• 1 ACC👤</div><div>• ACC RANK KC TC👤</div><div>• Fix lag ios📲</div>`;
+                <div>• CHỨNG CHỈ 👑ESGIN💎</div><div>• 1 ACC👤</div>
+                <div>• ACC RANK KC TC👤</div><div>• Fix lag ios📲</div>`;
               break;
             case 'price':
               let priceHtml = '<div style="font-size:1.3rem;">💰 BẢNG GIÁ</div>';
@@ -480,25 +573,28 @@
               tabContent.innerHTML = priceHtml;
               break;
             case 'features':
-              tabContent.innerHTML = `<div style="font-weight:bold;">⚙️ CHI TIẾT CHỨC NĂNG</div>
-                <div>1️⃣ SX2 PROXY ADR: Chạy nhanh, bắn định phun đỏ⚜️</div>
-                <div>2️⃣ MIGUL BASIC VN: Menu bật tắt, bắn đỏ+vàng⚜️</div>
-                <div>3️⃣ MIGUL PRO VN: Antiban tuyệt đối✅</div>
-                <div>4️⃣ PROXY VIP V2: AIM DRAG/BODY/NECK/MAGIC🚀</div>
-                <div>5️⃣ Fix lag IOS: antiban 100%📲</div>
-                <div>6️⃣ ACC FF: clone lv5-8, rank KC TC👤</div>`;
+              tabContent.innerHTML = `<div style="font-weight:bold;color:#b3f0ff;">⚙️ CHI TIẾT CHỨC NĂNG</div>
+                <div>1️⃣ SX2 PROXY ADR: Chạy nhanh, bắn định phun đỏ, nâng cấp siêu vip⚜️</div>
+                <div>2️⃣ MIGUL BASIC VN: Menu bật tắt, viền tâm, bắn đỏ+vàng⚜️</div>
+                <div>3️⃣ MIGUL PRO VN: Antiban tuyệt đối, chỉnh vòng✅</div>
+                <div>4️⃣ PROXY VIP V2: AIM DRAG/BODY/NECK/MAGIC, xuyên giáp🚀</div>
+                <div>5️⃣ Fix lag IOS: fix lag tạm thời, antiban 100%📲</div>
+                <div>6️⃣ ACC FF: clone lv5-8, rank KC TC lv8-11👤</div>`;
               break;
             case 'admin':
               tabContent.innerHTML = `<div>👑 THÔNG TIN ADMIN</div>
                 <div>ZALO: <b>0372822927</b></div>
-                <div>BOX: <a href="https://zalo.me/g/myvfgfidweld9ovmd7t4" target="_blank" style="color:#7de0ff;">zalo.me/g/myvfgfidweld9ovmd7t4</a></div>
-                <div>NGÂN HÀNG: MB BANK - STK: 0372822927 - TRAN TRUNG SANG</div>
-                <div>Nội dung CK: AIM GÌ VÀ MUA BẢNG AIM ĐÓ</div>`;
+                <div>BOX: <a href="https://zalo.me/g/myvfgfidweld9ovmd7t4" target="_blank" style="color:#7de0ff;">https://zalo.me/g/myvfgfidweld9ovmd7t4</a></div>
+                <div>NGÂN HÀNG: MB BANK</div>
+                <div>STK: 0372822927 - TRAN TRUNG SANG</div>
+                <div>Nội dung: AIM GÌ VÀ MUA BẢNG AIM ĐÓ</div>
+                <div>Chuyển khoản xong gửi ảnh qua Zalo admin.</div>`;
               break;
           }
         }, 1000 + Math.random() * 1500);
       }
 
+      // ========== TRANG 2 ==========
       const page1 = document.getElementById('page1');
       const page2 = document.getElementById('page2');
       const page2Loading = document.getElementById('page2Loading');
@@ -531,12 +627,23 @@
         footerNav.style.display = 'flex';
       });
 
-      const floatBtn = document.createElement('button');
-      floatBtn.textContent = '🎁 NHẬN HACH VIP';
-      floatBtn.style.cssText = 'position:fixed;bottom:100px;right:20px;z-index:200;background:#c084fc;border:none;padding:14px 20px;border-radius:40px;font-weight:bold;color:white;box-shadow:0 0 30px #bc7af5;cursor:pointer;';
-      floatBtn.addEventListener('click', showPage2);
-      document.body.appendChild(floatBtn);
+      // ========== NÚT NỔI: ADMIN (ZALO) + HACH VIP ==========
+      const adminBtn = document.createElement('button');
+      adminBtn.className = 'admin-float-btn';
+      adminBtn.innerHTML = '👤 ADMIN';
+      adminBtn.title = 'Liên hệ Zalo Admin';
+      adminBtn.addEventListener('click', () => {
+        window.open('https://zalo.me/0372822927', '_blank');
+      });
+      document.body.appendChild(adminBtn);
 
+      const hachBtn = document.createElement('button');
+      hachBtn.className = 'hach-float-btn';
+      hachBtn.innerHTML = '🎁 NHẬN HACH VIP';
+      hachBtn.addEventListener('click', showPage2);
+      document.body.appendChild(hachBtn);
+
+      // ========== TAB TRONG TRANG 2 ==========
       const vipTabBtns = document.querySelectorAll('.vip-tab-btn');
       const vipTabContent = document.getElementById('vipTabContent');
       vipTabBtns.forEach(b => {
@@ -559,7 +666,7 @@
               <div style="margin-top:15px;">Liên hệ ZALO: 0372822927 để mua.</div>`;
             break;
           case 'muavoucher':
-            vipTabContent.innerHTML = `<div>🛍️ MUA VOUCHER</div>
+            vipTabContent.innerHTML = `<div>🛍️ MUA VOUCHER GIẢM GIÁ</div>
               <div>Chuyển khoản MB BANK: 0372822927 - TRAN TRUNG SANG</div>
               <div>Nội dung: Gói vip + tên người mua</div>
               <div>Sau đó liên hệ ZALO admin để nhận voucher.</div>`;
@@ -577,11 +684,15 @@
       }
 
       function applyVoucher() {
-        const code = document.getElementById('voucherCodeInput')?.value.trim().toUpperCase();
+        const codeInput = document.getElementById('voucherCodeInput');
         const msgDiv = document.getElementById('voucherMessage');
-        if (!code) { msgDiv.innerHTML = '❌ Vui lòng nhập mã.'; return; }
-        if (appState.usedVouchers.includes(code)) { msgDiv.innerHTML = '⚠️ Voucher này đã được sử dụng.'; return; }
-
+        if (!codeInput) return;
+        const code = codeInput.value.trim().toUpperCase();
+        if (!code) { msgDiv.innerHTML = '❌ Vui lòng nhập mã voucher.'; return; }
+        if (appState.usedVouchers.includes(code)) {
+          msgDiv.innerHTML = '⚠️ Voucher này đã được sử dụng trước đó.';
+          return;
+        }
         let foundPackage = null;
         let discountPercent = 0;
         for (let [pkg, codes] of Object.entries(voucherPool)) {
@@ -595,8 +706,10 @@
             break;
           }
         }
-        if (!foundPackage) { msgDiv.innerHTML = '❌ Mã voucher không tồn tại.'; return; }
-
+        if (!foundPackage) {
+          msgDiv.innerHTML = '❌ Mã voucher không tồn tại trong hệ thống.';
+          return;
+        }
         let days = 0;
         if (foundPackage === 'G1') days = 3;
         else if (foundPackage === 'G2') days = 8;
@@ -604,11 +717,20 @@
         else if (foundPackage === 'G4') days = 23;
         const now = Date.now();
         const expiresAt = foundPackage === 'G5' ? Infinity : now + days * 24 * 60 * 60 * 1000;
-        appState.activeVoucher = { code, package: foundPackage, discountPercent, activatedAt: now, expiresAt };
+        appState.activeVoucher = {
+          code,
+          package: foundPackage,
+          discountPercent,
+          activatedAt: now,
+          expiresAt
+        };
         appState.usedVouchers.push(code);
         saveState();
-        msgDiv.innerHTML = `✅ Voucher ${code} áp dụng! Giảm ${discountPercent}% ${foundPackage === 'G5' ? '(VĨNH VIỄN)' : 'đến ' + new Date(expiresAt).toLocaleDateString('vi-VN')}.`;
-        if (document.querySelector('#footerNav button.active-tab')?.dataset.tab === 'price') loadTabContent('price');
+        const expStr = foundPackage === 'G5' ? 'VĨNH VIỄN' : 'đến ' + new Date(expiresAt).toLocaleDateString('vi-VN');
+        msgDiv.innerHTML = `✅ Voucher <b>${code}</b> áp dụng thành công!<br>Giảm <b>${discountPercent}%</b> (${expStr}).`;
+        if (document.querySelector('#footerNav button.active-tab')?.dataset.tab === 'price') {
+          loadTabContent('price');
+        }
       }
 
       setInterval(() => {
