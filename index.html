@@ -1,238 +1,1196 @@
-l<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Nhân vật chạy 4 hướng</title>
+<title>Cuộc Đua Nam vs Nữ</title>
 <style>
-  body { margin:0; background:#1a1a1a; display:flex; justify-content:center;
-         align-items:center; height:100vh; font-family:sans-serif; }
-  canvas { border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,.5); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(circle at 30% 20%, #1a1f3a, #05070f 70%);
+    color: #fff; font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+  }
+  #app {
+    display: flex; gap: 18px;
+    background: linear-gradient(135deg, #1a1f3a, #0f1428);
+    padding: 18px; border-radius: 20px;
+    box-shadow: 0 25px 70px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.06);
+  }
+  #race-canvas-wrap { position: relative; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,.5), 0 0 0 2px rgba(255,255,255,.05); }
+  #race { display: block; }
+
+  #countdown-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 130px; font-weight: 900; color: #fff;
+    text-shadow: 0 0 30px rgba(255,255,255,.7), 0 0 60px rgba(120,180,255,.5);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .start-text { color: #ffeb3b !important; font-size: 170px !important;
+    text-shadow: 0 0 30px #ffeb3b, 0 0 80px #ffd700, 0 0 140px #ff8f00, 0 0 200px #ff6f00 !important;
+    animation: pulse 0.55s ease-in-out infinite alternate; letter-spacing: 6px; }
+  @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.18); } }
+
+  #side-panel { width: 350px; display: flex; flex-direction: column; gap: 10px; }
+
+  #portraits { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .portrait {
+    background: linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+    border: 2px solid rgba(255,255,255,.1); border-radius: 14px;
+    padding: 8px; cursor: pointer; transition: all .2s; display: flex; flex-direction: column; align-items: center;
+    position: relative; overflow: hidden;
+  }
+  .portrait:hover { border-color: #ffeb3b; transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255,235,59,.25); }
+  .portrait.selected { border-color: #ffeb3b;
+    box-shadow: 0 0 0 2px #ffeb3b, 0 0 25px rgba(255,235,59,.6); }
+  .portrait.selected::after {
+    content: '✓ ĐÃ CHỌN'; position: absolute; top: 4px; right: 4px;
+    background: #ffeb3b; color: #000; font-size: 9px; font-weight: 900;
+    padding: 2px 5px; border-radius: 4px;
+  }
+  .portrait canvas { border-radius: 8px; display: block; }
+  .portrait .label { font-weight: 800; margin-top: 6px; font-size: 14px; letter-spacing: 1px; }
+  .portrait#male-portrait .label { color: #6bb6ff; }
+  .portrait#female-portrait .label { color: #ff6b9d; }
+  .portrait .wins { font-size: 11px; color: #aaa; font-weight: 600; }
+
+  #prediction-msg { text-align: center; font-size: 13px; min-height: 18px;
+    font-weight: 700; line-height: 1.4; }
+
+  #history-title { font-size: 11px; color: #7a8ab0; text-transform: uppercase;
+    letter-spacing: 1.5px; margin-top: 4px; font-weight: 700; }
+  #history {
+    background: rgba(0,0,0,.35); border-radius: 10px; padding: 8px;
+    min-height: 46px; display: flex; flex-wrap: wrap; gap: 4px;
+    border: 1px solid rgba(255,255,255,.05);
+  }
+  .history-item { padding: 2px 8px; border-radius: 5px; font-weight: 800; font-size: 11px; }
+  .history-male { background: rgba(58,123,213,.35); color: #8cc4ff; border: 1px solid #3a7bd5; }
+  .history-female { background: rgba(233,30,99,.35); color: #ff9ec0; border: 1px solid #e91e63; }
+
+  #chart-box {
+    background: linear-gradient(135deg, #2a2f4a, #1a1f3a);
+    border: 2px solid rgba(255,215,0,.45); border-radius: 14px; padding: 12px;
+    cursor: pointer; transition: all .25s; display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);
+    position: relative; perspective: 800px; margin-top: 4px;
+  }
+  #chart-box:hover { border-color: #ffd700; transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255,215,0,.3), inset 0 1px 0 rgba(255,255,255,.1); }
+  #chart-box .cube-icon {
+    width: 54px; height: 54px; position: relative; flex-shrink: 0;
+    transform-style: preserve-3d; transform: rotateX(-22deg) rotateY(-30deg);
+    animation: spin 7s linear infinite;
+  }
+  @keyframes spin {
+    from { transform: rotateX(-22deg) rotateY(0deg); }
+    to { transform: rotateX(-22deg) rotateY(360deg); }
+  }
+  .cube-icon .face {
+    position: absolute; width: 54px; height: 54px;
+    border: 1.5px solid #ffd700;
+    background: linear-gradient(135deg, rgba(255,215,0,.35), rgba(255,140,0,.1));
+    box-shadow: inset 0 0 18px rgba(255,215,0,.3);
+  }
+  .cube-icon .front { transform: translateZ(27px); }
+  .cube-icon .back { transform: translateZ(-27px) rotateY(180deg); }
+  .cube-icon .right { transform: rotateY(90deg) translateZ(27px); }
+  .cube-icon .left { transform: rotateY(-90deg) translateZ(27px); }
+  .cube-icon .top { transform: rotateX(90deg) translateZ(27px); }
+  .cube-icon .bottom { transform: rotateX(-90deg) translateZ(27px); }
+  #chart-box .label { font-weight: 800; color: #ffd700; font-size: 14px; }
+  #chart-box .sub { font-size: 11px; color: #999; margin-top: 2px; }
+
+  #chart-modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,.88);
+    display: none; align-items: center; justify-content: center; z-index: 100;
+    backdrop-filter: blur(4px);
+  }
+  #chart-modal.open { display: flex; animation: fadeIn .2s; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  #chart-panel {
+    background: linear-gradient(135deg, #1a1f3a, #0f1428);
+    border: 2px solid #ffd700; border-radius: 24px; padding: 32px 40px;
+    max-width: 820px; width: 92%;
+    box-shadow: 0 30px 100px rgba(255,215,0,.25), 0 0 0 1px rgba(255,215,0,.3);
+  }
+  #chart-title { text-align: center; font-size: 26px; margin-bottom: 24px;
+    color: #ffd700; letter-spacing: 3px; font-weight: 900;
+    text-shadow: 0 0 30px rgba(255,215,0,.6); }
+  #chart-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  .chart-col { text-align: center; }
+  .chart-col .name-badge { font-size: 18px; font-weight: 900; margin-bottom: 8px; letter-spacing: 2px; }
+  .chart-col.male .name-badge { color: #6bb6ff; }
+  .chart-col.female .name-badge { color: #ff6b9d; }
+  .chart-col .big-count { font-size: 56px; font-weight: 900; line-height: 1; margin: 6px 0; }
+  .chart-col.male .big-count { color: #4a8fd8; text-shadow: 0 0 30px rgba(58,123,213,.6); }
+  .chart-col.female .big-count { color: #e91e63; text-shadow: 0 0 30px rgba(233,30,99,.6); }
+  .chart-col .unit { font-size: 13px; color: #888; font-weight: 600; }
+  .chart-col canvas { display: block; margin: 12px auto 0; border-radius: 12px;
+    background: rgba(0,0,0,.3); box-shadow: inset 0 0 30px rgba(0,0,0,.5); }
+  #chart-close { text-align: center; margin-top: 24px; }
+  #chart-close button {
+    background: linear-gradient(135deg, #ffd700, #ff9500); border: none;
+    padding: 12px 40px; border-radius: 10px; font-weight: 900; cursor: pointer;
+    font-size: 14px; color: #1a1a1a; letter-spacing: 1px;
+    box-shadow: 0 6px 20px rgba(255,215,0,.4);
+    transition: transform .15s;
+  }
+  #chart-close button:hover { transform: translateY(-2px); }
 </style>
 </head>
 <body>
-<canvas id="game" width="800" height="500"></canvas>
+<div id="app">
+  <div id="race-canvas-wrap">
+    <canvas id="race" width="900" height="600"></canvas>
+    <div id="countdown-overlay"></div>
+  </div>
+  <div id="side-panel">
+    <div id="portraits">
+      <div class="portrait" id="male-portrait" data-char="male">
+        <canvas width="140" height="180"></canvas>
+        <div class="label">NAM</div>
+        <div class="wins" id="male-wins">0 thắng</div>
+      </div>
+      <div class="portrait" id="female-portrait" data-char="female">
+        <canvas width="140" height="180"></canvas>
+        <div class="label">NỮ</div>
+        <div class="wins" id="female-wins">0 thắng</div>
+      </div>
+    </div>
+    <div id="prediction-msg"></div>
+    <div id="history-title">LỊCH SỬ</div>
+    <div id="history"></div>
+    <div id="chart-box" onclick="openChart()">
+      <div class="cube-icon">
+        <div class="face front"></div><div class="face back"></div>
+        <div class="face right"></div><div class="face left"></div>
+        <div class="face top"></div><div class="face bottom"></div>
+      </div>
+      <div>
+        <div class="label">BIỂU ĐỒ 3D</div>
+        <div class="sub">Nhấn để xem thống kê chiến thắng</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="chart-modal" onclick="closeChart()">
+  <div id="chart-panel" onclick="event.stopPropagation()">
+    <div id="chart-title">THỐNG KÊ CHIẾN THẮNG</div>
+    <div id="chart-columns">
+      <div class="chart-col male">
+        <div class="name-badge">NAM</div>
+        <canvas id="chart-male-portrait" width="120" height="150"></canvas>
+        <div class="big-count" id="chart-male-count">0</div>
+        <div class="unit">lần thắng</div>
+        <canvas id="chart-male-canvas" width="280" height="170"></canvas>
+      </div>
+      <div class="chart-col female">
+        <div class="name-badge">NỮ</div>
+        <canvas id="chart-female-portrait" width="120" height="150"></canvas>
+        <div class="big-count" id="chart-female-count">0</div>
+        <div class="unit">lần thắng</div>
+        <canvas id="chart-female-canvas" width="280" height="170"></canvas>
+      </div>
+    </div>
+    <div id="chart-close"><button onclick="closeChart()">ĐÓNG</button></div>
+  </div>
+</div>
+
 <script>
-const canvas = document.getElementById('game');
-const ctx    = canvas.getContext('2d');
-const W = canvas.width, H = canvas.height;
+'use strict';
 
-/* ============ NHÂN VẬT ============ */
-const player = {
-  x: 0, y: 0,           // vị trí trong thế giới
-  speed: 220,
-  dir: 'down',          // down | up | left | right
-  moving: false,
-  animTime: 0
-};
+// ==================================================
+// CANVAS SETUP
+// ==================================================
+const raceCanvas = document.getElementById('race');
+const rctx = raceCanvas.getContext('2d');
+const RW = 900, RH = 600;
+const countdownOverlay = document.getElementById('countdown-overlay');
 
-/* ============ CAMERA ============ */
-const cam = { x: 0, y: 0 };
-
-/* ============ CÂY CỐI (rải ngẫu nhiên) ============ */
-const trees = [];
-for (let i = 0; i < 60; i++) {
-  trees.push({
-    x: (Math.random() - 0.5) * 2400,
-    y: (Math.random() - 0.5) * 2400
-  });
+// roundRect polyfill for older browsers
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    if (typeof r === 'number') r = [r,r,r,r];
+    this.beginPath();
+    this.moveTo(x + r[0], y);
+    this.lineTo(x + w - r[1], y);
+    this.quadraticCurveTo(x + w, y, x + w, y + r[1]);
+    this.lineTo(x + w, y + h - r[2]);
+    this.quadraticCurveTo(x + w, y + h, x + w - r[2], y + h);
+    this.lineTo(x + r[3], y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - r[3]);
+    this.lineTo(x, y + r[0]);
+    this.quadraticCurveTo(x, y, x + r[0], y);
+    this.closePath();
+  };
 }
 
-const ROAD = 150;   // kích thước ô lưới đường
+// ==================================================
+// CHARACTER DRAWING
+// ==================================================
+function drawMale(ctx, x, y, view, animTime, blink, scale) {
+  const s = scale || 1;
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  const skin = '#f2c29b', shirt = '#3a7bd5', pants = '#2c2c34', hair = '#3d2415';
 
-/* ============ INPUT ============ */
-const keys = {};
-addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
-addEventListener('keyup',   e => keys[e.key.toLowerCase()] = false);
+  if (view === 'front') {
+    const bob = Math.sin(animTime * 3) * 1.5;
+    const armSway = Math.sin(animTime * 3) * 2;
+    ctx.fillStyle = 'rgba(0,0,0,.18)';
+    ctx.beginPath(); ctx.ellipse(0, 50, 20, 6, 0, 0, Math.PI*2); ctx.fill();
+    ctx.translate(0, bob);
 
-/* ============ UPDATE ============ */
-function update(dt) {
-  let dx = 0, dy = 0;
-  if (keys['w'] || keys['arrowup'])    dy -= 1;
-  if (keys['s'] || keys['arrowdown'])  dy += 1;
-  if (keys['a'] || keys['arrowleft'])  dx -= 1;
-  if (keys['d'] || keys['arrowright']) dx += 1;
+    ctx.strokeStyle = pants; ctx.lineWidth = 7; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-6, 20); ctx.lineTo(-8, 48); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(6, 20); ctx.lineTo(8, 48); ctx.stroke();
 
-  player.moving = (dx !== 0 || dy !== 0);
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath(); ctx.ellipse(-8, 48, 6, 3, 0, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(8, 48, 6, 3, 0, 0, Math.PI*2); ctx.fill();
 
-  if (player.moving) {
-    // Hướng mặt: ưu tiên trục có độ lệch lớn hơn
-    if (Math.abs(dx) > Math.abs(dy)) player.dir = dx > 0 ? 'right' : 'left';
-    else                             player.dir = dy > 0 ? 'down'  : 'up';
+    ctx.fillStyle = shirt;
+    ctx.beginPath(); ctx.roundRect(-12, -10, 24, 32, 8); ctx.fill();
 
-    const len = Math.hypot(dx, dy);
-    player.x += (dx / len) * player.speed * dt;
-    player.y += (dy / len) * player.speed * dt;
-    player.animTime += dt;
-  } else {
-    player.animTime = 0;   // đứng yên thì reset animation
-  }
+    ctx.strokeStyle = shirt; ctx.lineWidth = 6;
+    ctx.beginPath(); ctx.moveTo(-12, -2); ctx.lineTo(-18, 15 + armSway); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(12, -2); ctx.lineTo(18, 15 - armSway); ctx.stroke();
 
-  // Camera bám theo nhân vật
-  cam.x = player.x - W / 2;
-  cam.y = player.y - H / 2;
-}
+    ctx.fillStyle = skin;
+    ctx.beginPath(); ctx.arc(-18, 15 + armSway, 3.5, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(18, 15 - armSway, 3.5, 0, Math.PI*2); ctx.fill();
 
-/* ============ VẼ NHÂN VẬT ============ */
-function drawCharacter(x, y, dir, animTime, moving) {
-  const t     = animTime * 12;                // tốc độ animation
-  const swing = moving ? Math.sin(t) : 0;     // tay chân vung
-  const bob   = moving ? Math.abs(Math.sin(t)) * 2 : 0; // nhấp nhô
+    ctx.fillStyle = skin;
+    ctx.beginPath(); ctx.arc(0, -24, 12, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = hair;
+    ctx.beginPath(); ctx.arc(0, -28, 12, Math.PI, 0); ctx.fill();
+    ctx.beginPath(); ctx.arc(0, -26, 12, Math.PI*1.1, Math.PI*1.9); ctx.fill();
 
-  const sideView   = (dir === 'left' || dir === 'right');
-  const facingAway = (dir === 'up');
-  const faceSign   = (dir === 'right') ? 1 : (dir === 'left') ? -1 : 0;
-
-  ctx.save();
-  ctx.translate(x, y - bob);
-
-  // Bóng đổ
-  ctx.beginPath();
-  ctx.ellipse(0, 22, 14, 6, 0, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(0,0,0,.22)';
-  ctx.fill();
-
-  const skin = '#f2c29b', shirt = '#3a7bd5', pants = '#2c2c34';
-
-  // ---- CHÂN ----
-  ctx.strokeStyle = pants; ctx.lineWidth = 6; ctx.lineCap = 'round';
-  const legSwing = swing * 6;
-  // chân trái
-  ctx.beginPath();
-  ctx.moveTo(-4, 8);
-  if (sideView) ctx.lineTo(-4 - legSwing, 22);
-  else          ctx.lineTo(-4, 22 + legSwing * 0.4);
-  ctx.stroke();
-  // chân phải
-  ctx.beginPath();
-  ctx.moveTo(4, 8);
-  if (sideView) ctx.lineTo(4 + legSwing, 22);
-  else          ctx.lineTo(4, 22 - legSwing * 0.4);
-  ctx.stroke();
-
-  // ---- THÂN ----
-  ctx.fillStyle = shirt;
-  ctx.beginPath();
-  ctx.roundRect(-9, -8, 18, 22, 6);
-  ctx.fill();
-
-  // ---- TAY ----
-  ctx.strokeStyle = shirt; ctx.lineWidth = 5;
-  const armSwing = sideView ? swing * 7 : swing * 3;
-  // tay trái
-  ctx.beginPath();
-  ctx.moveTo(-9, -4);
-  ctx.lineTo(-13, 6 + (sideView ? -armSwing :  armSwing));
-  ctx.stroke();
-  // tay phải
-  ctx.beginPath();
-  ctx.moveTo(9, -4);
-  ctx.lineTo(13, 6 + (sideView ?  armSwing : -armSwing));
-  ctx.stroke();
-
-  // ---- ĐẦU ----
-  ctx.fillStyle = skin;
-  ctx.beginPath(); ctx.arc(0, -17, 9, 0, Math.PI * 2); ctx.fill();
-
-  // Tóc
-  ctx.fillStyle = '#5a3825';
-  ctx.beginPath(); ctx.arc(0, -19, 9, Math.PI, 0); ctx.fill();
-
-  // ---- MẶT ----
-  if (!facingAway) {
-    if (sideView) {
-      const ex = faceSign * 4;
-      ctx.fillStyle = '#222';
-      ctx.beginPath(); ctx.arc(ex, -17, 1.6, 0, Math.PI * 2); ctx.fill();
-      // miệng
-      ctx.strokeStyle = '#a0452a'; ctx.lineWidth = 1.2;
-      ctx.beginPath();
-      ctx.arc(ex + faceSign * 2, -12, 2.2, 0.2, Math.PI - 0.2);
-      ctx.stroke();
+    if (blink) {
+      ctx.strokeStyle = '#222'; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(-5, -24); ctx.lineTo(-2, -24); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(2, -24); ctx.lineTo(5, -24); ctx.stroke();
     } else {
-      // 2 mắt
       ctx.fillStyle = '#222';
-      ctx.beginPath();
-      ctx.arc(-3, -17, 1.6, 0, Math.PI * 2);
-      ctx.arc( 3, -17, 1.6, 0, Math.PI * 2);
-      ctx.fill();
-      // miệng
-      ctx.strokeStyle = '#a0452a'; ctx.lineWidth = 1.3;
-      ctx.beginPath();
-      ctx.arc(0, -13, 3, 0.2, Math.PI - 0.2);
-      ctx.stroke();
+      ctx.beginPath(); ctx.arc(-4, -24, 1.9, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(4, -24, 1.9, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(-3.4, -24.6, 0.65, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(4.6, -24.6, 0.65, 0, Math.PI*2); ctx.fill();
     }
-  }
+    ctx.strokeStyle = '#a0452a'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(0, -19, 4, 0.2, Math.PI - 0.2); ctx.stroke();
+  } else {
+    const t = animTime * 12;
+    const swing = Math.sin(t);
+    const bob = Math.abs(Math.sin(t)) * 2;
+    ctx.fillStyle = 'rgba(0,0,0,.15)';
+    ctx.beginPath(); ctx.ellipse(0, 50, 18, 5, 0, 0, Math.PI*2); ctx.fill();
+    ctx.translate(0, -bob);
 
+    ctx.strokeStyle = pants; ctx.lineWidth = 7; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-2, 20); ctx.lineTo(-2 - swing*10, 48); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(2, 20); ctx.lineTo(2 + swing*10, 48); ctx.stroke();
+
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath(); ctx.ellipse(-2 - swing*10, 48, 6, 3, 0, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(2 + swing*10, 48, 6, 3, 0, 0, Math.PI*2); ctx.fill();
+
+    ctx.save(); ctx.rotate(-0.1);
+    ctx.fillStyle = shirt;
+    ctx.beginPath(); ctx.roundRect(-9, -10, 18, 32, 6); ctx.fill();
+    ctx.restore();
+
+    ctx.strokeStyle = shirt; ctx.lineWidth = 6;
+    ctx.beginPath(); ctx.moveTo(-4, -2); ctx.lineTo(-4 - swing*12, 15); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(4, -2); ctx.lineTo(4 + swing*12, 15); ctx.stroke();
+
+    ctx.fillStyle = skin;
+    ctx.beginPath(); ctx.arc(-4 - swing*12, 15, 3.5, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(4 + swing*12, 15, 3.5, 0, Math.PI*2); ctx.fill();
+
+    ctx.fillStyle = skin;
+    ctx.beginPath(); ctx.arc(2, -24, 12, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = hair;
+    ctx.beginPath(); ctx.arc(2, -28, 12, Math.PI, 0); ctx.fill();
+    ctx.beginPath(); ctx.arc(2, -24, 12, Math.PI*1.3, Math.PI*1.9); ctx.fill();
+
+    ctx.fillStyle = '#222';
+    ctx.beginPath(); ctx.arc(9, -24, 1.9, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(9.5, -24.6, 0.65, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#a0452a'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(10, -19, 3, 0.1, Math.PI - 0.5); ctx.stroke();
+  }
   ctx.restore();
 }
 
-/* ============ VẼ CÂY ============ */
-function drawTree(x, y) {
-  // bóng
-  ctx.fillStyle = 'rgba(0,0,0,.15)';
-  ctx.beginPath(); ctx.ellipse(x, y + 12, 18, 6, 0, 0, Math.PI * 2); ctx.fill();
-  // thân
-  ctx.fillStyle = '#7a4b25';
-  ctx.fillRect(x - 4, y - 12, 8, 24);
-  // lá
-  ctx.fillStyle = '#2e8b3e';
-  ctx.beginPath(); ctx.arc(x, y - 28, 20, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = '#3fa952';
-  ctx.beginPath(); ctx.arc(x - 7, y - 34, 13, 0, Math.PI * 2); ctx.fill();
-  ctx.beginPath(); ctx.arc(x + 8, y - 26, 11, 0, Math.PI * 2); ctx.fill();
+function drawFemale(ctx, x, y, view, animTime, blink, scale) {
+  const s = scale || 1;
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  const skin = '#f8d4b8', shirt = '#ff69b4', skirt = '#e91e63';
+  const hair = '#2d1810', hairHi = '#5a2d1e';
+
+  if (view === 'front') {
+    const bob = Math.sin(animTime * 3 + 0.5) * 1.5;
+    const armSway = Math.sin(animTime * 3 + 0.5) * 2;
+    ctx.fillStyle = 'rgba(0,0,0,.18)';
+    ctx.beginPath(); ctx.ellipse(0, 50, 20, 6, 0, 0, Math.PI*2); ctx.fill();
+    ctx.translate(0, bob);
+
+    ctx.fillStyle = hair;
+    ctx.beginPath();
+    ctx.moveTo(-14, -20); ctx.quadraticCurveTo(-22, 10, -18, 32);
+    ctx.lineTo(-11, 30); ctx.quadraticCurveTo(-13, 10, -11, -18); ctx.closePath(); ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(14, -20); ctx.quadraticCurveTo(22, 10, 18, 32);
+    ctx.lineTo(11, 30); ctx.quadraticCurveTo(13, 10, 11, -18); ctx.closePath(); ctx.fill();
+
+    ctx.strokeStyle = skin; ctx.lineWidth = 6; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-5, 22); ctx.lineTo(-7, 46); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(5, 22); ctx.lineTo(7, 46); ctx.stroke();
+
+    ctx.fillStyle = '#e91e63';
+    ctx.beginPath(); ctx.ellipse(-7, 47, 6, 3.5, 0, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(7, 47, 6, 3.5, 0, 0, Math.PI*2); ctx.fill();
+
+    ctx.fillStyle = skirt;
+    ctx.beginPath(); ctx.moveTo(-12, 15); ctx.lineTo(-15, 25);
+    ctx.lineTo(15, 25); ctx.lineTo(12, 15); ctx.closePath(); ctx.fill();
+
+    ctx.fillStyle = shirt;
+    ctx.beginPath(); ctx.roundRect(-10, -10, 20, 28, 7); ctx.fill();
+
+    ctx.strokeStyle = shirt; ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.moveTo(-10, -2); ctx.lineTo(-16, 14 + armSway); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(10, -2); ctx.lineTo(16, 14 - armSway); ctx.stroke();
+
+    ctx.fillStyle = skin;
+    ctx.beginPath(); ctx.arc(-16, 14 + armSway, 3, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(16, 14 - armSway, 3, 0, Math.PI*2); ctx.fill();
+
+    ctx.fillStyle = skin;
+    ctx.beginPath(); ctx.arc(0, -24, 11, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = hair;
+    ctx.beginPath(); ctx.arc(0, -28, 12, Math.PI, 0); ctx.fill();
+    ctx.beginPath(); ctx.arc(-11, -24, 4, Math.PI*0.5, Math.PI*1.5); ctx.fill();
+    ctx.beginPath(); ctx.arc(11, -24, 4, Math.PI*1.5, Math.PI*0.5); ctx.fill();
+
+    if (blink) {
+      ctx.strokeStyle = '#222'; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(-5, -24); ctx.lineTo(-2, -24); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(2, -24); ctx.lineTo(5, -24); ctx.stroke();
+    } else {
+      ctx.fillStyle = '#222';
+      ctx.beginPath(); ctx.arc(-4, -24, 1.9, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(4, -24, 1.9, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(-3.4, -24.6, 0.65, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(4.6, -24.6, 0.65, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.strokeStyle = '#222'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(-6, -25); ctx.lineTo(-7.5, -27); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(6, -25); ctx.lineTo(7.5, -27); ctx.stroke();
+    ctx.fillStyle = '#ff1744';
+    ctx.beginPath(); ctx.ellipse(0, -19, 2.5, 1.2, 0, 0, Math.PI); ctx.fill();
+  } else {
+    const t = animTime * 12;
+    const swing = Math.sin(t);
+    const bob = Math.abs(Math.sin(t)) * 2;
+    ctx.fillStyle = 'rgba(0,0,0,.15)';
+    ctx.beginPath(); ctx.ellipse(0, 50, 18, 5, 0, 0, Math.PI*2); ctx.fill();
+    ctx.translate(0, -bob);
+
+    ctx.fillStyle = hair;
+    ctx.beginPath();
+    ctx.moveTo(-4, -30); ctx.quadraticCurveTo(-20, -20, -24, 0);
+    ctx.quadraticCurveTo(-22, 18, -18, 24); ctx.lineTo(-13, 18);
+    ctx.quadraticCurveTo(-16, 0, -8, -20); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = hairHi;
+    ctx.beginPath();
+    ctx.moveTo(-6, -28); ctx.quadraticCurveTo(-15, -15, -17, 2);
+    ctx.quadraticCurveTo(-15, 10, -13, 14); ctx.lineTo(-10, 8);
+    ctx.quadraticCurveTo(-12, -5, -8, -18); ctx.closePath(); ctx.fill();
+
+    ctx.strokeStyle = skin; ctx.lineWidth = 6; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-2, 22); ctx.lineTo(-2 - swing*10, 46); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(2, 22); ctx.lineTo(2 + swing*10, 46); ctx.stroke();
+
+    ctx.fillStyle = '#e91e63';
+    ctx.beginPath(); ctx.ellipse(-2 - swing*10, 47, 6, 3.5, 0, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(2 + swing*10, 47, 6, 3.5, 0, 0, Math.PI*2); ctx.fill();
+
+    ctx.fillStyle = skirt;
+    ctx.beginPath(); ctx.moveTo(-10, 15); ctx.lineTo(-13, 25);
+    ctx.lineTo(13, 25); ctx.lineTo(10, 15); ctx.closePath(); ctx.fill();
+
+    ctx.save(); ctx.rotate(-0.1);
+    ctx.fillStyle = shirt;
+    ctx.beginPath(); ctx.roundRect(-8, -10, 16, 28, 6); ctx.fill();
+    ctx.restore();
+
+    ctx.strokeStyle = shirt; ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.moveTo(-3, -2); ctx.lineTo(-3 - swing*11, 14); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(3, -2); ctx.lineTo(3 + swing*11, 14); ctx.stroke();
+
+    ctx.fillStyle = skin;
+    ctx.beginPath(); ctx.arc(-3 - swing*11, 14, 3, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(3 + swing*11, 14, 3, 0, Math.PI*2); ctx.fill();
+
+    ctx.fillStyle = skin;
+    ctx.beginPath(); ctx.arc(2, -24, 11, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = hair;
+    ctx.beginPath(); ctx.arc(2, -28, 12, Math.PI, 0); ctx.fill();
+    ctx.beginPath(); ctx.arc(2, -24, 12, Math.PI*1.25, Math.PI*1.9); ctx.fill();
+
+    ctx.fillStyle = '#222';
+    ctx.beginPath(); ctx.arc(9, -24, 1.9, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(9.5, -24.6, 0.65, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#222'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(7, -25); ctx.lineTo(8.5, -27); ctx.stroke();
+    ctx.fillStyle = '#ff1744';
+    ctx.beginPath(); ctx.ellipse(10, -19, 2, 1, 0, 0, Math.PI); ctx.fill();
+  }
+  ctx.restore();
 }
 
-/* ============ RENDER ============ */
-function render() {
-  // Nền cỏ
-  ctx.fillStyle = '#7ec850';
-  ctx.fillRect(0, 0, W, H);
+// ==================================================
+// ITEM DRAWING (3D-ish, no icons)
+// ==================================================
+function drawLightningItem(ctx, x, y, t, scale) {
+  const s = scale || 1;
+  const float = Math.sin(t * 3) * 3;
+  const rot = Math.sin(t * 2) * 0.12;
+  ctx.save(); ctx.translate(x, y + float); ctx.scale(s, s); ctx.rotate(rot);
 
-  // Lưới đường (cuộn theo camera)
-  ctx.strokeStyle = 'rgba(255,255,255,.28)';
-  ctx.lineWidth = 3;
-  const offX = ((-cam.x % ROAD) + ROAD) % ROAD;
-  const offY = ((-cam.y % ROAD) + ROAD) % ROAD;
+  ctx.shadowColor = '#ffee00'; ctx.shadowBlur = 25;
+  const path = () => {
+    ctx.beginPath();
+    ctx.moveTo(-2, -28); ctx.lineTo(-12, -2); ctx.lineTo(-4, 0); ctx.lineTo(-10, 24);
+    ctx.lineTo(12, -6); ctx.lineTo(4, -3); ctx.lineTo(8, -28); ctx.closePath();
+  };
+  path();
+  const grad = ctx.createLinearGradient(-12, -28, 12, 24);
+  grad.addColorStop(0, '#fffde7'); grad.addColorStop(0.3, '#ffeb3b');
+  grad.addColorStop(0.7, '#ffc107'); grad.addColorStop(1, '#ff8f00');
+  ctx.fillStyle = grad; ctx.fill();
 
-  for (let x = offX; x < W; x += ROAD) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-  }
-  for (let y = offY; y < H; y += ROAD) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-  }
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(-1, -24); ctx.lineTo(-8, -4); ctx.stroke();
 
-  // Gộp cây + nhân vật, sort theo Y để che khuất đúng
-  const items = [];
-  for (const tr of trees) items.push({ k:'tree', x:tr.x, y:tr.y });
-  items.push({ k:'player', x:player.x, y:player.y });
-  items.sort((a,b) => a.y - b.y);
-
-  for (const it of items) {
-    const sx = it.x - cam.x;
-    const sy = it.y - cam.y;
-    if (sx < -120 || sx > W + 120 || sy < -180 || sy > H + 120) continue;
-
-    if (it.k === 'tree') drawTree(sx, sy);
-    else drawCharacter(sx, sy, player.dir, player.animTime, player.moving);
-  }
-
-  // HUD
-  ctx.fillStyle = 'rgba(0,0,0,.55)';
-  ctx.fillRect(10, 10, 210, 34);
-  ctx.fillStyle = '#fff';
-  ctx.font = '16px sans-serif';
-  ctx.fillText('WASD / phím mũi tên để chạy', 20, 33);
+  ctx.strokeStyle = '#8a5a00'; ctx.lineWidth = 1.5;
+  path(); ctx.stroke();
+  ctx.restore();
 }
 
-/* ============ GAME LOOP ============ */
-let last = performance.now();
+function drawBananaItem(ctx, x, y, t, scale) {
+  const s = scale || 1;
+  const float = Math.sin(t * 3 + 1) * 3;
+  const rot = Math.sin(t * 2 + 1) * 0.18;
+  ctx.save(); ctx.translate(x, y + float); ctx.scale(s, s); ctx.rotate(rot + 0.2);
+
+  ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 4;
+  const path = () => {
+    ctx.beginPath();
+    ctx.moveTo(-22, 4); ctx.quadraticCurveTo(-12, -18, 8, -14);
+    ctx.quadraticCurveTo(20, -11, 24, -2); ctx.quadraticCurveTo(20, 8, 10, 8);
+    ctx.quadraticCurveTo(-8, 8, -22, 4); ctx.closePath();
+  };
+  path();
+  const grad = ctx.createLinearGradient(0, -18, 0, 10);
+  grad.addColorStop(0, '#fff9c4'); grad.addColorStop(0.4, '#ffeb3b');
+  grad.addColorStop(0.8, '#fbc02d'); grad.addColorStop(1, '#f57f17');
+  ctx.fillStyle = grad; ctx.fill();
+
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  ctx.strokeStyle = 'rgba(255,255,255,0.55)'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(-16, 0); ctx.quadraticCurveTo(-4, -10, 10, -8); ctx.stroke();
+
+  ctx.strokeStyle = '#7a5a00'; ctx.lineWidth = 1.5;
+  path(); ctx.stroke();
+
+  ctx.fillStyle = '#5d4037';
+  ctx.beginPath(); ctx.ellipse(-22, 4, 3.5, 4, -0.5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#3e2723';
+  ctx.beginPath(); ctx.arc(24, -2, 2, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#8a6d3b'; ctx.lineWidth = 0.8;
+  ctx.beginPath(); ctx.moveTo(-18, 6); ctx.quadraticCurveTo(-8, 2, 6, 2); ctx.stroke();
+  ctx.restore();
+}
+
+// ==================================================
+// GAME STATE
+// ==================================================
+const GAME = {
+  scale: 20, trackLength: 100, trackWidthPx: 2000,
+  itemAt: 30, baseSpeed: 100 / 15, // km/s
+  lightningMult: 2, lightningDur: 2,
+  bananaMult: 0.5, bananaDur: 3,
+
+  state: 'countdown',
+  countdownStart: 0, countdownDur: 15,
+
+  male: { distance: 0, item: null, itemPhase: 'ahead', itemStart: 0, itemEnd: 0, finished: false },
+  female: { distance: 0, item: null, itemPhase: 'ahead', itemStart: 0, itemEnd: 0, finished: false },
+
+  winner: null, lastWinner: null,
+  raceEnded: false, raceStartTime: 0,
+
+  maleWins: 0, femaleWins: 0, history: [],
+
+  maleBlink: { nextBlink: 1500 + Math.random()*1500, blinking: false, blinkEnd: 0 },
+  femaleBlink: { nextBlink: 2000 + Math.random()*1500, blinking: false, blinkEnd: 0 },
+
+  prediction: null, camX: -450,
+
+  winnerOverlayStart: 0, winnerOverlayAlpha: 0, fireworks: [],
+
+  animTime: 0
+};
+
+// ==================================================
+// RACE OUTCOME (no consecutive wins)
+// ==================================================
+function determineRace() {
+  let winner;
+  if (GAME.lastWinner === null) {
+    winner = Math.random() < 0.5 ? 'male' : 'female';
+  } else {
+    winner = GAME.lastWinner === 'male' ? 'female' : 'male';
+  }
+  GAME.winner = winner;
+  GAME.male.item = winner === 'male' ? 'lightning' : 'banana';
+  GAME.female.item = winner === 'female' ? 'lightning' : 'banana';
+
+  ['male','female'].forEach(k => {
+    GAME[k].distance = 0; GAME[k].finished = false;
+    GAME[k].itemPhase = 'ahead'; GAME[k].itemStart = 0; GAME[k].itemEnd = 0;
+  });
+  GAME.raceEnded = false;
+  GAME.animTime = 0;
+}
+
+// ==================================================
+// BLINK
+// ==================================================
+function updateBlink(state, now, other) {
+  if (state.blinking && now > state.blinkEnd) {
+    state.blinking = false;
+    state.nextBlink = now + 1000 + Math.random() * 2000;
+  }
+  if (!state.blinking && now > state.nextBlink) {
+    if (other.blinking) {
+      state.nextBlink = now + 250;
+      return;
+    }
+    state.blinking = true;
+    state.blinkEnd = now + 150;
+    if (other.nextBlink - now < 400) {
+      other.nextBlink = now + 500 + Math.random() * 500;
+    }
+  }
+}
+
+// ==================================================
+// UPDATE
+// ==================================================
+let lastCountdownDisplay = null;
+
+function updateGame(dt, now) {
+  GAME.animTime += dt;
+  updateBlink(GAME.maleBlink, now, GAME.femaleBlink);
+  updateBlink(GAME.femaleBlink, now, GAME.maleBlink);
+
+  // ---- COUNTDOWN ----
+  if (GAME.state === 'countdown') {
+    const elapsed = (now - GAME.countdownStart) / 1000;
+    const remaining = GAME.countdownDur - elapsed;
+
+    if (remaining <= 0) {
+      GAME.state = 'running';
+      GAME.raceStartTime = now;
+      countdownOverlay.innerHTML = '';
+      lastCountdownDisplay = null;
+    } else {
+      let display;
+      if (remaining <= 3) display = 'START';
+      else display = Math.ceil(remaining);
+
+      if (display !== lastCountdownDisplay) {
+        if (display === 'START') {
+          countdownOverlay.innerHTML = '<div class="start-text">BẮT ĐẦU</div>';
+        } else {
+          countdownOverlay.textContent = display;
+        }
+        lastCountdownDisplay = display;
+      }
+    }
+  }
+
+  // ---- RUNNING ----
+  if (GAME.state === 'running') {
+    const raceElapsed = (now - GAME.raceStartTime) / 1000;
+
+    ['male','female'].forEach(key => {
+      const c = GAME[key];
+      if (c.finished) return;
+
+      if (c.itemPhase === 'ahead' && c.distance >= GAME.itemAt) {
+        c.itemPhase = 'active';
+        c.itemStart = raceElapsed;
+        c.itemEnd = raceElapsed + (c.item === 'lightning' ? GAME.lightningDur : GAME.bananaDur);
+      }
+      if (c.itemPhase === 'active' && raceElapsed >= c.itemEnd) {
+        c.itemPhase = 'done';
+      }
+
+      let speed = GAME.baseSpeed;
+      if (c.itemPhase === 'active') {
+        speed *= (c.item === 'lightning' ? GAME.lightningMult : GAME.bananaMult);
+      }
+      c.distance += speed * dt;
+
+      if (c.distance >= GAME.trackLength) {
+        c.distance = GAME.trackLength;
+        c.finished = true;
+        if (!GAME.raceEnded) {
+          GAME.raceEnded = true;
+          onRaceFinished(now);
+        }
+      }
+    });
+
+    const midKm = (GAME.male.distance + GAME.female.distance) / 2;
+    const target = midKm * GAME.scale - RW / 2;
+    GAME.camX += (target - GAME.camX) * dt * 5;
+    GAME.camX = Math.max(-450, Math.min(GAME.trackWidthPx - RW / 2, GAME.camX));
+  }
+
+  // ---- FINISHED ----
+  if (GAME.state === 'finished' && GAME.winnerOverlayStart > 0) {
+    const el = (now - GAME.winnerOverlayStart) / 1000;
+    if (el < 3) {
+      GAME.winnerOverlayAlpha = Math.min(1, el / 0.3);
+      if (el < 2.5 && Math.random() < dt * 6) spawnFirework();
+    } else if (el < 4) {
+      GAME.winnerOverlayAlpha = 1 - (el - 3);
+    } else {
+      GAME.winnerOverlayAlpha = 0;
+      if (el > 4.8) resetToCountdown();
+    }
+    updateFireworks(dt);
+  }
+}
+
+function onRaceFinished(now) {
+  GAME.state = 'finished';
+  GAME.lastWinner = GAME.winner;
+
+  if (GAME.winner === 'male') GAME.maleWins++;
+  else GAME.femaleWins++;
+
+  GAME.history.push({ winner: GAME.winner, time: Date.now() });
+  if (GAME.history.length > 500) GAME.history.shift();
+
+  updateStatsUI();
+  updateHistoryUI();
+
+  const msg = document.getElementById('prediction-msg');
+  if (GAME.prediction) {
+    if (GAME.prediction === GAME.winner) {
+      msg.innerHTML = '<span style="color:#4caf50">🎉 Chúc mừng bạn đã chọn đúng người chạy nhanh nhất!</span>';
+    } else {
+      msg.innerHTML = '<span style="color:#f44336">😢 Bạn đã chọn sai. Người thắng là ' +
+        (GAME.winner === 'male' ? 'NAM' : 'NỮ') + '</span>';
+    }
+  }
+
+  GAME.winnerOverlayStart = now;
+  GAME.winnerOverlayAlpha = 0;
+  GAME.fireworks = [];
+  for (let i = 0; i < 40; i++) spawnFirework(true);
+}
+
+function spawnFirework(initial) {
+  GAME.fireworks.push({
+    x: 100 + Math.random() * (RW - 200),
+    y: initial ? (RH * 0.3 + Math.random() * RH * 0.4) : (RH * 0.2 + Math.random() * RH * 0.5),
+    vx: (Math.random() - 0.5) * 400,
+    vy: (Math.random() - 0.5) * 400 - 100,
+    life: 1 + Math.random() * 1.5, age: 0,
+    color: ['#ffeb3b','#ff5722','#e91e63','#4caf50','#2196f3','#9c27b0','#00e5ff'][Math.floor(Math.random()*7)],
+    size: 3 + Math.random() * 3
+  });
+}
+
+function updateFireworks(dt) {
+  for (const f of GAME.fireworks) {
+    f.x += f.vx * dt; f.y += f.vy * dt;
+    f.vy += 250 * dt; f.age += dt;
+  }
+  GAME.fireworks = GAME.fireworks.filter(f => f.age < f.life);
+}
+
+function resetToCountdown() {
+  GAME.state = 'countdown';
+  GAME.countdownStart = performance.now();
+  GAME.winnerOverlayStart = 0;
+  GAME.winnerOverlayAlpha = 0;
+  GAME.prediction = null;
+  GAME.camX = -450;
+  lastCountdownDisplay = null;
+  document.getElementById('prediction-msg').textContent = '';
+  document.querySelectorAll('.portrait').forEach(p => p.classList.remove('selected'));
+  determineRace();
+}
+
+// ==================================================
+// RENDER
+// ==================================================
+function renderGame() {
+  if (GAME.state === 'countdown') renderCountdownScene();
+  else renderRaceScene();
+
+  if (GAME.state === 'running' || GAME.state === 'finished') {
+    renderProgressBar();
+  }
+  if (GAME.state === 'finished' && GAME.winnerOverlayAlpha > 0) {
+    renderWinnerOverlay();
+  }
+}
+
+function drawCloud(ctx, x, y, scale) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(scale, scale);
+  ctx.fillStyle = 'rgba(255,255,255,0.92)';
+  ctx.beginPath();
+  ctx.arc(0, 0, 25, 0, Math.PI*2);
+  ctx.arc(25, -5, 20, 0, Math.PI*2);
+  ctx.arc(50, 0, 22, 0, Math.PI*2);
+  ctx.arc(25, 8, 22, 0, Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function renderCountdownScene() {
+  const ctx = rctx;
+  const sky = ctx.createLinearGradient(0, 0, 0, RH);
+  sky.addColorStop(0, '#4fc3f7'); sky.addColorStop(0.55, '#b3e5fc');
+  sky.addColorStop(0.7, '#7ec850'); sky.addColorStop(1, '#4caf50');
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, RW, RH);
+
+  drawCloud(ctx, 100, 80, 1);
+  drawCloud(ctx, 400, 60, 0.85);
+  drawCloud(ctx, 680, 100, 1.1);
+  drawCloud(ctx, 830, 50, 0.75);
+
+  ctx.fillStyle = '#ffeb3b'; ctx.shadowColor = '#ffeb3b'; ctx.shadowBlur = 45;
+  ctx.beginPath(); ctx.arc(RW - 90, 90, 42, 0, Math.PI*2); ctx.fill();
+  ctx.shadowBlur = 0;
+
+  ctx.fillStyle = 'rgba(0,0,0,.12)';
+  ctx.beginPath(); ctx.ellipse(RW/2, RH * 0.78, 420, 32, 0, 0, Math.PI*2); ctx.fill();
+
+  const groundY = RH * 0.72;
+  drawMale(ctx, RW * 0.28, groundY, 'front', GAME.animTime, GAME.maleBlink.blinking, 2.3);
+  drawFemale(ctx, RW * 0.72, groundY, 'front', GAME.animTime, GAME.femaleBlink.blinking, 2.3);
+
+  ctx.textAlign = 'center'; ctx.font = 'bold 28px Segoe UI';
+  ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = 6;
+  ctx.fillStyle = '#3a7bd5'; ctx.fillText('NAM', RW * 0.28, groundY - 108);
+  ctx.fillStyle = '#e91e63'; ctx.fillText('NỮ', RW * 0.72, groundY - 108);
+  ctx.shadowBlur = 0; ctx.textAlign = 'left';
+}
+
+function renderRaceScene() {
+  const ctx = rctx;
+  const camX = GAME.camX;
+
+  const sky = ctx.createLinearGradient(0, 0, 0, RH * 0.55);
+  sky.addColorStop(0, '#4fc3f7'); sky.addColorStop(1, '#e1f5fe');
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, RW, RH * 0.55);
+
+  ctx.fillStyle = '#ffeb3b'; ctx.shadowColor = '#ffeb3b'; ctx.shadowBlur = 35;
+  ctx.beginPath(); ctx.arc(RW - 100 - camX * 0.04, 80, 36, 0, Math.PI*2); ctx.fill();
+  ctx.shadowBlur = 0;
+
+  for (let i = 0; i < 6; i++) {
+    const cx = ((i * 300 - camX * 0.2) % (RW + 300) + RW + 300) % (RW + 300) - 150;
+    drawCloud(ctx, cx, 55 + (i % 3) * 35, 0.6 + (i % 2) * 0.3);
+  }
+
+  ctx.fillStyle = '#66bb6a';
+  ctx.beginPath(); ctx.moveTo(0, RH * 0.55);
+  for (let x = 0; x <= RW; x += 50) {
+    ctx.lineTo(x, RH * 0.55 - Math.sin((x + camX * 0.3) / 100) * 40 - 15);
+  }
+  ctx.lineTo(RW, RH * 0.55); ctx.fill();
+
+  ctx.fillStyle = '#81c784';
+  ctx.beginPath(); ctx.moveTo(0, RH * 0.6);
+  for (let x = 0; x <= RW; x += 50) {
+    ctx.lineTo(x, RH * 0.6 - Math.sin((x + camX * 0.5) / 150) * 28 - 8);
+  }
+  ctx.lineTo(RW, RH * 0.6); ctx.fill();
+
+  // Trees on parallax
+  for (let i = 0; i < 8; i++) {
+    const tx = ((i * 260 - camX * 0.6) % (RW + 260) + RW + 260) % (RW + 260) - 130;
+    const ty = RH * 0.6 + 20;
+    ctx.fillStyle = 'rgba(0,0,0,.12)';
+    ctx.beginPath(); ctx.ellipse(tx, ty + 6, 20, 5, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#7a4b25';
+    ctx.fillRect(tx - 3, ty - 20, 6, 22);
+    ctx.fillStyle = '#2e8b3e';
+    ctx.beginPath(); ctx.arc(tx, ty - 30, 16, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#3fa952';
+    ctx.beginPath(); ctx.arc(tx - 6, ty - 35, 10, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(tx + 6, ty - 28, 9, 0, Math.PI*2); ctx.fill();
+  }
+
+  const groundY = RH * 0.62;
+  const groundGrad = ctx.createLinearGradient(0, groundY, 0, RH);
+  groundGrad.addColorStop(0, '#7ec850'); groundGrad.addColorStop(1, '#4caf50');
+  ctx.fillStyle = groundGrad; ctx.fillRect(0, groundY, RW, RH - groundY);
+
+  const trackTop = RH * 0.7, trackBot = RH * 0.9;
+  ctx.fillStyle = '#9e9e9e'; ctx.fillRect(0, trackTop, RW, trackBot - trackTop);
+
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; ctx.setLineDash([40, 40]);
+  ctx.lineDashOffset = -camX;
+  ctx.beginPath(); ctx.moveTo(0, (trackTop + trackBot) / 2);
+  ctx.lineTo(RW, (trackTop + trackBot) / 2); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.strokeStyle = '#616161'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(0, trackTop); ctx.lineTo(RW, trackTop);
+  ctx.moveTo(0, trackBot); ctx.lineTo(RW, trackBot); ctx.stroke();
+
+  ctx.font = 'bold 12px Segoe UI'; ctx.textAlign = 'center';
+  for (let km = 0; km <= 100; km += 10) {
+    const px = km * GAME.scale - camX;
+    if (px < -50 || px > RW + 50) continue;
+    ctx.fillStyle = '#444'; ctx.fillText(km + 'km', px, trackTop - 8);
+    ctx.strokeStyle = 'rgba(0,0,0,.1)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(px, trackTop); ctx.lineTo(px, trackBot); ctx.stroke();
+  }
+  ctx.textAlign = 'left';
+
+  const finishX = GAME.trackLength * GAME.scale - camX;
+  if (finishX > -100 && finishX < RW + 100) {
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 2; j++) {
+        ctx.fillStyle = (i + j) % 2 === 0 ? '#fff' : '#222';
+        ctx.fillRect(finishX - 5, trackTop + (trackBot - trackTop) * j / 2, 10, (trackBot - trackTop) / 2);
+      }
+    }
+    ctx.fillStyle = '#333'; ctx.fillRect(finishX - 2, trackTop - 65, 4, 65);
+    ctx.fillStyle = '#f44336';
+    ctx.beginPath();
+    ctx.moveTo(finishX + 2, trackTop - 65); ctx.lineTo(finishX + 55, trackTop - 55);
+    ctx.lineTo(finishX + 2, trackTop - 45); ctx.closePath(); ctx.fill();
+  }
+
+  // Items
+  if (GAME.state === 'running' || GAME.state === 'finished') {
+    const itemX = GAME.itemAt * GAME.scale - camX;
+    if (GAME.male.itemPhase === 'ahead' && itemX > -60 && itemX < RW + 60) {
+      const iy = trackTop + (trackBot - trackTop) * 0.3 - 34;
+      GAME.male.item === 'lightning' ? drawLightningItem(ctx, itemX, iy, GAME.animTime, 1)
+        : drawBananaItem(ctx, itemX, iy, GAME.animTime, 1);
+    }
+    if (GAME.female.itemPhase === 'ahead' && itemX > -60 && itemX < RW + 60) {
+      const iy = trackTop + (trackBot - trackTop) * 0.7 - 34;
+      GAME.female.item === 'lightning' ? drawLightningItem(ctx, itemX, iy, GAME.animTime + 0.5, 1)
+        : drawBananaItem(ctx, itemX, iy, GAME.animTime + 0.5, 1);
+    }
+  }
+
+  const maleX = GAME.male.distance * GAME.scale - camX;
+  const femaleX = GAME.female.distance * GAME.scale - camX;
+  const maleY = trackTop + (trackBot - trackTop) * 0.3;
+  const femaleY = trackTop + (trackBot - trackTop) * 0.7;
+
+  if (maleX > -100 && maleX < RW + 100) {
+    if (GAME.male.itemPhase === 'active' && GAME.male.item === 'lightning') {
+      drawSpeedLines(maleX - 30, maleY - 40);
+    }
+    drawMale(ctx, maleX, maleY, 'side', GAME.animTime, false, 1.4);
+  }
+  if (femaleX > -100 && femaleX < RW + 100) {
+    if (GAME.female.itemPhase === 'active' && GAME.female.item === 'lightning') {
+      drawSpeedLines(femaleX - 30, femaleY - 40);
+    }
+    drawFemale(ctx, femaleX, femaleY, 'side', GAME.animTime, false, 1.4);
+  }
+
+  ctx.font = 'bold 15px Segoe UI'; ctx.textAlign = 'center';
+  if (maleX > -100 && maleX < RW + 100) { ctx.fillStyle = '#3a7bd5'; ctx.fillText('NAM', maleX, maleY - 72); }
+  if (femaleX > -100 && femaleX < RW + 100) { ctx.fillStyle = '#e91e63'; ctx.fillText('NỮ', femaleX, femaleY - 72); }
+  ctx.textAlign = 'left';
+}
+
+function drawSpeedLines(x, y) {
+  const ctx = rctx;
+  ctx.save(); ctx.globalAlpha = 0.7;
+  ctx.strokeStyle = '#ffeb3b'; ctx.lineWidth = 2.5;
+  for (let i = 0; i < 6; i++) {
+    const offset = (GAME.animTime * 500 + i * 30) % 100;
+    ctx.beginPath();
+    ctx.moveTo(x - offset - 10, y - 30 + i * 12);
+    ctx.lineTo(x - offset - 55, y - 30 + i * 12);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function renderProgressBar() {
+  const ctx = rctx;
+  const barY = 20, barX = 40, barW = RW - 80, barH = 22;
+
+  ctx.fillStyle = 'rgba(0,0,0,.5)';
+  ctx.beginPath(); ctx.roundRect(barX - 6, barY - 6, barW + 12, barH + 12, 12); ctx.fill();
+
+  ctx.fillStyle = 'rgba(255,255,255,.2)';
+  ctx.fillRect(barX, barY, barW, barH);
+
+  ctx.fillStyle = '#3a7bd5';
+  ctx.fillRect(barX, barY, barW * (GAME.male.distance / GAME.trackLength), barH / 2);
+  ctx.fillStyle = '#e91e63';
+  ctx.fillRect(barX, barY + barH / 2, barW * (GAME.female.distance / GAME.trackLength), barH / 2);
+
+  ctx.font = 'bold 11px Segoe UI'; ctx.fillStyle = '#fff';
+  ctx.textAlign = 'left';
+  ctx.fillText('NAM', barX + 6, barY + 10);
+  ctx.fillText('NỮ', barX + 6, barY + 19);
+  ctx.textAlign = 'right';
+  ctx.fillText(Math.round(GAME.male.distance) + 'km', barX + barW - 6, barY + 10);
+  ctx.fillText(Math.round(GAME.female.distance) + 'km', barX + barW - 6, barY + 19);
+  ctx.textAlign = 'left';
+}
+
+function renderWinnerOverlay() {
+  const ctx = rctx;
+  const alpha = GAME.winnerOverlayAlpha;
+
+  ctx.save(); ctx.globalAlpha = alpha;
+  ctx.fillStyle = 'rgba(0,0,0,.68)'; ctx.fillRect(0, 0, RW, RH);
+
+  for (const f of GAME.fireworks) {
+    const fa = 1 - f.age / f.life;
+    if (fa <= 0) continue;
+    ctx.globalAlpha = alpha * fa;
+    ctx.fillStyle = f.color; ctx.shadowColor = f.color; ctx.shadowBlur = 15;
+    ctx.beginPath(); ctx.arc(f.x, f.y, f.size, 0, Math.PI*2); ctx.fill();
+    ctx.globalAlpha = alpha * fa * 0.35;
+    ctx.beginPath(); ctx.arc(f.x - f.vx * 0.02, f.y - f.vy * 0.02, f.size * 0.6, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.shadowBlur = 0; ctx.globalAlpha = alpha;
+
+  const cx = RW / 2, cy = RH / 2 + 50;
+  const grad = ctx.createRadialGradient(cx, cy - 60, 20, cx, cy - 60, 240);
+  if (GAME.winner === 'male') {
+    grad.addColorStop(0, 'rgba(58,123,213,.5)'); grad.addColorStop(1, 'rgba(58,123,213,0)');
+  } else {
+    grad.addColorStop(0, 'rgba(233,30,99,.5)'); grad.addColorStop(1, 'rgba(233,30,99,0)');
+  }
+  ctx.fillStyle = grad;
+  ctx.beginPath(); ctx.arc(cx, cy - 60, 240, 0, Math.PI*2); ctx.fill();
+
+  if (GAME.winner === 'male') {
+    drawMale(ctx, cx, cy, 'front', GAME.animTime * 2.5, false, 3.6);
+  } else {
+    drawFemale(ctx, cx, cy, 'front', GAME.animTime * 2.5, false, 3.6);
+  }
+
+  ctx.font = 'bold 64px Segoe UI'; ctx.textAlign = 'center';
+  ctx.fillStyle = GAME.winner === 'male' ? '#6bb6ff' : '#ff6b9d';
+  ctx.shadowColor = GAME.winner === 'male' ? '#3a7bd5' : '#e91e63';
+  ctx.shadowBlur = 35;
+  ctx.fillText(GAME.winner === 'male' ? 'NAM THẮNG!' : 'NỮ THẮNG!', cx, 110);
+
+  ctx.font = 'bold 26px Segoe UI';
+  ctx.fillStyle = '#ffeb3b'; ctx.shadowColor = '#ffeb3b'; ctx.shadowBlur = 25;
+  ctx.fillText('🏆 VỀ ĐÍCH ĐẦU TIÊN 🏆', cx, RH - 55);
+
+  ctx.shadowBlur = 0; ctx.textAlign = 'left'; ctx.restore();
+}
+
+// ==================================================
+// UI UPDATES
+// ==================================================
+function updateStatsUI() {
+  document.getElementById('male-wins').textContent = GAME.maleWins + ' thắng';
+  document.getElementById('female-wins').textContent = GAME.femaleWins + ' thắng';
+}
+
+function updateHistoryUI() {
+  const hist = document.getElementById('history');
+  hist.innerHTML = '';
+  GAME.history.slice(-20).forEach(h => {
+    const div = document.createElement('div');
+    div.className = 'history-item ' + (h.winner === 'male' ? 'history-male' : 'history-female');
+    div.textContent = h.winner === 'male' ? '♂ NAM' : '♀ NỮ';
+    hist.appendChild(div);
+  });
+}
+
+function drawPortraits() {
+  const mCanvas = document.querySelector('#male-portrait canvas');
+  const fCanvas = document.querySelector('#female-portrait canvas');
+  const mctx = mCanvas.getContext('2d');
+  const fctx = fCanvas.getContext('2d');
+
+  function render(ctx, w, h, drawFn, blinkState) {
+    ctx.clearRect(0, 0, w, h);
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, '#c5e8f7'); grad.addColorStop(0.7, '#7ec850'); grad.addColorStop(1, '#4caf50');
+    ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
+    drawFn(ctx, w / 2, h * 0.62, 'front', GAME.animTime, blinkState.blinking, 1.25);
+  }
+  render(mctx, mCanvas.width, mCanvas.height, drawMale, GAME.maleBlink);
+  render(fctx, fCanvas.width, fCanvas.height, drawFemale, GAME.femaleBlink);
+}
+
+// ==================================================
+// CHART (3D bars, no icons)
+// ==================================================
+function openChart() {
+  document.getElementById('chart-modal').classList.add('open');
+  renderChart();
+}
+function closeChart() {
+  document.getElementById('chart-modal').classList.remove('open');
+}
+
+function renderChart() {
+  document.getElementById('chart-male-count').textContent = GAME.maleWins;
+  document.getElementById('chart-female-count').textContent = GAME.femaleWins;
+
+  // Mini portraits in chart
+  const mp = document.getElementById('chart-male-portrait');
+  const fp = document.getElementById('chart-female-portrait');
+  const mctx = mp.getContext('2d');
+  const fctx = fp.getContext('2d');
+  mctx.clearRect(0, 0, mp.width, mp.height);
+  fctx.clearRect(0, 0, fp.width, fp.height);
+  const g1 = mctx.createLinearGradient(0, 0, 0, mp.height);
+  g1.addColorStop(0, '#c5e8f7'); g1.addColorStop(1, '#4caf50');
+  mctx.fillStyle = g1; mctx.fillRect(0, 0, mp.width, mp.height);
+  drawMale(mctx, mp.width/2, mp.height*0.6, 'front', GAME.animTime, false, 1.1);
+  const g2 = fctx.createLinearGradient(0, 0, 0, fp.height);
+  g2.addColorStop(0, '#f8d4e0'); g2.addColorStop(1, '#4caf50');
+  fctx.fillStyle = g2; fctx.fillRect(0, 0, fp.width, fp.height);
+  drawFemale(fctx, fp.width/2, fp.height*0.6, 'front', GAME.animTime, false, 1.1);
+
+  drawChartBar('chart-male-canvas', 'male');
+  drawChartBar('chart-female-canvas', 'female');
+}
+
+function drawChartBar(canvasId, who) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  const wins = GAME.history.filter(x => x.winner === who).slice(-20);
+
+  const numSlots = 20;
+  const barW = 7, gap = 3;
+  const totalW = numSlots * (barW + gap) - gap;
+  const startX = (w - totalW) / 2;
+  const baseY = h - 26;
+  const barH = h - 52;
+
+  for (let i = 0; i < numSlots; i++) {
+    const x = startX + i * (barW + gap);
+    const filled = i < wins.length;
+
+    if (filled) {
+      // 3D bar
+      ctx.fillStyle = 'rgba(0,0,0,.4)';
+      ctx.fillRect(x + 2, baseY - barH + 2, barW, barH);
+
+      const grad = ctx.createLinearGradient(x, baseY - barH, x, baseY);
+      if (who === 'male') {
+        grad.addColorStop(0, '#8cc4ff'); grad.addColorStop(0.5, '#3a7bd5'); grad.addColorStop(1, '#1a4a8a');
+      } else {
+        grad.addColorStop(0, '#ffa0bd'); grad.addColorStop(0.5, '#e91e63'); grad.addColorStop(1, '#a01045');
+      }
+      ctx.fillStyle = grad;
+      ctx.fillRect(x, baseY - barH, barW, barH);
+
+      // Right 3D face
+      ctx.fillStyle = who === 'male' ? '#2a5fa0' : '#b01550';
+      ctx.beginPath();
+      ctx.moveTo(x + barW, baseY - barH);
+      ctx.lineTo(x + barW + 2, baseY - barH + 2);
+      ctx.lineTo(x + barW + 2, baseY + 2);
+      ctx.lineTo(x + barW, baseY);
+      ctx.fill();
+
+      // Top 3D face
+      ctx.fillStyle = who === 'male' ? '#d0e8ff' : '#ffc4d8';
+      ctx.beginPath();
+      ctx.moveTo(x, baseY - barH);
+      ctx.lineTo(x + 2, baseY - barH - 2);
+      ctx.lineTo(x + barW + 2, baseY - barH - 2);
+      ctx.lineTo(x + barW, baseY - barH);
+      ctx.fill();
+    } else {
+      ctx.strokeStyle = 'rgba(255,255,255,.1)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x, baseY - barH, barW, barH);
+    }
+  }
+
+  ctx.strokeStyle = 'rgba(255,255,255,.3)';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(0, baseY); ctx.lineTo(w, baseY); ctx.stroke();
+
+  ctx.font = 'bold 10px Segoe UI';
+  ctx.fillStyle = '#888'; ctx.textAlign = 'center';
+  ctx.fillText('20 trận gần nhất', w / 2, h - 6);
+  ctx.textAlign = 'left';
+}
+
+// ==================================================
+// INPUT
+// ==================================================
+document.querySelectorAll('.portrait').forEach(p => {
+  p.addEventListener('click', () => {
+    if (GAME.state !== 'countdown') return;
+    document.querySelectorAll('.portrait').forEach(x => x.classList.remove('selected'));
+    p.classList.add('selected');
+    GAME.prediction = p.dataset.char;
+    document.getElementById('prediction-msg').innerHTML =
+      '<span style="color:#ffeb3b">Bạn đã chọn: ' +
+      (p.dataset.char === 'male' ? 'NAM' : 'NỮ') + '</span>';
+  });
+});
+
+// ==================================================
+// LOOP
+// ==================================================
+let lastT = performance.now();
 function loop(now) {
-  const dt = Math.min((now - last) / 1000, 0.05);
-  last = now;
-  update(dt);
-  render();
+  const dt = Math.min((now - lastT) / 1000, 0.05);
+  lastT = now;
+  updateGame(dt, now);
+  renderGame();
+  drawPortraits();
   requestAnimationFrame(loop);
 }
+
+// ==================================================
+// INIT
+// ==================================================
+determineRace();
+GAME.countdownStart = performance.now();
 requestAnimationFrame(loop);
 </script>
 </body>
