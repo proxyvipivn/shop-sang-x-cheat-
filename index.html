@@ -1,747 +1,239 @@
-<!DOCTYPE html>
-<html lang="vi">
+l<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=1.5">
-  <title>SHOP ALL FREE FIRE | TRUNGSANG X CHEAT 🚀💹</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
-      background: #0a0f14;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    #page1 {
-      display: block;
-      width: 100%;
-      min-height: 100vh;
-      background: radial-gradient(circle at 20% 30%, #0b1a2f, #020810);
-      position: relative;
-    }
-    .loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: #030711;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.7s ease, visibility 0.7s ease;
-    }
-    .loading-screen.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .glow-text {
-      font-size: clamp(1.8rem, 5vw, 3.2rem);
-      font-weight: 800;
-      letter-spacing: 2px;
-      color: #b3f0ff;
-      text-shadow: 0 0 15px #5ec8f2, 0 0 40px #2aa9c9;
-      text-align: center;
-      animation: gentlePulse 2s infinite;
-      margin-bottom: 30px;
-    }
-    @keyframes gentlePulse {
-      0% { text-shadow: 0 0 10px #5ec8f2, 0 0 30px #2aa9c9; }
-      50% { text-shadow: 0 0 25px #8ef0ff, 0 0 55px #3cc6e0; }
-      100% { text-shadow: 0 0 10px #5ec8f2, 0 0 30px #2aa9c9; }
-    }
-    .progress-wrapper {
-      width: 280px;
-      max-width: 70vw;
-      height: 20px;
-      background: #1e2a3a;
-      border-radius: 30px;
-      overflow: hidden;
-      box-shadow: 0 0 25px #2aa9c9;
-      margin: 20px 0;
-    }
-    .progress-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #7fd6f5, #3aa8c9);
-      box-shadow: 0 0 20px #6cd0f0;
-      border-radius: 30px;
-      transition: width 0.1s ease;
-    }
-    .percent-text {
-      color: #c2f0ff;
-      font-weight: bold;
-      font-size: 1.8rem;
-      text-shadow: 0 0 15px #3aa8c9;
-      margin-top: 10px;
-    }
-    .status-message {
-      color: #a0d9ff;
-      margin-top: 8px;
-      font-style: italic;
-      font-weight: 500;
-    }
-    #main-shop {
-      display: none;
-      flex-direction: column;
-      min-height: 100vh;
-      padding-bottom: 80px;
-    }
-    #main-shop.active {
-      display: flex;
-    }
-    .shop-header {
-      padding: 25px 15px 10px;
-      text-align: center;
-      color: #b3f0ff;
-      text-shadow: 0 0 18px #2aa9c9;
-      font-size: 2.2rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      border-bottom: 2px solid rgba(90, 200, 240, 0.3);
-    }
-    .tab-content-area {
-      flex: 1;
-      padding: 20px 18px;
-      color: #d4f0ff;
-      background: rgba(8, 20, 30, 0.8);
-      backdrop-filter: blur(10px);
-      margin: 15px;
-      border-radius: 28px;
-      border: 1px solid rgba(80, 200, 250, 0.35);
-      box-shadow: 0 0 35px rgba(0, 180, 230, 0.25);
-      transition: 0.3s;
-      white-space: pre-wrap;
-      line-height: 1.7;
-    }
-    .footer-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #0a1722;
-      display: flex;
-      overflow-x: auto;
-      border-top: 2px solid #2aa9c9;
-      box-shadow: 0 -5px 25px rgba(0, 170, 220, 0.5);
-      z-index: 100;
-    }
-    .footer-nav button {
-      flex: 1 0 auto;
-      background: transparent;
-      border: none;
-      color: #b3eaff;
-      font-weight: bold;
-      padding: 16px 12px;
-      font-size: 0.85rem;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: 0.2s;
-      text-shadow: 0 0 10px #2aa9c9;
-      border-right: 1px solid #2a4955;
-    }
-    .footer-nav button:hover,
-    .footer-nav button.active-tab {
-      background: #102b3a;
-      color: #ffffff;
-      text-shadow: 0 0 20px #7de0ff;
-      box-shadow: inset 0 -4px 0 #5ec8f2;
-    }
-    #page2 {
-      display: none;
-      width: 100%;
-      min-height: 100vh;
-      background: #1a0f1f;
-      position: relative;
-    }
-    #page2.active {
-      display: block;
-    }
-    .page2-loading {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: #140c1a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      z-index: 9998;
-      transition: opacity 0.5s;
-    }
-    .page2-loading.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .blink-dot {
-      width: 22px;
-      height: 22px;
-      background: #d9b3ff;
-      border-radius: 50%;
-      margin: 0 10px;
-      display: inline-block;
-      box-shadow: 0 0 30px #c084fc;
-      animation: blinkAnim 0.5s infinite alternate;
-    }
-    @keyframes blinkAnim {
-      from { opacity: 0.2; transform: scale(0.7); }
-      to { opacity: 1; transform: scale(1.4); box-shadow: 0 0 50px #d59cff; }
-    }
-    .page2-main {
-      display: none;
-      flex-direction: column;
-      min-height: 100vh;
-      background: radial-gradient(circle at 10% 30%, #301c3a, #12061a);
-      color: #eeddff;
-      padding-bottom: 30px;
-    }
-    .page2-main.active {
-      display: flex;
-    }
-    .exit-button {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: #3d1e4a;
-      border: none;
-      color: #f5e5ff;
-      font-size: 1.4rem;
-      width: 45px;
-      height: 45px;
-      border-radius: 30px;
-      box-shadow: 0 0 18px #bc7af5;
-      cursor: pointer;
-      z-index: 10;
-    }
-    .vip-header {
-      text-align: center;
-      padding: 30px 15px 10px;
-      font-size: 1.8rem;
-      font-weight: bold;
-      text-shadow: 0 0 25px #c58aff;
-    }
-    .vip-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin: 20px;
-    }
-    .vip-tab-btn {
-      background: #261831;
-      border: 1px solid #b77af0;
-      color: #ecd9ff;
-      padding: 12px 18px;
-      border-radius: 40px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-      box-shadow: 0 0 12px #aa6fdd;
-    }
-    .vip-tab-btn.active {
-      background: #7734b0;
-      color: white;
-    }
-    .voucher-input-area {
-      margin: 25px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    .voucher-input-area input {
-      padding: 14px;
-      border-radius: 30px;
-      border: none;
-      background: #2c1d38;
-      color: #f0e2ff;
-      font-weight: bold;
-      box-shadow: 0 0 15px #aa6fdd;
-    }
-    .voucher-input-area button {
-      background: #b162e6;
-      border: none;
-      padding: 14px;
-      border-radius: 30px;
-      font-weight: bold;
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 0 25px #c175ff;
-    }
-    .info-box {
-      background: #241831;
-      margin: 20px;
-      padding: 20px;
-      border-radius: 24px;
-      border: 1px solid #bc7af5;
-    }
-    .admin-float-btn {
-      position: fixed;
-      bottom: 100px;
-      left: 20px;
-      z-index: 200;
-      background: #0a74da;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 15px;
-      font-weight: bold;
-      color: white;
-      box-shadow: 0 0 25px #3b82f6;
-      cursor: pointer;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .admin-float-btn:hover {
-      background: #1e40af;
-    }
-    .hach-float-btn {
-      position: fixed;
-      bottom: 100px;
-      right: 20px;
-      z-index: 200;
-      background: #c084fc;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 15px;
-      font-weight: bold;
-      color: white;
-      box-shadow: 0 0 30px #bc7af5;
-      cursor: pointer;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Nhân vật chạy 4 hướng</title>
+<style>
+  body { margin:0; background:#1a1a1a; display:flex; justify-content:center;
+         align-items:center; height:100vh; font-family:sans-serif; }
+  canvas { border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,.5); }
+</style>
 </head>
 <body>
-  <div id="page1">
-    <div class="loading-screen" id="loadingScreen">
-      <div class="glow-text">SHOP ALL FREE FIRE<br>TRUNGSANG X CHEAT🚀💹</div>
-      <div class="progress-wrapper"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="percent-text" id="percentDisplay">0%</div>
-      <div class="status-message" id="statusMessage">Đang chuẩn bị shop...</div>
-    </div>
-    <div id="main-shop">
-      <div class="shop-header">✨ SHOP ALL FREE FIRE ✨</div>
-      <div class="tab-content-area" id="tabContent">Chọn một mục bên dưới để xem chi tiết.</div>
-    </div>
-    <div class="footer-nav" id="footerNav" style="display: none;">
-      <button data-tab="shopall">🏪 SHOP ALL</button>
-      <button data-tab="price">💰 GIÁ/ALL SP</button>
-      <button data-tab="features">⚙️ CHỨC NĂNG</button>
-      <button data-tab="admin">👑 ADMIN</button>
-    </div>
-  </div>
+<canvas id="game" width="800" height="500"></canvas>
+<script>
+const canvas = document.getElementById('game');
+const ctx    = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
 
-  <div id="page2">
-    <div class="page2-loading" id="page2Loading">
-      <div>
-        <span class="blink-dot"></span><span class="blink-dot"></span><span class="blink-dot"></span>
-      </div>
-      <div style="color:#d9b3ff; margin-top:20px; font-weight:bold;">Đang kết nối HACH FF SHOP...</div>
-    </div>
-    <div class="page2-main" id="page2Main">
-      <button class="exit-button" id="exitPage2">✕</button>
-      <div class="vip-header">👑 NHẬN ALL HACH FF SHOP VÀ VIP 👑</div>
-      <div style="text-align:center; color:#cda5f0;">Nick của bạn: <span id="userNickDisplay">---</span></div>
-      <div class="vip-tabs">
-        <button class="vip-tab-btn active" data-vtab="napvip">💳 NẠP VIP</button>
-        <button class="vip-tab-btn" data-vtab="muavoucher">🛍️ MUA VOUCHER</button>
-        <button class="vip-tab-btn" data-vtab="nhapvoucher">🎫 NHẬP VOUCHER</button>
-      </div>
-      <div id="vipTabContent" class="info-box">Chọn tab để xem.</div>
-    </div>
-  </div>
+/* ============ NHÂN VẬT ============ */
+const player = {
+  x: 0, y: 0,           // vị trí trong thế giới
+  speed: 220,
+  dir: 'down',          // down | up | left | right
+  moving: false,
+  animTime: 0
+};
 
-  <script>
-    (function() {
-      // ========== SẢN PHẨM ==========
-      const products = [
-        { id: 1, name: 'SX2 PROXY ADR🚀💠', prices: [{ label: '1 DAY', value: 20000 }, { label: '7 DAY', value: 50000 }, { label: '14 DAY', value: 100000 }, { label: '30 DAY', value: 180000 }] },
-        { id: 2, name: 'MIGUL BASIC VN🚀💠', prices: [{ label: '1 DAY', value: 65000 }, { label: '7 DAY', value: 145000 }, { label: '30 DAY', value: 300000 }] },
-        { id: 3, name: 'MIGUL PRO VN🚀💠', prices: [{ label: '1 GIỜ', value: 20000 }, { label: '1 DAY', value: 130000 }, { label: '7 DAY', value: 250000 }, { label: '30 DAY', value: 536000 }] },
-        { id: 4, name: 'PROXY VIP V2💠 (ALL AIM)', prices: [{ label: '1 DAY', value: 24000 }, { label: '7 DAY', value: 54000 }, { label: '30 DAY', value: 115000 }, { label: 'VĨNH VIỄN', value: 300000 }] },
-        { id: 5, name: 'Fix lag ios📲', prices: [{ label: 'Vĩnh viễn', value: 90000 }] },
-        { id: 6, name: 'Acc FF 🔱', prices: [{ label: '1 ACC', value: 13000 }, { label: 'ACC RANK KC TC', value: 80000 }] },
-        { id: 7, name: 'ESGIN 💎', prices: [{ label: 'Gói iPhone/iPad (không BH)', value: 140000 }, { label: 'Gói BH 40 ngày', value: 300000 }, { label: 'Gói BH 300 ngày', value: 600000 }] }
-      ];
+/* ============ CAMERA ============ */
+const cam = { x: 0, y: 0 };
 
-      // ========== DANH SÁCH VOUCHER CỐ ĐỊNH (50 mã/gói) ==========
-      const voucherPool = {
-        'G1': [
-          'G1-A1B2C3','G1-D4E5F6','G1-G7H8I9','G1-J1K2L3','G1-M4N5O6',
-          'G1-P7Q8R9','G1-S1T2U3','G1-V4W5X6','G1-Y7Z8A9','G1-B1C2D3',
-          'G1-E4F5G6','G1-H7I8J9','G1-K1L2M3','G1-N4O5P6','G1-Q7R8S9',
-          'G1-T1U2V3','G1-W4X5Y6','G1-Z7A8B9','G1-C1D2E3','G1-F4G5H6',
-          'G1-I7J8K9','G1-L1M2N3','G1-O4P5Q6','G1-R7S8T9','G1-U1V2W3',
-          'G1-X4Y5Z6','G1-A7B8C9','G1-D1E2F3','G1-G4H5I6','G1-J7K8L9',
-          'G1-M1N2O3','G1-P4Q5R6','G1-S7T8U9','G1-V1W2X3','G1-Y4Z5A6',
-          'G1-B7C8D9','G1-E1F2G3','G1-H4I5J6','G1-K7L8M9','G1-N1O2P3',
-          'G1-Q4R5S6','G1-T7U8V9','G1-W1X2Y3','G1-Z4A5B6','G1-C7D8E9',
-          'G1-F1G2H3','G1-I4J5K6','G1-L7M8N9','G1-O1P2Q3','G1-R4S5T6'
-        ],
-        'G2': [
-          'G2-U7V8W9','G2-X1Y2Z3','G2-A4B5C6','G2-D7E8F9','G2-G1H2I3',
-          'G2-J4K5L6','G2-M7N8O9','G2-P1Q2R3','G2-S4T5U6','G2-V7W8X9',
-          'G2-Y1Z2A3','G2-B4C5D6','G2-E7F8G9','G2-H1I2J3','G2-K4L5M6',
-          'G2-N7O8P9','G2-Q1R2S3','G2-T4U5V6','G2-W7X8Y9','G2-Z1A2B3',
-          'G2-C4D5E6','G2-F7G8H9','G2-I1J2K3','G2-L4M5N6','G2-O7P8Q9',
-          'G2-R1S2T3','G2-U4V5W6','G2-X7Y8Z9','G2-A1B2C3','G2-D4E5F6',
-          'G2-G7H8I9','G2-J1K2L3','G2-M4N5O6','G2-P7Q8R9','G2-S1T2U3',
-          'G2-V4W5X6','G2-Y7Z8A9','G2-B1C2D3','G2-E4F5G6','G2-H7I8J9',
-          'G2-K1L2M3','G2-N4O5P6','G2-Q7R8S9','G2-T1U2V3','G2-W4X5Y6',
-          'G2-Z7A8B9','G2-C1D2E3','G2-F4G5H6','G2-I7J8K9','G2-L1M2N3'
-        ],
-        'G3': [
-          'G3-O4P5Q6','G3-R7S8T9','G3-U1V2W3','G3-X4Y5Z6','G3-A7B8C9',
-          'G3-D1E2F3','G3-G4H5I6','G3-J7K8L9','G3-M1N2O3','G3-P4Q5R6',
-          'G3-S7T8U9','G3-V1W2X3','G3-Y4Z5A6','G3-B7C8D9','G3-E1F2G3',
-          'G3-H4I5J6','G3-K7L8M9','G3-N1O2P3','G3-Q4R5S6','G3-T7U8V9',
-          'G3-W1X2Y3','G3-Z4A5B6','G3-C7D8E9','G3-F1G2H3','G3-I4J5K6',
-          'G3-L7M8N9','G3-O1P2Q3','G3-R4S5T6','G3-U7V8W9','G3-X1Y2Z3',
-          'G3-A4B5C6','G3-D7E8F9','G3-G1H2I3','G3-J4K5L6','G3-M7N8O9',
-          'G3-P1Q2R3','G3-S4T5U6','G3-V7W8X9','G3-Y1Z2A3','G3-B4C5D6',
-          'G3-E7F8G9','G3-H1I2J3','G3-K4L5M6','G3-N7O8P9','G3-Q1R2S3',
-          'G3-T4U5V6','G3-W7X8Y9','G3-Z1A2B3','G3-C4D5E6','G3-F7G8H9'
-        ],
-        'G4': [
-          'G4-I1J2K3','G4-L4M5N6','G4-O7P8Q9','G4-R1S2T3','G4-U4V5W6',
-          'G4-X7Y8Z9','G4-A1B2C3','G4-D4E5F6','G4-G7H8I9','G4-J1K2L3',
-          'G4-M4N5O6','G4-P7Q8R9','G4-S1T2U3','G4-V4W5X6','G4-Y7Z8A9',
-          'G4-B1C2D3','G4-E4F5G6','G4-H7I8J9','G4-K1L2M3','G4-N4O5P6',
-          'G4-Q7R8S9','G4-T1U2V3','G4-W4X5Y6','G4-Z7A8B9','G4-C1D2E3',
-          'G4-F4G5H6','G4-I7J8K9','G4-L1M2N3','G4-O4P5Q6','G4-R7S8T9',
-          'G4-U1V2W3','G4-X4Y5Z6','G4-A7B8C9','G4-D1E2F3','G4-G4H5I6',
-          'G4-J7K8L9','G4-M1N2O3','G4-P4Q5R6','G4-S7T8U9','G4-V1W2X3',
-          'G4-Y4Z5A6','G4-B7C8D9','G4-E1F2G3','G4-H4I5J6','G4-K7L8M9',
-          'G4-N1O2P3','G4-Q4R5S6','G4-T7U8V9','G4-W1X2Y3','G4-Z4A5B6'
-        ],
-        'G5': [
-          'G5-C7D8E9','G5-F1G2H3','G5-I4J5K6','G5-L7M8N9','G5-O1P2Q3',
-          'G5-R4S5T6','G5-U7V8W9','G5-X1Y2Z3','G5-A4B5C6','G5-D7E8F9',
-          'G5-G1H2I3','G5-J4K5L6','G5-M7N8O9','G5-P1Q2R3','G5-S4T5U6',
-          'G5-V7W8X9','G5-Y1Z2A3','G5-B4C5D6','G5-E7F8G9','G5-H1I2J3',
-          'G5-K4L5M6','G5-N7O8P9','G5-Q1R2S3','G5-T4U5V6','G5-W7X8Y9',
-          'G5-Z1A2B3','G5-C4D5E6','G5-F7G8H9','G5-I1J2K3','G5-L4M5N6',
-          'G5-O7P8Q9','G5-R1S2T3','G5-U4V5W6','G5-X7Y8Z9','G5-A1B2C3',
-          'G5-D4E5F6','G5-G7H8I9','G5-J1K2L3','G5-M4N5O6','G5-P7Q8R9',
-          'G5-S1T2U3','G5-V4W5X6','G5-Y7Z8A9','G5-B1C2D3','G5-E4F5G6',
-          'G5-H7I8J9','G5-K1L2M3','G5-N4O5P6','G5-Q7R8S9','G5-T1U2V3'
-        ]
-      };
+/* ============ CÂY CỐI (rải ngẫu nhiên) ============ */
+const trees = [];
+for (let i = 0; i < 60; i++) {
+  trees.push({
+    x: (Math.random() - 0.5) * 2400,
+    y: (Math.random() - 0.5) * 2400
+  });
+}
 
-      // In ra console để bạn sao chép
-      console.log('===== DANH SÁCH VOUCHER CỐ ĐỊNH (DÙNG ĐƯỢC NGAY) =====');
-      console.log('GÓI 1 (9% - 3 ngày):', voucherPool['G1']);
-      console.log('GÓI 2 (18% - 8 ngày):', voucherPool['G2']);
-      console.log('GÓI 3 (25% - 14 ngày):', voucherPool['G3']);
-      console.log('GÓI 4 (36% - 23 ngày):', voucherPool['G4']);
-      console.log('GÓI 5 (50% - VĨNH VIỄN):', voucherPool['G5']);
+const ROAD = 150;   // kích thước ô lưới đường
 
-      // ========== QUẢN LÝ TRẠNG THÁI ==========
-      const STORAGE_KEY = 'ff_shop_userdata';
-      let appState = {
-        userNick: null,
-        activeVoucher: null,
-        usedVouchers: []
-      };
+/* ============ INPUT ============ */
+const keys = {};
+addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
+addEventListener('keyup',   e => keys[e.key.toLowerCase()] = false);
 
-      function loadState() {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-          try {
-            const parsed = JSON.parse(saved);
-            appState = { ...appState, ...parsed };
-            if (appState.activeVoucher && appState.activeVoucher.package !== 'G5' && Date.now() > appState.activeVoucher.expiresAt) {
-              appState.activeVoucher = null;
-            }
-          } catch (e) {}
-        }
-        if (!appState.userNick) {
-          appState.userNick = 'User_' + Math.random().toString(36).substring(2, 8).toUpperCase();
-        }
-        saveState();
-        const nickDisplay = document.getElementById('userNickDisplay');
-        if (nickDisplay) nickDisplay.textContent = appState.userNick;
-      }
+/* ============ UPDATE ============ */
+function update(dt) {
+  let dx = 0, dy = 0;
+  if (keys['w'] || keys['arrowup'])    dy -= 1;
+  if (keys['s'] || keys['arrowdown'])  dy += 1;
+  if (keys['a'] || keys['arrowleft'])  dx -= 1;
+  if (keys['d'] || keys['arrowright']) dx += 1;
 
-      function saveState() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
-      }
+  player.moving = (dx !== 0 || dy !== 0);
 
-      function getDiscountedPrice(originalPrice, productId) {
-        if (!appState.activeVoucher) return originalPrice;
-        const v = appState.activeVoucher;
-        if (v.package !== 'G5' && Date.now() > v.expiresAt) {
-          appState.activeVoucher = null;
-          saveState();
-          return originalPrice;
-        }
-        if ([5,6,7].includes(productId)) return originalPrice;
-        return Math.floor(originalPrice * (1 - v.discountPercent / 100));
-      }
+  if (player.moving) {
+    // Hướng mặt: ưu tiên trục có độ lệch lớn hơn
+    if (Math.abs(dx) > Math.abs(dy)) player.dir = dx > 0 ? 'right' : 'left';
+    else                             player.dir = dy > 0 ? 'down'  : 'up';
 
-      function formatCurrency(num) {
-        return num.toLocaleString('vi-VN') + ' VNĐ';
-      }
+    const len = Math.hypot(dx, dy);
+    player.x += (dx / len) * player.speed * dt;
+    player.y += (dy / len) * player.speed * dt;
+    player.animTime += dt;
+  } else {
+    player.animTime = 0;   // đứng yên thì reset animation
+  }
 
-      // ========== TRANG 1 LOADING ==========
-      const loadingScreen = document.getElementById('loadingScreen');
-      const progressFill = document.getElementById('progressFill');
-      const percentDisplay = document.getElementById('percentDisplay');
-      const statusMsg = document.getElementById('statusMessage');
-      const mainShop = document.getElementById('main-shop');
-      const footerNav = document.getElementById('footerNav');
-      const tabContent = document.getElementById('tabContent');
+  // Camera bám theo nhân vật
+  cam.x = player.x - W / 2;
+  cam.y = player.y - H / 2;
+}
 
-      let loadPercent = 0;
-      const statuses = ['Đang chuẩn bị shop...', 'Sắp hoàn thành...', 'Thành công!'];
-      function updateLoading() {
-        if (loadPercent < 100) {
-          loadPercent += Math.floor(Math.random() * 4) + 1;
-          if (loadPercent > 100) loadPercent = 100;
-          progressFill.style.width = loadPercent + '%';
-          percentDisplay.textContent = loadPercent + '%';
-          if (loadPercent < 40) statusMsg.textContent = statuses[0];
-          else if (loadPercent < 85) statusMsg.textContent = statuses[1];
-          else statusMsg.textContent = statuses[2];
-          if (loadPercent < 100) {
-            setTimeout(updateLoading, 40 + Math.random() * 60);
-          } else {
-            setTimeout(() => {
-              loadingScreen.classList.add('hidden');
-              mainShop.classList.add('active');
-              footerNav.style.display = 'flex';
-              document.getElementById('tabContent').innerHTML = '✅ Shop đã sẵn sàng! Chọn mục bên dưới.';
-            }, 400);
-          }
-        }
-      }
+/* ============ VẼ NHÂN VẬT ============ */
+function drawCharacter(x, y, dir, animTime, moving) {
+  const t     = animTime * 12;                // tốc độ animation
+  const swing = moving ? Math.sin(t) : 0;     // tay chân vung
+  const bob   = moving ? Math.abs(Math.sin(t)) * 2 : 0; // nhấp nhô
 
-      window.addEventListener('load', () => {
-        loadState();
-        updateLoading();
-      });
+  const sideView   = (dir === 'left' || dir === 'right');
+  const facingAway = (dir === 'up');
+  const faceSign   = (dir === 'right') ? 1 : (dir === 'left') ? -1 : 0;
 
-      // ========== TAB FOOTER TRANG 1 ==========
-      const tabButtons = document.querySelectorAll('#footerNav button');
-      tabButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-          tabButtons.forEach(b => b.classList.remove('active-tab'));
-          this.classList.add('active-tab');
-          loadTabContent(this.dataset.tab);
-        });
-      });
+  ctx.save();
+  ctx.translate(x, y - bob);
 
-      function loadTabContent(tab) {
-        tabContent.innerHTML = '⏳ Đang tải...';
-        tabContent.style.opacity = '0.6';
-        setTimeout(() => {
-          tabContent.style.opacity = '1';
-          switch (tab) {
-            case 'shopall':
-              tabContent.innerHTML = `<div style="font-size:1.3rem; margin-bottom:12px;">🚀 SHOP ALL</div>
-                <div>• SX2 PROXY ADR🚀💠</div><div>• MIGUL BASIC VN🚀💠</div>
-                <div>• MIGUL PRO VN🚀💠</div><div>• PROXY VIP V2 🚀💠(All IOS)</div>
-                <div>• CHỨNG CHỈ 👑ESGIN💎</div><div>• 1 ACC👤</div>
-                <div>• ACC RANK KC TC👤</div><div>• Fix lag ios📲</div>`;
-              break;
-            case 'price':
-              let priceHtml = '<div style="font-size:1.3rem;">💰 BẢNG GIÁ</div>';
-              products.forEach(p => {
-                priceHtml += `<div style="margin-top:16px; font-weight:bold; color:#a0f0ff;">${p.name}</div>`;
-                p.prices.forEach(pr => {
-                  const discounted = getDiscountedPrice(pr.value, p.id);
-                  const showOriginal = discounted !== pr.value;
-                  priceHtml += `<div>• ${pr.label}: ${formatCurrency(discounted)} ${showOriginal ? '<span style="text-decoration:line-through;color:#7a8a9a;">('+formatCurrency(pr.value)+')</span>' : ''} 🛍️</div>`;
-                });
-                if (p.id === 3) priceHtml += '<div>= ANTIBAN✅ = ALL IOS✅</div>';
-                if (p.id === 7) priceHtml += '<div>= Toàn bộ đều chứng chỉ 1 năm</div>';
-              });
-              tabContent.innerHTML = priceHtml;
-              break;
-            case 'features':
-              tabContent.innerHTML = `<div style="font-weight:bold;color:#b3f0ff;">⚙️ CHI TIẾT CHỨC NĂNG</div>
-                <div>1️⃣ SX2 PROXY ADR: Chạy nhanh, bắn định phun đỏ, nâng cấp siêu vip⚜️</div>
-                <div>2️⃣ MIGUL BASIC VN: Menu bật tắt, viền tâm, bắn đỏ+vàng⚜️</div>
-                <div>3️⃣ MIGUL PRO VN: Antiban tuyệt đối, chỉnh vòng✅</div>
-                <div>4️⃣ PROXY VIP V2: AIM DRAG/BODY/NECK/MAGIC, xuyên giáp🚀</div>
-                <div>5️⃣ Fix lag IOS: fix lag tạm thời, antiban 100%📲</div>
-                <div>6️⃣ ACC FF: clone lv5-8, rank KC TC lv8-11👤</div>`;
-              break;
-            case 'admin':
-              tabContent.innerHTML = `<div>👑 THÔNG TIN ADMIN</div>
-                <div>ZALO: <b>0372822927</b></div>
-                <div>BOX: <a href="https://zalo.me/g/myvfgfidweld9ovmd7t4" target="_blank" style="color:#7de0ff;">https://zalo.me/g/myvfgfidweld9ovmd7t4</a></div>
-                <div>NGÂN HÀNG: MB BANK</div>
-                <div>STK: 0372822927 - TRAN TRUNG SANG</div>
-                <div>Nội dung: AIM GÌ VÀ MUA BẢNG AIM ĐÓ</div>
-                <div>Chuyển khoản xong gửi ảnh qua Zalo admin.</div>`;
-              break;
-          }
-        }, 1000 + Math.random() * 1500);
-      }
+  // Bóng đổ
+  ctx.beginPath();
+  ctx.ellipse(0, 22, 14, 6, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(0,0,0,.22)';
+  ctx.fill();
 
-      // ========== TRANG 2 ==========
-      const page1 = document.getElementById('page1');
-      const page2 = document.getElementById('page2');
-      const page2Loading = document.getElementById('page2Loading');
-      const page2Main = document.getElementById('page2Main');
+  const skin = '#f2c29b', shirt = '#3a7bd5', pants = '#2c2c34';
 
-      function showPage2() {
-        page1.style.display = 'none';
-        page2.classList.add('active');
-        page2Loading.classList.remove('hidden');
-        page2Main.classList.remove('active');
-        let blinks = 0;
-        const maxBlinks = 5 + Math.floor(Math.random() * 6);
-        const blinkInterval = setInterval(() => {
-          blinks++;
-          if (blinks >= maxBlinks) {
-            clearInterval(blinkInterval);
-            page2Loading.classList.add('hidden');
-            page2Main.classList.add('active');
-            document.getElementById('userNickDisplay').textContent = appState.userNick;
-            loadVipTab('napvip');
-          }
-        }, 600);
-      }
+  // ---- CHÂN ----
+  ctx.strokeStyle = pants; ctx.lineWidth = 6; ctx.lineCap = 'round';
+  const legSwing = swing * 6;
+  // chân trái
+  ctx.beginPath();
+  ctx.moveTo(-4, 8);
+  if (sideView) ctx.lineTo(-4 - legSwing, 22);
+  else          ctx.lineTo(-4, 22 + legSwing * 0.4);
+  ctx.stroke();
+  // chân phải
+  ctx.beginPath();
+  ctx.moveTo(4, 8);
+  if (sideView) ctx.lineTo(4 + legSwing, 22);
+  else          ctx.lineTo(4, 22 - legSwing * 0.4);
+  ctx.stroke();
 
-      document.getElementById('exitPage2').addEventListener('click', () => {
-        page2.classList.remove('active');
-        page2Main.classList.remove('active');
-        page1.style.display = 'block';
-        mainShop.classList.add('active');
-        footerNav.style.display = 'flex';
-      });
+  // ---- THÂN ----
+  ctx.fillStyle = shirt;
+  ctx.beginPath();
+  ctx.roundRect(-9, -8, 18, 22, 6);
+  ctx.fill();
 
-      // ========== NÚT NỔI: ADMIN (ZALO) + HACH VIP ==========
-      const adminBtn = document.createElement('button');
-      adminBtn.className = 'admin-float-btn';
-      adminBtn.innerHTML = '👤 ADMIN';
-      adminBtn.title = 'Liên hệ Zalo Admin';
-      adminBtn.addEventListener('click', () => {
-        window.open('https://zalo.me/0372822927', '_blank');
-      });
-      document.body.appendChild(adminBtn);
+  // ---- TAY ----
+  ctx.strokeStyle = shirt; ctx.lineWidth = 5;
+  const armSwing = sideView ? swing * 7 : swing * 3;
+  // tay trái
+  ctx.beginPath();
+  ctx.moveTo(-9, -4);
+  ctx.lineTo(-13, 6 + (sideView ? -armSwing :  armSwing));
+  ctx.stroke();
+  // tay phải
+  ctx.beginPath();
+  ctx.moveTo(9, -4);
+  ctx.lineTo(13, 6 + (sideView ?  armSwing : -armSwing));
+  ctx.stroke();
 
-      const hachBtn = document.createElement('button');
-      hachBtn.className = 'hach-float-btn';
-      hachBtn.innerHTML = '🎁 NHẬN HACH VIP';
-      hachBtn.addEventListener('click', showPage2);
-      document.body.appendChild(hachBtn);
+  // ---- ĐẦU ----
+  ctx.fillStyle = skin;
+  ctx.beginPath(); ctx.arc(0, -17, 9, 0, Math.PI * 2); ctx.fill();
 
-      // ========== TAB TRONG TRANG 2 ==========
-      const vipTabBtns = document.querySelectorAll('.vip-tab-btn');
-      const vipTabContent = document.getElementById('vipTabContent');
-      vipTabBtns.forEach(b => {
-        b.addEventListener('click', function() {
-          vipTabBtns.forEach(x => x.classList.remove('active'));
-          this.classList.add('active');
-          loadVipTab(this.dataset.vtab);
-        });
-      });
+  // Tóc
+  ctx.fillStyle = '#5a3825';
+  ctx.beginPath(); ctx.arc(0, -19, 9, Math.PI, 0); ctx.fill();
 
-      function loadVipTab(tab) {
-        switch (tab) {
-          case 'napvip':
-            vipTabContent.innerHTML = `<div>👑 NẠP VIP</div>
-              <div>Gói 1 (40k / 3 ngày) - giảm 9%</div>
-              <div>Gói 2 (90k / 8 ngày) - giảm 18%</div>
-              <div>Gói 3 (150k / 14 ngày) - giảm 25%</div>
-              <div>Gói 4 (250k / 23 ngày) - giảm 36%</div>
-              <div>Gói 5 SIÊU VIP+ (800k / Vĩnh viễn) - giảm 50%</div>
-              <div style="margin-top:15px;">Liên hệ ZALO: 0372822927 để mua.</div>`;
-            break;
-          case 'muavoucher':
-            vipTabContent.innerHTML = `<div>🛍️ MUA VOUCHER GIẢM GIÁ</div>
-              <div>Chuyển khoản MB BANK: 0372822927 - TRAN TRUNG SANG</div>
-              <div>Nội dung: Gói vip + tên người mua</div>
-              <div>Sau đó liên hệ ZALO admin để nhận voucher.</div>`;
-            break;
-          case 'nhapvoucher':
-            vipTabContent.innerHTML = `<div>🎫 NHẬP VOUCHER</div>
-              <div class="voucher-input-area">
-                <input type="text" id="voucherCodeInput" placeholder="Nhập mã voucher...">
-                <button id="applyVoucherBtn">ÁP DỤNG</button>
-              </div>
-              <div id="voucherMessage" style="margin-top:15px;"></div>`;
-            document.getElementById('applyVoucherBtn').addEventListener('click', applyVoucher);
-            break;
-        }
-      }
+  // ---- MẶT ----
+  if (!facingAway) {
+    if (sideView) {
+      const ex = faceSign * 4;
+      ctx.fillStyle = '#222';
+      ctx.beginPath(); ctx.arc(ex, -17, 1.6, 0, Math.PI * 2); ctx.fill();
+      // miệng
+      ctx.strokeStyle = '#a0452a'; ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.arc(ex + faceSign * 2, -12, 2.2, 0.2, Math.PI - 0.2);
+      ctx.stroke();
+    } else {
+      // 2 mắt
+      ctx.fillStyle = '#222';
+      ctx.beginPath();
+      ctx.arc(-3, -17, 1.6, 0, Math.PI * 2);
+      ctx.arc( 3, -17, 1.6, 0, Math.PI * 2);
+      ctx.fill();
+      // miệng
+      ctx.strokeStyle = '#a0452a'; ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      ctx.arc(0, -13, 3, 0.2, Math.PI - 0.2);
+      ctx.stroke();
+    }
+  }
 
-      function applyVoucher() {
-        const codeInput = document.getElementById('voucherCodeInput');
-        const msgDiv = document.getElementById('voucherMessage');
-        if (!codeInput) return;
-        const code = codeInput.value.trim().toUpperCase();
-        if (!code) { msgDiv.innerHTML = '❌ Vui lòng nhập mã voucher.'; return; }
-        if (appState.usedVouchers.includes(code)) {
-          msgDiv.innerHTML = '⚠️ Voucher này đã được sử dụng trước đó.';
-          return;
-        }
-        let foundPackage = null;
-        let discountPercent = 0;
-        for (let [pkg, codes] of Object.entries(voucherPool)) {
-          if (codes.includes(code)) {
-            foundPackage = pkg;
-            if (pkg === 'G1') discountPercent = 9;
-            else if (pkg === 'G2') discountPercent = 18;
-            else if (pkg === 'G3') discountPercent = 25;
-            else if (pkg === 'G4') discountPercent = 36;
-            else if (pkg === 'G5') discountPercent = 50;
-            break;
-          }
-        }
-        if (!foundPackage) {
-          msgDiv.innerHTML = '❌ Mã voucher không tồn tại trong hệ thống.';
-          return;
-        }
-        let days = 0;
-        if (foundPackage === 'G1') days = 3;
-        else if (foundPackage === 'G2') days = 8;
-        else if (foundPackage === 'G3') days = 14;
-        else if (foundPackage === 'G4') days = 23;
-        const now = Date.now();
-        const expiresAt = foundPackage === 'G5' ? Infinity : now + days * 24 * 60 * 60 * 1000;
-        appState.activeVoucher = {
-          code,
-          package: foundPackage,
-          discountPercent,
-          activatedAt: now,
-          expiresAt
-        };
-        appState.usedVouchers.push(code);
-        saveState();
-        const expStr = foundPackage === 'G5' ? 'VĨNH VIỄN' : 'đến ' + new Date(expiresAt).toLocaleDateString('vi-VN');
-        msgDiv.innerHTML = `✅ Voucher <b>${code}</b> áp dụng thành công!<br>Giảm <b>${discountPercent}%</b> (${expStr}).`;
-        if (document.querySelector('#footerNav button.active-tab')?.dataset.tab === 'price') {
-          loadTabContent('price');
-        }
-      }
+  ctx.restore();
+}
 
-      setInterval(() => {
-        if (appState.activeVoucher && appState.activeVoucher.package !== 'G5' && Date.now() > appState.activeVoucher.expiresAt) {
-          appState.activeVoucher = null;
-          saveState();
-        }
-      }, 60000);
+/* ============ VẼ CÂY ============ */
+function drawTree(x, y) {
+  // bóng
+  ctx.fillStyle = 'rgba(0,0,0,.15)';
+  ctx.beginPath(); ctx.ellipse(x, y + 12, 18, 6, 0, 0, Math.PI * 2); ctx.fill();
+  // thân
+  ctx.fillStyle = '#7a4b25';
+  ctx.fillRect(x - 4, y - 12, 8, 24);
+  // lá
+  ctx.fillStyle = '#2e8b3e';
+  ctx.beginPath(); ctx.arc(x, y - 28, 20, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#3fa952';
+  ctx.beginPath(); ctx.arc(x - 7, y - 34, 13, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x + 8, y - 26, 11, 0, Math.PI * 2); ctx.fill();
+}
 
-      document.querySelector('#footerNav button[data-tab="shopall"]')?.click();
-    })();
-  </script>
+/* ============ RENDER ============ */
+function render() {
+  // Nền cỏ
+  ctx.fillStyle = '#7ec850';
+  ctx.fillRect(0, 0, W, H);
+
+  // Lưới đường (cuộn theo camera)
+  ctx.strokeStyle = 'rgba(255,255,255,.28)';
+  ctx.lineWidth = 3;
+  const offX = ((-cam.x % ROAD) + ROAD) % ROAD;
+  const offY = ((-cam.y % ROAD) + ROAD) % ROAD;
+
+  for (let x = offX; x < W; x += ROAD) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = offY; y < H; y += ROAD) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // Gộp cây + nhân vật, sort theo Y để che khuất đúng
+  const items = [];
+  for (const tr of trees) items.push({ k:'tree', x:tr.x, y:tr.y });
+  items.push({ k:'player', x:player.x, y:player.y });
+  items.sort((a,b) => a.y - b.y);
+
+  for (const it of items) {
+    const sx = it.x - cam.x;
+    const sy = it.y - cam.y;
+    if (sx < -120 || sx > W + 120 || sy < -180 || sy > H + 120) continue;
+
+    if (it.k === 'tree') drawTree(sx, sy);
+    else drawCharacter(sx, sy, player.dir, player.animTime, player.moving);
+  }
+
+  // HUD
+  ctx.fillStyle = 'rgba(0,0,0,.55)';
+  ctx.fillRect(10, 10, 210, 34);
+  ctx.fillStyle = '#fff';
+  ctx.font = '16px sans-serif';
+  ctx.fillText('WASD / phím mũi tên để chạy', 20, 33);
+}
+
+/* ============ GAME LOOP ============ */
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min((now - last) / 1000, 0.05);
+  last = now;
+  update(dt);
+  render();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
 </body>
 </html>
