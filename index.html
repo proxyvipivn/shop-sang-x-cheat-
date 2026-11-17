@@ -1,4 +1,4 @@
-l<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -820,4 +820,515 @@ function updateFireworks(dt) {
 }
 
 function resetToCountdown() {
-  GAME.state = 'countdown
+  GAME.state = 'countdown';
+  GAME.countdownStart = performance.now();
+  GAME.winnerOverlayStart = 0;
+  GAME.winnerOverlayAlpha = 0;
+  GAME.prediction = null;
+  GAME.camX = -450;
+  lastCountdownDisplay = null;
+  document.getElementById('prediction-msg').textContent = '';
+  document.querySelectorAll('.portrait').forEach(p => p.classList.remove('selected'));
+  determineRace();
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderGame() {
+  if (GAME.state === 'countdown') renderCountdownScene();
+  else renderRaceScene();
+  if (GAME.state === 'running' || GAME.state === 'finished') renderProgressBar();
+  if (GAME.state === 'finished' && GAME.winnerOverlayAlpha > 0) renderWinnerOverlay();
+}
+
+function drawCloud(ctx, x, y, scale) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(scale, scale);
+  ctx.fillStyle = 'rgba(255,255,255,0.92)';
+  ctx.beginPath();
+  ctx.arc(0, 0, 25, 0, Math.PI*2); ctx.arc(25, -5, 20, 0, Math.PI*2);
+  ctx.arc(50, 0, 22, 0, Math.PI*2); ctx.arc(25, 8, 22, 0, Math.PI*2);
+  ctx.fill(); ctx.restore();
+}
+
+function renderCountdownScene() {
+  const ctx = rctx;
+  const sky = ctx.createLinearGradient(0, 0, 0, RH);
+  sky.addColorStop(0, '#4fc3f7'); sky.addColorStop(0.55, '#b3e5fc');
+  sky.addColorStop(0.7, '#7ec850'); sky.addColorStop(1, '#4caf50');
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, RW, RH);
+
+  drawCloud(ctx, 120, 80, 1); drawCloud(ctx, 450, 60, 0.85);
+  drawCloud(ctx, 720, 100, 1.1); drawCloud(ctx, 900, 50, 0.75);
+
+  ctx.fillStyle = '#ffeb3b'; ctx.shadowColor = '#ffeb3b'; ctx.shadowBlur = 45;
+  ctx.beginPath(); ctx.arc(RW - 100, 90, 42, 0, Math.PI*2); ctx.fill(); ctx.shadowBlur = 0;
+
+  ctx.fillStyle = 'rgba(0,0,0,.12)';
+  ctx.beginPath(); ctx.ellipse(RW/2, RH * 0.78, 460, 32, 0, 0, Math.PI*2); ctx.fill();
+
+  const groundY = RH * 0.72;
+  drawMale(ctx, RW * 0.3, groundY, 'front', GAME.animTime, GAME.maleBlink.blinking, 2.4);
+  drawFemale(ctx, RW * 0.7, groundY, 'front', GAME.animTime, GAME.femaleBlink.blinking, 2.4);
+
+  // Speed labels under each character
+  ctx.font = 'bold 16px Segoe UI'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#222'; ctx.shadowColor = 'rgba(255,255,255,.9)'; ctx.shadowBlur = 6;
+  ctx.fillText(GAME.male.speedKmh.toFixed(1) + ' km/h', RW * 0.3, groundY + 78);
+  ctx.fillText(GAME.female.speedKmh.toFixed(1) + ' km/h', RW * 0.7, groundY + 78);
+  ctx.shadowBlur = 0;
+
+  ctx.font = 'bold 28px Segoe UI';
+  ctx.fillStyle = '#3a7bd5'; ctx.fillText('NAM', RW * 0.3, groundY - 110);
+  ctx.fillStyle = '#e91e63'; ctx.fillText('NỮ', RW * 0.7, groundY - 110);
+  ctx.textAlign = 'left';
+}
+
+function renderRaceScene() {
+  const ctx = rctx;
+  const camX = GAME.camX;
+
+  const sky = ctx.createLinearGradient(0, 0, 0, RH * 0.55);
+  sky.addColorStop(0, '#4fc3f7'); sky.addColorStop(1, '#e1f5fe');
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, RW, RH * 0.55);
+
+  ctx.fillStyle = '#ffeb3b'; ctx.shadowColor = '#ffeb3b'; ctx.shadowBlur = 35;
+  ctx.beginPath(); ctx.arc(RW - 100 - camX * 0.04, 80, 36, 0, Math.PI*2); ctx.fill(); ctx.shadowBlur = 0;
+
+  for (let i = 0; i < 6; i++) {
+    const cx = ((i * 300 - camX * 0.2) % (RW + 300) + RW + 300) % (RW + 300) - 150;
+    drawCloud(ctx, cx, 55 + (i % 3) * 35, 0.6 + (i % 2) * 0.3);
+  }
+
+  ctx.fillStyle = '#66bb6a'; ctx.beginPath(); ctx.moveTo(0, RH * 0.55);
+  for (let x = 0; x <= RW; x += 50) ctx.lineTo(x, RH * 0.55 - Math.sin((x + camX * 0.3) / 100) * 40 - 15);
+  ctx.lineTo(RW, RH * 0.55); ctx.fill();
+
+  ctx.fillStyle = '#81c784'; ctx.beginPath(); ctx.moveTo(0, RH * 0.6);
+  for (let x = 0; x <= RW; x += 50) ctx.lineTo(x, RH * 0.6 - Math.sin((x + camX * 0.5) / 150) * 28 - 8);
+  ctx.lineTo(RW, RH * 0.6); ctx.fill();
+
+  for (let i = 0; i < 8; i++) {
+    const tx = ((i * 260 - camX * 0.6) % (RW + 260) + RW + 260) % (RW + 260) - 130;
+    const ty = RH * 0.6 + 20;
+    ctx.fillStyle = 'rgba(0,0,0,.12)';
+    ctx.beginPath(); ctx.ellipse(tx, ty + 6, 20, 5, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#7a4b25'; ctx.fillRect(tx - 3, ty - 20, 6, 22);
+    ctx.fillStyle = '#2e8b3e'; ctx.beginPath(); ctx.arc(tx, ty - 30, 16, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#3fa952'; ctx.beginPath(); ctx.arc(tx - 6, ty - 35, 10, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(tx + 6, ty - 28, 9, 0, Math.PI*2); ctx.fill();
+  }
+
+  const groundY = RH * 0.62;
+  const groundGrad = ctx.createLinearGradient(0, groundY, 0, RH);
+  groundGrad.addColorStop(0, '#7ec850'); groundGrad.addColorStop(1, '#4caf50');
+  ctx.fillStyle = groundGrad; ctx.fillRect(0, groundY, RW, RH - groundY);
+
+  const trackTop = RH * 0.7, trackBot = RH * 0.92;
+  ctx.fillStyle = '#9e9e9e'; ctx.fillRect(0, trackTop, RW, trackBot - trackTop);
+
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; ctx.setLineDash([40, 40]);
+  ctx.lineDashOffset = -camX;
+  ctx.beginPath(); ctx.moveTo(0, (trackTop + trackBot) / 2);
+  ctx.lineTo(RW, (trackTop + trackBot) / 2); ctx.stroke(); ctx.setLineDash([]);
+
+  ctx.strokeStyle = '#616161'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(0, trackTop); ctx.lineTo(RW, trackTop);
+  ctx.moveTo(0, trackBot); ctx.lineTo(RW, trackBot); ctx.stroke();
+
+  ctx.font = 'bold 12px Segoe UI'; ctx.textAlign = 'center';
+  for (let km = 0; km <= 100; km += 10) {
+    const px = km * GAME.scale - camX;
+    if (px < -50 || px > RW + 50) continue;
+    ctx.fillStyle = '#444'; ctx.fillText(km + 'km', px, trackTop - 8);
+    ctx.strokeStyle = 'rgba(0,0,0,.1)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(px, trackTop); ctx.lineTo(px, trackBot); ctx.stroke();
+  }
+  ctx.textAlign = 'left';
+
+  const finishX = GAME.trackLength * GAME.scale - camX;
+  if (finishX > -100 && finishX < RW + 100) {
+    for (let i = 0; i < 10; i++) for (let j = 0; j < 2; j++) {
+      ctx.fillStyle = (i + j) % 2 === 0 ? '#fff' : '#222';
+      ctx.fillRect(finishX - 5, trackTop + (trackBot - trackTop) * j / 2, 10, (trackBot - trackTop) / 2);
+    }
+    ctx.fillStyle = '#333'; ctx.fillRect(finishX - 2, trackTop - 65, 4, 65);
+    ctx.fillStyle = '#f44336';
+    ctx.beginPath();
+    ctx.moveTo(finishX + 2, trackTop - 65); ctx.lineTo(finishX + 55, trackTop - 55);
+    ctx.lineTo(finishX + 2, trackTop - 45); ctx.closePath(); ctx.fill();
+  }
+
+  // Items — only when running/finished
+  if (GAME.state === 'running' || GAME.state === 'finished') {
+    const mItemX = GAME.male.itemPos * GAME.scale - camX;
+    const fItemX = GAME.female.itemPos * GAME.scale - camX;
+    if (GAME.male.itemPhase === 'ahead' && mItemX > -60 && mItemX < RW + 60) {
+      const iy = trackTop + (trackBot - trackTop) * 0.3 - 34;
+      GAME.male.item === 'lightning'
+        ? drawLightningItem(ctx, mItemX, iy, GAME.animTime, 1)
+        : drawBananaItem(ctx, mItemX, iy, GAME.animTime, 1);
+    }
+    if (GAME.female.itemPhase === 'ahead' && fItemX > -60 && fItemX < RW + 60) {
+      const iy = trackTop + (trackBot - trackTop) * 0.7 - 34;
+      GAME.female.item === 'lightning'
+        ? drawLightningItem(ctx, fItemX, iy, GAME.animTime + 0.5, 1)
+        : drawBananaItem(ctx, fItemX, iy, GAME.animTime + 0.5, 1);
+    }
+  }
+
+  const maleX = GAME.male.distance * GAME.scale - camX;
+  const femaleX = GAME.female.distance * GAME.scale - camX;
+  const maleY = trackTop + (trackBot - trackTop) * 0.3;
+  const femaleY = trackTop + (trackBot - trackTop) * 0.7;
+
+  if (maleX > -100 && maleX < RW + 100) {
+    if (GAME.male.itemPhase === 'active' && GAME.male.item === 'lightning') drawSpeedLines(maleX - 30, maleY - 40, '#ffeb3b');
+    drawMale(ctx, maleX, maleY, 'side', GAME.animTime, false, 1.4);
+  }
+  if (femaleX > -100 && femaleX < RW + 100) {
+    if (GAME.female.itemPhase === 'active' && GAME.female.item === 'lightning') drawSpeedLines(femaleX - 30, femaleY - 40, '#ffeb3b');
+    drawFemale(ctx, femaleX, femaleY, 'side', GAME.animTime, false, 1.4);
+  }
+
+  ctx.font = 'bold 15px Segoe UI'; ctx.textAlign = 'center';
+  if (maleX > -100 && maleX < RW + 100) { ctx.fillStyle = '#3a7bd5'; ctx.fillText('NAM', maleX, maleY - 72); }
+  if (femaleX > -100 && femaleX < RW + 100) { ctx.fillStyle = '#e91e63'; ctx.fillText('NỮ', femaleX, femaleY - 72); }
+  ctx.textAlign = 'left';
+}
+
+function drawSpeedLines(x, y, color) {
+  const ctx = rctx;
+  ctx.save(); ctx.globalAlpha = 0.7;
+  ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+  for (let i = 0; i < 6; i++) {
+    const offset = (GAME.animTime * 500 + i * 30) % 100;
+    ctx.beginPath();
+    ctx.moveTo(x - offset - 10, y - 30 + i * 12);
+    ctx.lineTo(x - offset - 55, y - 30 + i * 12);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function renderProgressBar() {
+  const ctx = rctx;
+  const barY = 20, barX = 40, barW = RW - 80, barH = 22;
+  ctx.fillStyle = 'rgba(0,0,0,.5)';
+  ctx.beginPath(); ctx.roundRect(barX - 6, barY - 6, barW + 12, barH + 12, 12); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.2)'; ctx.fillRect(barX, barY, barW, barH);
+  ctx.fillStyle = '#3a7bd5'; ctx.fillRect(barX, barY, barW * (GAME.male.distance / GAME.trackLength), barH / 2);
+  ctx.fillStyle = '#e91e63'; ctx.fillRect(barX, barY + barH / 2, barW * (GAME.female.distance / GAME.trackLength), barH / 2);
+  ctx.font = 'bold 11px Segoe UI'; ctx.fillStyle = '#fff'; ctx.textAlign = 'left';
+  ctx.fillText('NAM ' + GAME.male.speedKmh.toFixed(1) + 'km/h', barX + 6, barY + 10);
+  ctx.fillText('NỮ ' + GAME.female.speedKmh.toFixed(1) + 'km/h', barX + 6, barY + 19);
+  ctx.textAlign = 'right';
+  ctx.fillText(Math.round(GAME.male.distance) + 'km', barX + barW - 6, barY + 10);
+  ctx.fillText(Math.round(GAME.female.distance) + 'km', barX + barW - 6, barY + 19);
+  ctx.textAlign = 'left';
+}
+
+function renderWinnerOverlay() {
+  const ctx = rctx;
+  const alpha = GAME.winnerOverlayAlpha;
+  ctx.save(); ctx.globalAlpha = alpha;
+  ctx.fillStyle = 'rgba(0,0,0,.68)'; ctx.fillRect(0, 0, RW, RH);
+
+  for (const f of GAME.fireworks) {
+    const fa = 1 - f.age / f.life;
+    if (fa <= 0) continue;
+    ctx.globalAlpha = alpha * fa;
+    ctx.fillStyle = f.color; ctx.shadowColor = f.color; ctx.shadowBlur = 15;
+    ctx.beginPath(); ctx.arc(f.x, f.y, f.size, 0, Math.PI*2); ctx.fill();
+    ctx.globalAlpha = alpha * fa * 0.35;
+    ctx.beginPath(); ctx.arc(f.x - f.vx * 0.02, f.y - f.vy * 0.02, f.size * 0.6, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.shadowBlur = 0; ctx.globalAlpha = alpha;
+
+  const cx = RW / 2, cy = RH / 2 + 60;
+  const grad = ctx.createRadialGradient(cx, cy - 60, 20, cx, cy - 60, 260);
+  if (GAME.winner === 'male') {
+    grad.addColorStop(0, 'rgba(58,123,213,.5)'); grad.addColorStop(1, 'rgba(58,123,213,0)');
+  } else {
+    grad.addColorStop(0, 'rgba(233,30,99,.5)'); grad.addColorStop(1, 'rgba(233,30,99,0)');
+  }
+  ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(cx, cy - 60, 260, 0, Math.PI*2); ctx.fill();
+
+  if (GAME.winner === 'male') drawMale(ctx, cx, cy, 'front', GAME.animTime * 2.5, false, 3.8);
+  else drawFemale(ctx, cx, cy, 'front', GAME.animTime * 2.5, false, 3.8);
+
+  ctx.font = 'bold 68px Segoe UI'; ctx.textAlign = 'center';
+  ctx.fillStyle = GAME.winner === 'male' ? '#6bb6ff' : '#ff6b9d';
+  ctx.shadowColor = GAME.winner === 'male' ? '#3a7bd5' : '#e91e63'; ctx.shadowBlur = 40;
+  ctx.fillText(GAME.winner === 'male' ? 'NAM THẮNG!' : 'NỮ THẮNG!', cx, 120);
+
+  ctx.font = 'bold 28px Segoe UI';
+  ctx.fillStyle = '#ffeb3b'; ctx.shadowColor = '#ffeb3b'; ctx.shadowBlur = 30;
+  ctx.fillText('🏆 VỀ ĐÍCH ĐẦU TIÊN 🏆', cx, RH - 50);
+
+  ctx.shadowBlur = 0; ctx.textAlign = 'left'; ctx.restore();
+}
+
+/* ============================================================
+   UI / CHARTS
+   ============================================================ */
+function updateStatsUI() {
+  document.getElementById('male-wins').textContent = GAME.maleWins + ' thắng';
+  document.getElementById('female-wins').textContent = GAME.femaleWins + ' thắng';
+}
+
+function draw3DBar(ctx, x, baseY, w, h, mainColor, topColor, sideColor) {
+  if (h < 1) h = 1;
+  const depth = 10;
+
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,.35)';
+  ctx.fillRect(x + 4, baseY - h + 4, w, h);
+
+  // Front
+  const g = ctx.createLinearGradient(x, baseY - h, x, baseY);
+  g.addColorStop(0, topColor); g.addColorStop(0.3, mainColor); g.addColorStop(1, sideColor);
+  ctx.fillStyle = g;
+  ctx.fillRect(x, baseY - h, w, h);
+
+  // Right side (3D depth)
+  ctx.fillStyle = sideColor;
+  ctx.beginPath();
+  ctx.moveTo(x + w, baseY - h);
+  ctx.lineTo(x + w + depth, baseY - h - depth);
+  ctx.lineTo(x + w + depth, baseY - depth);
+  ctx.lineTo(x + w, baseY);
+  ctx.fill();
+
+  // Top
+  ctx.fillStyle = topColor;
+  ctx.beginPath();
+  ctx.moveTo(x, baseY - h);
+  ctx.lineTo(x + depth, baseY - h - depth);
+  ctx.lineTo(x + w + depth, baseY - h - depth);
+  ctx.lineTo(x + w, baseY - h);
+  ctx.fill();
+}
+
+function drawMiniChart() {
+  const canvas = document.getElementById('mini-chart');
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  const maxWins = Math.max(GAME.maleWins, GAME.femaleWins, 1);
+  const maxBarH = h - 50;
+  const baseY = h - 26;
+
+  const maleH = Math.max(4, (GAME.maleWins / maxWins) * maxBarH);
+  const femaleH = Math.max(4, (GAME.femaleWins / maxWins) * maxBarH);
+
+  const barW = 56;
+  const maleX = w / 4 - barW / 2;
+  const femaleX = 3 * w / 4 - barW / 2;
+
+  draw3DBar(ctx, maleX, baseY, barW, maleH, '#3a7bd5', '#8cc4ff', '#1a4a8a');
+  draw3DBar(ctx, femaleX, baseY, barW, femaleH, '#e91e63', '#ffa0bd', '#a01045');
+
+  // Counts
+  ctx.font = 'bold 18px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#8cc4ff';
+  ctx.fillText(GAME.maleWins, maleX + barW / 2 + 5, baseY - maleH - 22);
+  ctx.fillStyle = '#ffa0bd';
+  ctx.fillText(GAME.femaleWins, femaleX + barW / 2 + 5, baseY - femaleH - 22);
+
+  // Names
+  ctx.font = 'bold 12px Segoe UI';
+  ctx.fillStyle = '#6bb6ff';
+  ctx.fillText('NAM', maleX + barW / 2 + 5, h - 8);
+  ctx.fillStyle = '#ff6b9d';
+  ctx.fillText('NỮ', femaleX + barW / 2 + 5, h - 8);
+
+  // Baseline
+  ctx.strokeStyle = 'rgba(255,255,255,.15)';
+  ctx.beginPath(); ctx.moveTo(10, baseY); ctx.lineTo(w - 10, baseY); ctx.stroke();
+  ctx.textAlign = 'left';
+}
+
+function drawHistoryChart() {
+  const canvas = document.getElementById('history-canvas');
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  const last = GAME.history.slice(-20);
+  const slots = 20;
+  const slotW = (w - 16) / slots;
+  const barW = slotW - 3;
+  const barH = h - 16;
+
+  for (let i = 0; i < slots; i++) {
+    const x = 8 + i * slotW;
+    if (i < last.length) {
+      const isMale = last[i].winner === 'male';
+      // 3D block
+      const topColor = isMale ? '#8cc4ff' : '#ffa0bd';
+      const mainColor = isMale ? '#3a7bd5' : '#e91e63';
+      const sideColor = isMale ? '#1a4a8a' : '#a01045';
+      const g = ctx.createLinearGradient(x, 8, x, 8 + barH);
+      g.addColorStop(0, topColor); g.addColorStop(0.4, mainColor); g.addColorStop(1, sideColor);
+      ctx.fillStyle = g;
+      ctx.fillRect(x, 8, barW, barH);
+      ctx.fillStyle = topColor;
+      ctx.fillRect(x, 8, barW, 3);
+    } else {
+      ctx.strokeStyle = 'rgba(255,255,255,.08)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x + 0.5, 8.5, barW - 1, barH - 1);
+    }
+  }
+  ctx.font = '9px Segoe UI'; ctx.fillStyle = '#666'; ctx.textAlign = 'right';
+  ctx.fillText('→ mới nhất', w - 8, h - 2); ctx.textAlign = 'left';
+}
+
+function drawPortraits() {
+  const mCanvas = document.querySelector('#male-portrait canvas');
+  const fCanvas = document.querySelector('#female-portrait canvas');
+  const mctx = mCanvas.getContext('2d');
+  const fctx = fCanvas.getContext('2d');
+  function render(ctx, w, h, drawFn, blinkState) {
+    ctx.clearRect(0, 0, w, h);
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, '#c5e8f7'); grad.addColorStop(0.7, '#7ec850'); grad.addColorStop(1, '#4caf50');
+    ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
+    drawFn(ctx, w / 2, h * 0.62, 'front', GAME.animTime, blinkState.blinking, 1.2);
+  }
+  render(mctx, mCanvas.width, mCanvas.height, drawMale, GAME.maleBlink);
+  render(fctx, fCanvas.width, fCanvas.height, drawFemale, GAME.femaleBlink);
+}
+
+function openChart() {
+  ensureAudio(); SFX.click();
+  document.getElementById('chart-modal').classList.add('open');
+  renderChart();
+}
+function closeChart() {
+  ensureAudio(); SFX.click();
+  document.getElementById('chart-modal').classList.remove('open');
+}
+
+function renderChart() {
+  document.getElementById('chart-male-count').textContent = GAME.maleWins;
+  document.getElementById('chart-female-count').textContent = GAME.femaleWins;
+
+  const mp = document.getElementById('chart-male-portrait');
+  const fp = document.getElementById('chart-female-portrait');
+  const mctx = mp.getContext('2d');
+  const fctx = fp.getContext('2d');
+  mctx.clearRect(0, 0, mp.width, mp.height);
+  fctx.clearRect(0, 0, fp.width, fp.height);
+  const g1 = mctx.createLinearGradient(0, 0, 0, mp.height);
+  g1.addColorStop(0, '#c5e8f7'); g1.addColorStop(1, '#4caf50');
+  mctx.fillStyle = g1; mctx.fillRect(0, 0, mp.width, mp.height);
+  drawMale(mctx, mp.width/2, mp.height*0.6, 'front', GAME.animTime, false, 1.05);
+  const g2 = fctx.createLinearGradient(0, 0, 0, fp.height);
+  g2.addColorStop(0, '#f8d4e0'); g2.addColorStop(1, '#4caf50');
+  fctx.fillStyle = g2; fctx.fillRect(0, 0, fp.width, fp.height);
+  drawFemale(fctx, fp.width/2, fp.height*0.6, 'front', GAME.animTime, false, 1.05);
+
+  drawDetailChart('chart-male-canvas', 'male');
+  drawDetailChart('chart-female-canvas', 'female');
+}
+
+function drawDetailChart(canvasId, who) {
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  const wins = GAME.history.filter(x => x.winner === who).slice(-20);
+  const numSlots = 20;
+  const barW = 7, gap = 3;
+  const totalW = numSlots * (barW + gap) - gap;
+  const startX = (w - totalW) / 2;
+  const baseY = h - 26;
+  const barH = h - 52;
+
+  for (let i = 0; i < numSlots; i++) {
+    const x = startX + i * (barW + gap);
+    const filled = i < wins.length;
+    if (filled) {
+      ctx.fillStyle = 'rgba(0,0,0,.4)';
+      ctx.fillRect(x + 2, baseY - barH + 2, barW, barH);
+
+      const grad = ctx.createLinearGradient(x, baseY - barH, x, baseY);
+      if (who === 'male') { grad.addColorStop(0,'#8cc4ff'); grad.addColorStop(0.5,'#3a7bd5'); grad.addColorStop(1,'#1a4a8a'); }
+      else { grad.addColorStop(0,'#ffa0bd'); grad.addColorStop(0.5,'#e91e63'); grad.addColorStop(1,'#a01045'); }
+      ctx.fillStyle = grad;
+      ctx.fillRect(x, baseY - barH, barW, barH);
+
+      ctx.fillStyle = who === 'male' ? '#2a5fa0' : '#b01550';
+      ctx.beginPath();
+      ctx.moveTo(x + barW, baseY - barH); ctx.lineTo(x + barW + 2, baseY - barH + 2);
+      ctx.lineTo(x + barW + 2, baseY + 2); ctx.lineTo(x + barW, baseY);
+      ctx.fill();
+
+      ctx.fillStyle = who === 'male' ? '#d0e8ff' : '#ffc4d8';
+      ctx.beginPath();
+      ctx.moveTo(x, baseY - barH); ctx.lineTo(x + 2, baseY - barH - 2);
+      ctx.lineTo(x + barW + 2, baseY - barH - 2); ctx.lineTo(x + barW, baseY - barH);
+      ctx.fill();
+    } else {
+      ctx.strokeStyle = 'rgba(255,255,255,.1)'; ctx.lineWidth = 1;
+      ctx.strokeRect(x, baseY - barH, barW, barH);
+    }
+  }
+
+  ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(0, baseY); ctx.lineTo(w, baseY); ctx.stroke();
+
+  ctx.font = 'bold 10px Segoe UI'; ctx.fillStyle = '#888'; ctx.textAlign = 'center';
+  ctx.fillText('20 trận gần nhất', w / 2, h - 6); ctx.textAlign = 'left';
+}
+
+/* ============================================================
+   INPUT
+   ============================================================ */
+document.querySelectorAll('.portrait').forEach(p => {
+  p.addEventListener('click', () => {
+    ensureAudio(); SFX.click();
+    if (GAME.state !== 'countdown') return;
+    document.querySelectorAll('.portrait').forEach(x => x.classList.remove('selected'));
+    p.classList.add('selected');
+    GAME.prediction = p.dataset.char;
+    document.getElementById('prediction-msg').innerHTML =
+      '<span style="color:#ffeb3b">Bạn đã chọn: ' +
+      (p.dataset.char === 'male' ? 'NAM' : 'NỮ') + '</span>';
+  });
+});
+
+/* ============================================================
+   LOOP
+   ============================================================ */
+let lastT = performance.now();
+function loop(now) {
+  const dt = Math.min((now - lastT) / 1000, 0.05);
+  lastT = now;
+  updateGame(dt, now);
+  renderGame();
+  drawPortraits();
+  if (GAME.state === 'running' || GAME.state === 'finished') {
+    drawMiniChart();
+    // History only updates on finish, but redraw live is fine
+  }
+  requestAnimationFrame(loop);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+determineRace();
+GAME.countdownStart = performance.now();
+updateStatsUI();
+drawMiniChart();
+drawHistoryChart();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
